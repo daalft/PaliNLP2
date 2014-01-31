@@ -11,30 +11,23 @@
         <pathelement location="data/extlib/jackson-annotations-2.2.3.jar"/>
         <pathelement location="data/extlib/2014-01-19_LibDictionaryClientRecompiled.jar"/>
     </path>
-	<property name="here" value="."/>
-	<path id="extlibs">
-    <fileset dir="${here}/data/extlib">
-        <include name="*.jar" />
-    </fileset>
-
-    <pathelement location="${build}" />
-</path>
-	  <property name="src" location="src"/>
-  <property name="build" location="build"/>
-  <property name="dist"  location="dist"/>
-
-
-
-
-  <target name="compile" depends="init"
-        description="compile the source " >
-    <!-- Compile the java code from ${src} into ${build} -->
-    <javac destdir="${build}" srcdir="${src}" encoding="UTF-8">
-	<classpath refid="extlibs" />
-	</javac>
-  </target>
+    <property name="here" value="."/>
+    <path id="extlibs">
+        <fileset dir="${here}/data/extlib">
+            <include name="*.jar" />
+        </fileset>
+        <pathelement location="${build}" />
+    </path>
+    <property name="src" location="src"/>
+    <property name="build" location="build"/>
+    <property name="dist"  location="dist"/>
+    <target name="compile" depends="init" description="compile the source">
+        <javac destdir="${build}" srcdir="${src}" encoding="UTF-8">
+            <classpath refid="extlibs" />
+        </javac>
+    </target>
     <target name="init">
-	 <mkdir dir="${build}"/>
+        <mkdir dir="${build}"/>
         <mkdir dir="bin"/>
         <copy includeemptydirs="false" todir="bin" encoding="UTF-8" outputencoding="UTF-8">
             <fileset dir="src">
@@ -45,14 +38,14 @@
     </target>
     <target name="clean">
         <delete dir="bin"/>
-		<delete>
-      <fileset dir=".">
-		<include name="*.sh"/>
-		<include name="*.bat"/>
-        <include name="*.jar"/>
-      </fileset>
-    </delete>
-		<delete dir="build"/>
+        <delete>
+            <fileset dir=".">
+                <include name="*.sh"/>
+                <include name="*.bat"/>
+                <include name="*.jar"/>
+            </fileset>
+        </delete>
+        <delete dir="build"/>
     </target>
     <target depends="clean" name="cleanall"/>
     <target depends="build-subprojects,build-project" name="build"/>
@@ -77,11 +70,6 @@
     </target>
     <target name="ChangingOccurrence">
         <java classname="de.unitrier.daalft.pali.morphology.element.ChangingOccurrence" failonerror="true" fork="yes">
-            <classpath refid="Pali.classpath"/>
-        </java>
-    </target>
-    <target name="DuplicateRuleRemover">
-        <java classname="de.unitrier.daalft.pali.tools.DuplicateRuleRemover" failonerror="true" fork="yes">
             <classpath refid="Pali.classpath"/>
         </java>
     </target>
@@ -155,11 +143,6 @@
             <classpath refid="Pali.classpath"/>
         </java>
     </target>
-    <target name="RuleReader">
-        <java classname="de.unitrier.daalft.pali.rules.RuleReader" failonerror="true" fork="yes">
-            <classpath refid="Pali.classpath"/>
-        </java>
-    </target>
     <target name="SandhiMerge">
         <java classname="de.unitrier.daalft.pali.phonology.SandhiMerge" failonerror="true" fork="yes">
             <classpath refid="Pali.classpath"/>
@@ -167,11 +150,6 @@
     </target>
     <target name="SandhiReader">
         <java classname="de.unitrier.daalft.pali.phonology.SandhiReader" failonerror="true" fork="yes">
-            <classpath refid="Pali.classpath"/>
-        </java>
-    </target>
-    <target name="SandhiSplitter">
-        <java classname="de.unitrier.daalft.pali.morphology.tools.SandhiSplitter" failonerror="true" fork="yes">
             <classpath refid="Pali.classpath"/>
         </java>
     </target>
@@ -220,31 +198,30 @@
             <classpath refid="Pali.classpath"/>
         </java>
     </target>
-<target name="jar">
- <tstamp/>
-    <jar jarfile="./PaliNLP-${DSTAMP}.jar" basedir="bin"/>
-	<touch file="PaliConsole.bat"/>
-	<touch file="PaliConsole.sh"/>
-	<touch file="PaliGUI.bat"/>
-	<touch file="PaliGUI.sh"/>
-	<echo file="PaliConsole.sh" append="true">
+    <target name="jar">
+        <tstamp/>
+        <jar jarfile="./PaliNLP-${DSTAMP}.jar" basedir="bin"/>
+        <touch file="PaliConsole.bat"/>
+        <touch file="PaliConsole.sh"/>
+        <touch file="PaliGUI.bat"/>
+        <touch file="PaliGUI.sh"/>
+        <echo file="PaliConsole.sh" append="true">
 #!/bin/sh
 java -cp ./PaliNLP-${DSTAMP}.jar:./data/extlib/jackson-databind-2.2.3.jar:./data/extlib/jackson-core-2.2.3.jar:./data/extlib/jackson-annotations-2.2.3.jar:./data/extlib/2014-01-19_LibDictionaryClientRecompiled.jar de.unitrier.daalft.pali.PaliConsole
-	</echo>
-	<echo file="PaliGUI.sh" append="true">
+        </echo>
+        <echo file="PaliGUI.sh" append="true">
 #!/bin/sh
 java -cp ./PaliNLP-${DSTAMP}.jar:./data/extlib/jackson-databind-2.2.3.jar:./data/extlib/jackson-core-2.2.3.jar:./data/extlib/jackson-annotations-2.2.3.jar:./data/extlib/2014-01-19_LibDictionaryClientRecompiled.jar de.unitrier.daalft.pali.gui.PaliPanel
-	</echo>
-	<echo file="PaliConsole.bat" append="true">
+        </echo>
+        <echo file="PaliConsole.bat" append="true">
 Chcp 65001
 java -Dfile.encoding=UTF8 -cp .\PaliNLP-${DSTAMP}.jar;.\data\extlib\jackson-databind-2.2.3.jar;.\data\extlib\jackson-core-2.2.3.jar;.\data\extlib\jackson-annotations-2.2.3.jar;.\data\extlib\2014-01-19_LibDictionaryClientRecompiled.jar de.unitrier.daalft.pali.PaliConsole
-	</echo>
-	<echo file="PaliGUI.bat" append="true">
+        </echo>
+        <echo file="PaliGUI.bat" append="true">
 Chcp 65001
 java -Dfile.encoding=UTF8 -cp .\PaliNLP-${DSTAMP}.jar;.\data\extlib\jackson-databind-2.2.3.jar;.\data\extlib\jackson-core-2.2.3.jar;.\data\extlib\jackson-annotations-2.2.3.jar;.\data\extlib\2014-01-19_LibDictionaryClientRecompiled.jar de.unitrier.daalft.pali.gui.PaliPanel
-	</echo>
-	
-</target>
+        </echo>
+    </target>
     <target name="javadoc">
         <javadoc access="private" additionalparam=" -docencoding &quot;UTF-8&quot; -encoding &quot;UTF-8&quot;" author="true" classpath="data/extlib/jackson-annotations-2.2.3.jar;data/extlib/jackson-core-2.2.3.jar;data/extlib/jackson-databind-2.2.3.jar;data/extlib/2014-01-17_LibDictionaryClientRecompiled.jar" destdir="doc" doctitle="Morphological Analyzer and Generator for Pali" nodeprecated="false" nodeprecatedlist="false" noindex="false" nonavbar="false" notree="false" packagenames="de.unitrier.daalft.pali.morphology,de.unitrier.daalft.pali.morphology.paradigm.irregular,de.unitrier.daalft.pali.phonology,de.unitrier.daalft.pali.morphology.tools,de.unitrier.daalft.pali.morphology.paradigm,de.unitrier.daalft.pali,de.unitrier.daalft.pali.lexicon,de.unitrier.daalft.pali.validation,de.unitrier.daalft.pali.tools,de.unitrier.daalft.pali.phonology.tools,de.unitrier.daalft.pali.morphology.paradigm.rule,de.unitrier.daalft.pali.general,de.unitrier.daalft.pali.morphology.element,de.unitrier.daalft.pali.phonology.element,de.unitrier.daalft.pali.morphology.strategy" source="1.7" sourcepath="src" splitindex="true" use="true" version="true">
             
