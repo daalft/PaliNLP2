@@ -1,0 +1,197 @@
+<?xml version='1.0' encoding='UTF-8'?>
+
+<!--
+    TODO define vocabulary identification
+    PUBLIC ID: -//vendor//vocabulary//EN
+    SYSTEM ID: http://server/path/fullGrammar4.dtd
+
+-->
+
+<!--
+    An example how to use this DTD from your XML document:
+
+    <?xml version="1.0"?>
+
+    <!DOCTYPE paradigms SYSTEM "fullGrammar4.dtd">
+
+    <paradigms>
+    ...
+    </paradigms>
+-->
+
+<!--- Put your DTDDoc comment here. -->
+<!ELEMENT paradigms (paradigm)*>
+
+<!--- Put your DTDDoc comment here. -->
+<!ELEMENT paradigm (declension|suffix|prefix|indeclinable|voice|relative|interrogative|personal|demonstrative|number)*>
+<!ATTLIST paradigm
+    type CDATA #IMPLIED
+  >
+
+<!--- Put your DTDDoc comment here. -->
+<!ELEMENT number (case|person|gender|declension)*>
+<!ATTLIST number
+    type CDATA #IMPLIED
+  >
+
+<!--- Put your DTDDoc comment here. -->
+<!ELEMENT declension (restriction|gender)*>
+<!ATTLIST declension
+    type CDATA #IMPLIED
+  >
+
+<!--- Put your DTDDoc comment here. -->
+<!ELEMENT gender (case)*>
+<!ATTLIST gender
+    type CDATA #IMPLIED
+  >
+
+<!--- Put your DTDDoc comment here. -->
+<!ELEMENT case (ending)*>
+<!ATTLIST case
+    type CDATA #IMPLIED
+  >
+
+<!--- Put your DTDDoc comment here. -->
+<!ELEMENT ending (#PCDATA)>
+<!ATTLIST ending
+    type CDATA #IMPLIED
+  >
+
+<!--- Put your DTDDoc comment here. -->
+<!ELEMENT demonstrative (specification)*>
+
+<!--- Put your DTDDoc comment here. -->
+<!ELEMENT specification (number)*>
+<!ATTLIST specification
+    type CDATA #IMPLIED
+  >
+
+<!--- Put your DTDDoc comment here. -->
+<!ELEMENT personal (number)*>
+
+<!--- Put your DTDDoc comment here. -->
+<!ELEMENT person (ending|gender|case)*>
+<!ATTLIST person
+    type CDATA #IMPLIED
+  >
+
+<!--- Put your DTDDoc comment here. -->
+<!ELEMENT interrogative (number)*>
+
+<!--- Put your DTDDoc comment here. -->
+<!ELEMENT relative (number)*>
+
+<!--- Put your DTDDoc comment here. -->
+<!ELEMENT voice (system)*>
+<!ATTLIST voice
+    type CDATA #IMPLIED
+  >
+
+<!--- Put your DTDDoc comment here. -->
+<!ELEMENT system (participle|tense)*>
+<!ATTLIST system
+    type CDATA #IMPLIED
+  >
+
+<!--- Put your DTDDoc comment here. -->
+<!ELEMENT tense (number|mood)*>
+<!ATTLIST tense
+    type CDATA #IMPLIED
+  >
+
+<!--- Put your DTDDoc comment here. -->
+<!ELEMENT mood (number)*>
+<!ATTLIST mood
+    type CDATA #IMPLIED
+  >
+
+<!--- Put your DTDDoc comment here. -->
+<!ELEMENT participle (ending)*>
+<!ATTLIST participle
+    type CDATA #IMPLIED
+  >
+
+<!--- Put your DTDDoc comment here. -->
+<!ELEMENT indeclinable (gerund|infinitive)*>
+
+<!--- Put your DTDDoc comment here. -->
+<!ELEMENT infinitive (ending)*>
+
+<!--- Put your DTDDoc comment here. -->
+<!ELEMENT gerund (ending)*>
+
+<!--- Put your DTDDoc comment here. -->
+<!ELEMENT prefix (ending)*>
+
+<!--- Put your DTDDoc comment here. -->
+<!ELEMENT suffix (secondary|primary)*>
+
+<!--- Put your DTDDoc comment here. -->
+<!ELEMENT primary (passive-past-participle|past-participle|intensive|infinitive|future-active-participle|future-passive-participle|desiderative|denominative|causative|future-middle-participle|active-present-participle|absolutive)*>
+
+<!--- Put your DTDDoc comment here. -->
+<!ELEMENT absolutive (ending)*>
+
+<!--- Put your DTDDoc comment here. -->
+<!ELEMENT active-present-participle (ending)*>
+
+<!--- Put your DTDDoc comment here. -->
+<!ELEMENT future-middle-participle (ending)*>
+
+<!--- Put your DTDDoc comment here. -->
+<!ELEMENT causative (ending)*>
+
+<!--- Put your DTDDoc comment here. -->
+<!ELEMENT denominative (ending)*>
+
+<!--- Put your DTDDoc comment here. -->
+<!ELEMENT desiderative (ending)*>
+
+<!--- Put your DTDDoc comment here. -->
+<!ELEMENT future-passive-participle (ending)*>
+
+<!--- Put your DTDDoc comment here. -->
+<!ELEMENT future-active-participle (ending)*>
+
+<!--- Put your DTDDoc comment here. -->
+<!ELEMENT intensive (ending)*>
+
+<!--- Put your DTDDoc comment here. -->
+<!ELEMENT past-participle (ending)*>
+
+<!--- Put your DTDDoc comment here. -->
+<!ELEMENT passive-past-participle (ending)*>
+
+<!--- Put your DTDDoc comment here. -->
+<!ELEMENT secondary (possessive|patronymical|pronominal|numerical|connective|agent-noun|action-noun|abstract)*>
+
+<!--- Put your DTDDoc comment here. -->
+<!ELEMENT abstract (ending)*>
+
+<!--- Put your DTDDoc comment here. -->
+<!ELEMENT action-noun (ending)*>
+
+<!--- Put your DTDDoc comment here. -->
+<!ELEMENT agent-noun (ending)*>
+
+<!--- Put your DTDDoc comment here. -->
+<!ELEMENT connective (ending)*>
+
+<!--- Put your DTDDoc comment here. -->
+<!ELEMENT numerical (ending)*>
+
+<!--- Put your DTDDoc comment here. -->
+<!ELEMENT pronominal (ending)*>
+
+<!--- Put your DTDDoc comment here. -->
+<!ELEMENT patronymical (ending)*>
+
+<!--- Put your DTDDoc comment here. -->
+<!ELEMENT possessive (ending)*>
+
+<!--- Put your DTDDoc comment here. -->
+<!ELEMENT restriction (number|case)*>
+<!ATTLIST restriction
+    type CDATA #IMPLIED
+  >

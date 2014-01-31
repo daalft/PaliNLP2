@@ -1,0 +1,180 @@
+eko{paradigm=numeral, number=singular, gender=masculine, case=nominative}
+ekassa{paradigm=numeral, number=singular, gender=masculine, case=genitive}
+ekassa{paradigm=numeral, number=singular, gender=masculine, case=dative}
+ekaṃ{paradigm=numeral, number=singular, gender=masculine, case=accusative}
+ekena{paradigm=numeral, number=singular, gender=masculine, case=instrumental}
+ekasmā{paradigm=numeral, number=singular, gender=masculine, case=ablative}
+ekamhā{paradigm=numeral, number=singular, gender=masculine, case=ablative}
+ekasmiṃ{paradigm=numeral, number=singular, gender=masculine, case=locative}
+ekamhi{paradigm=numeral, number=singular, gender=masculine, case=locative}
+eka{paradigm=numeral, number=singular, gender=masculine, case=vocative}
+ekā{paradigm=numeral, number=singular, gender=feminine, case=nominative}
+ekissā{paradigm=numeral, number=singular, gender=feminine, case=genitive}
+ekassā{paradigm=numeral, number=singular, gender=feminine, case=genitive}
+ekissāya{paradigm=numeral, number=singular, gender=feminine, case=genitive}
+ekāya{paradigm=numeral, number=singular, gender=feminine, case=genitive}
+ekissā{paradigm=numeral, number=singular, gender=feminine, case=dative}
+ekassā{paradigm=numeral, number=singular, gender=feminine, case=dative}
+ekissāya{paradigm=numeral, number=singular, gender=feminine, case=dative}
+ekāya{paradigm=numeral, number=singular, gender=feminine, case=dative}
+ekaṃ{paradigm=numeral, number=singular, gender=feminine, case=accusative}
+ekāya{paradigm=numeral, number=singular, gender=feminine, case=instrumental}
+ekāya{paradigm=numeral, number=singular, gender=feminine, case=ablative}
+ekāya{paradigm=numeral, number=singular, gender=feminine, case=locative}
+ekāyaṃ{paradigm=numeral, number=singular, gender=feminine, case=locative}
+ekissaṃ{paradigm=numeral, number=singular, gender=feminine, case=locative}
+ekissā{paradigm=numeral, number=singular, gender=feminine, case=locative}
+eke{paradigm=numeral, number=singular, gender=feminine, case=vocative}
+ekaṃ{paradigm=numeral, number=singular, gender=neuter, case=nominative}
+ekassa{paradigm=numeral, number=singular, gender=neuter, case=genitive}
+ekassa{paradigm=numeral, number=singular, gender=neuter, case=dative}
+ekaṃ{paradigm=numeral, number=singular, gender=neuter, case=accusative}
+ekena{paradigm=numeral, number=singular, gender=neuter, case=instrumental}
+ekasmā{paradigm=numeral, number=singular, gender=neuter, case=ablative}
+ekamhā{paradigm=numeral, number=singular, gender=neuter, case=ablative}
+ekasmiṃ{paradigm=numeral, number=singular, gender=neuter, case=locative}
+ekamhi{paradigm=numeral, number=singular, gender=neuter, case=locative}
+eka{paradigm=numeral, number=singular, gender=neuter, case=vocative}
+eke{paradigm=numeral, number=plural, gender=masculine, case=nominative}
+ekesaṃ{paradigm=numeral, number=plural, gender=masculine, case=genitive}
+ekesānaṃ{paradigm=numeral, number=plural, gender=masculine, case=genitive}
+ekesaṃ{paradigm=numeral, number=plural, gender=masculine, case=dative}
+ekesānaṃ{paradigm=numeral, number=plural, gender=masculine, case=dative}
+eke{paradigm=numeral, number=plural, gender=masculine, case=accusative}
+ekehi{paradigm=numeral, number=plural, gender=masculine, case=instrumental}
+ekebhi{paradigm=numeral, number=plural, gender=masculine, case=instrumental}
+ekehi{paradigm=numeral, number=plural, gender=masculine, case=ablative}
+ekebhi{paradigm=numeral, number=plural, gender=masculine, case=ablative}
+ekesu{paradigm=numeral, number=plural, gender=masculine, case=locative}
+eke{paradigm=numeral, number=plural, gender=masculine, case=vocative}
+ekā{paradigm=numeral, number=plural, gender=feminine, case=nominative}
+ekāyo{paradigm=numeral, number=plural, gender=feminine, case=nominative}
+ekāsaṃ{paradigm=numeral, number=plural, gender=feminine, case=genitive}
+ekāsānaṃ{paradigm=numeral, number=plural, gender=feminine, case=genitive}
+ekāsaṃ{paradigm=numeral, number=plural, gender=feminine, case=dative}
+ekāsānaṃ{paradigm=numeral, number=plural, gender=feminine, case=dative}
+ekā{paradigm=numeral, number=plural, gender=feminine, case=accusative}
+ekāyo{paradigm=numeral, number=plural, gender=feminine, case=accusative}
+ekāhi{paradigm=numeral, number=plural, gender=feminine, case=instrumental}
+ekhābhi{paradigm=numeral, number=plural, gender=feminine, case=instrumental}
+ekāhi{paradigm=numeral, number=plural, gender=feminine, case=ablative}
+ekhābhi{paradigm=numeral, number=plural, gender=feminine, case=ablative}
+ekāsu{paradigm=numeral, number=plural, gender=feminine, case=locative}
+ekā{paradigm=numeral, number=plural, gender=feminine, case=vocative}
+ekāyo{paradigm=numeral, number=plural, gender=feminine, case=vocative}
+ekāni{paradigm=numeral, number=plural, gender=neuter, case=nominative}
+ekesaṃ{paradigm=numeral, number=plural, gender=neuter, case=genitive}
+ekesānaṃ{paradigm=numeral, number=plural, gender=neuter, case=genitive}
+ekesaṃ{paradigm=numeral, number=plural, gender=neuter, case=dative}
+ekesānaṃ{paradigm=numeral, number=plural, gender=neuter, case=dative}
+ekāni{paradigm=numeral, number=plural, gender=neuter, case=accusative}
+ekehi{paradigm=numeral, number=plural, gender=neuter, case=instrumental}
+ekebhi{paradigm=numeral, number=plural, gender=neuter, case=instrumental}
+ekehi{paradigm=numeral, number=plural, gender=neuter, case=ablative}
+ekebhi{paradigm=numeral, number=plural, gender=neuter, case=ablative}
+ekesu{paradigm=numeral, number=plural, gender=neuter, case=locative}
+ekāni{paradigm=numeral, number=plural, gender=neuter, case=vocative}
+=
+tayo{paradigm=numeral, number=plural, gender=masculine, case=nominative}
+tiṇṇaṃ{paradigm=numeral, number=plural, gender=masculine, case=genitive}
+tiṇṇannaṃ{paradigm=numeral, number=plural, gender=masculine, case=genitive}
+tiṇṇaṃ{paradigm=numeral, number=plural, gender=masculine, case=dative}
+tiṇṇannaṃ{paradigm=numeral, number=plural, gender=masculine, case=dative}
+tayo{paradigm=numeral, number=plural, gender=masculine, case=accusative}
+tīhi{paradigm=numeral, number=plural, gender=masculine, case=instrumental}
+tībhi{paradigm=numeral, number=plural, gender=masculine, case=instrumental}
+tīhi{paradigm=numeral, number=plural, gender=masculine, case=ablative}
+tībhi{paradigm=numeral, number=plural, gender=masculine, case=ablative}
+tīsu{paradigm=numeral, number=plural, gender=masculine, case=locative}
+tisso{paradigm=numeral, number=plural, gender=feminine, case=nominative}
+tissannaṃ{paradigm=numeral, number=plural, gender=feminine, case=genitive}
+tissaṃ{paradigm=numeral, number=plural, gender=feminine, case=genitive}
+tissannaṃ{paradigm=numeral, number=plural, gender=feminine, case=dative}
+tissaṃ{paradigm=numeral, number=plural, gender=feminine, case=dative}
+tisso{paradigm=numeral, number=plural, gender=feminine, case=accusative}
+tīhi{paradigm=numeral, number=plural, gender=feminine, case=instrumental}
+tībhi{paradigm=numeral, number=plural, gender=feminine, case=instrumental}
+tīhi{paradigm=numeral, number=plural, gender=feminine, case=ablative}
+tībhi{paradigm=numeral, number=plural, gender=feminine, case=ablative}
+tīsu{paradigm=numeral, number=plural, gender=feminine, case=locative}
+tiṇi{paradigm=numeral, number=plural, gender=neuter, case=nominative}
+tiṇṇaṃ{paradigm=numeral, number=plural, gender=neuter, case=genitive}
+tiṇṇannaṃ{paradigm=numeral, number=plural, gender=neuter, case=genitive}
+tiṇṇaṃ{paradigm=numeral, number=plural, gender=neuter, case=dative}
+tiṇṇannaṃ{paradigm=numeral, number=plural, gender=neuter, case=dative}
+tīṇi{paradigm=numeral, number=plural, gender=neuter, case=accusative}
+tīhi{paradigm=numeral, number=plural, gender=neuter, case=instrumental}
+tībhi{paradigm=numeral, number=plural, gender=neuter, case=instrumental}
+tīhi{paradigm=numeral, number=plural, gender=neuter, case=ablative}
+tībhi{paradigm=numeral, number=plural, gender=neuter, case=ablative}
+tīsu{paradigm=numeral, number=plural, gender=neuter, case=locative}
+=
+cattāro{paradigm=numeral, number=plural, gender=masculine, case=nominative}
+caturo{paradigm=numeral, number=plural, gender=masculine, case=nominative}
+catunnaṃ{paradigm=numeral, number=plural, gender=masculine, case=genitive}
+catunnaṃ{paradigm=numeral, number=plural, gender=masculine, case=dative}
+cattāro{paradigm=numeral, number=plural, gender=masculine, case=accusative}
+caturo{paradigm=numeral, number=plural, gender=masculine, case=accusative}
+catubbhi{paradigm=numeral, number=plural, gender=masculine, case=instrumental}
+catūhi{paradigm=numeral, number=plural, gender=masculine, case=instrumental}
+catūbhi{paradigm=numeral, number=plural, gender=masculine, case=instrumental}
+catubbhi{paradigm=numeral, number=plural, gender=masculine, case=ablative}
+catūhi{paradigm=numeral, number=plural, gender=masculine, case=ablative}
+catūbhi{paradigm=numeral, number=plural, gender=masculine, case=ablative}
+catūsu{paradigm=numeral, number=plural, gender=masculine, case=locative}
+catasso{paradigm=numeral, number=plural, gender=feminine, case=nominative}
+catassannaṃ{paradigm=numeral, number=plural, gender=feminine, case=genitive}
+cattassaṃ{paradigm=numeral, number=plural, gender=feminine, case=genitive}
+catassannaṃ{paradigm=numeral, number=plural, gender=feminine, case=dative}
+cattassaṃ{paradigm=numeral, number=plural, gender=feminine, case=dative}
+catasso{paradigm=numeral, number=plural, gender=feminine, case=accusative}
+catubbhi{paradigm=numeral, number=plural, gender=feminine, case=instrumental}
+catūhi{paradigm=numeral, number=plural, gender=feminine, case=instrumental}
+catūbhi{paradigm=numeral, number=plural, gender=feminine, case=instrumental}
+catubbhi{paradigm=numeral, number=plural, gender=feminine, case=ablative}
+catūhi{paradigm=numeral, number=plural, gender=feminine, case=ablative}
+catūbhi{paradigm=numeral, number=plural, gender=feminine, case=ablative}
+catūsu{paradigm=numeral, number=plural, gender=feminine, case=locative}
+cattāri{paradigm=numeral, number=plural, gender=neuter, case=nominative}
+catunnaṃ{paradigm=numeral, number=plural, gender=neuter, case=genitive}
+catunnaṃ{paradigm=numeral, number=plural, gender=neuter, case=dative}
+cattāri{paradigm=numeral, number=plural, gender=neuter, case=accusative}
+catubbhi{paradigm=numeral, number=plural, gender=neuter, case=instrumental}
+catūhi{paradigm=numeral, number=plural, gender=neuter, case=instrumental}
+catūbhi{paradigm=numeral, number=plural, gender=neuter, case=instrumental}
+catubbhi{paradigm=numeral, number=plural, gender=neuter, case=ablative}
+catūhi{paradigm=numeral, number=plural, gender=neuter, case=ablative}
+catūbhi{paradigm=numeral, number=plural, gender=neuter, case=ablative}
+catūsu{paradigm=numeral, number=plural, gender=neuter, case=locative}
+=
+dve{paradigm=numeral, number=plural, case=nominative}
+duve{paradigm=numeral, number=plural, case=nominative}
+dvinnaṃ{paradigm=numeral, number=plural, case=genitive}
+duvinnaṃ{paradigm=numeral, number=plural, case=genitive}
+dvinnaṃ{paradigm=numeral, number=plural, case=dative}
+duvinnaṃ{paradigm=numeral, number=plural, case=dative}
+dve{paradigm=numeral, number=plural, case=accusative}
+duve{paradigm=numeral, number=plural, case=accusative}
+dvīhi{paradigm=numeral, number=plural, case=instrumental}
+dvībhi{paradigm=numeral, number=plural, case=instrumental}
+dvīhi{paradigm=numeral, number=plural, case=ablative}
+dvībhi{paradigm=numeral, number=plural, case=ablative}
+dvīsu{paradigm=numeral, number=plural, case=locative}
+=
+ubho{paradigm=numeral, number=plural, case=nominative}
+ubhe{paradigm=numeral, number=plural, case=nominative}
+ubhinnaṃ{paradigm=numeral, number=plural, case=genitive}
+ubhinnaṃ{paradigm=numeral, number=plural, case=dative}
+ubho{paradigm=numeral, number=plural, case=accusative}
+ubhe{paradigm=numeral, number=plural, case=accusative}
+ubhohi{paradigm=numeral, number=plural, case=instrumental}
+ubhobhi{paradigm=numeral, number=plural, case=instrumental}
+ubhehi{paradigm=numeral, number=plural, case=instrumental}
+ubhebhi{paradigm=numeral, number=plural, case=instrumental}
+ubhohi{paradigm=numeral, number=plural, case=ablative}
+ubhobhi{paradigm=numeral, number=plural, case=ablative}
+ubhehi{paradigm=numeral, number=plural, case=ablative}
+ubhebhi{paradigm=numeral, number=plural, case=ablative}
+ubhosu{paradigm=numeral, number=plural, case=locative}
+ubhesu{paradigm=numeral, number=plural, case=locative}
+=

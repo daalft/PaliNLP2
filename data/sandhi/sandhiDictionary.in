@@ -1,0 +1,36 @@
+# Definitions
+
+# Constants
+# Constants are written in UPPERCASE
+# Definitions start with =
+# followed by the name of the constant
+# followed by a colon (:) and the list of
+# letters, separated by comma (,)
+
+# All constants used hereafter must be declared
+# in this block
+=VOWEL:a,i,u,e,o,ā,ī,ū
+=SHORT_VOWEL:a,i,u
+=LONG_VOWEL:ā,ī,ū
+=CONSONANT:k,c,ṭ,t,p,kh,ch,ṭh,th,ph,g,j,ḍ,d,b,gh,jh,ḍh,dh,bh,y,r,ḷ,v,h,s,ṅ,ñ,ṇ,n,m,ṃ
+=MUTE:k,kh,g,gh,c,ch,j,jh,ṭ,ṭh,ḍ,ḍh,t,th,d,dh,p,ph,b,bh
+=NON_NASAL:k,c,ṭ,t,p,kh,ch,ṭh,th,ph,g,j,ḍ,d,b,gh,jh,ḍh,dh,bh,y,r,ḷ,v,h,s
+=GUTTURAL:k,kh,g,gh,ṅ
+=NASAL:ṅ,ñ,ṇ,n,m,ṃ
+=DENTAL:t,th,d,dh,n,l,s
+=LINGUAL:ṭ,ṭh,ḍ,ḍh,ṇ,r,ḷ
+=PALATAL:c,ch,j,jh,ñ,y
+=SONANT_ASPIRATE:gh,jh,ḍh,dh,bh
+=GUTTURAL_SURD:k,kh
+=LABIAL_SURD:p,ph
+=DENTAL_SURD:t,th,s
+=SONANT_UNASPIRATE:g,j,d,b,ḍ
+=LABIAL:p,ph,b,bh,m,v
+
+# Methods
++long(x)
++short(x)
++strong(x)
++asp(x)
++unasp(x)
++duplicate(x)

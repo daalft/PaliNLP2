@@ -1,0 +1,220 @@
+# Sandhi
+
+# All constants must be enclosed in parentheses!
+# Rules have a left hand side and a right hand side
+# separated by a colon (:)
+# The left hand side specifies what to replace
+# The right hand side specifies what to replace the left hand side with
+# The expressions are regular expressions with backreference (right side)
+# and embedded functions
+
+# Vowel sandhi
+# Elision
+(VOWEL) (VOWEL):$2
+(VOWEL) (VOWEL):$1
+(VOWEL) (VOWEL):'$2
+(VOWEL) (VOWEL):'$1
+(VOWEL) (VOWEL):+long($2)
+(VOWEL) (VOWEL):+long($1)
+# Specific rules
+(a|ā) (i|ī):e
+(a|ā) (u|ū):o
+a iti:āti
+a i:a'
+ā i:i
+# Expansion of rule: vowel + same vowel -> long vowel
+a a:ā
+a ā:ā
+ā a:ā
+ā ā:ā
+i i:ī
+i ī:ī
+ī i:ī
+ī ī:ī
+u u:ū
+u ū:ū
+ū u:ū
+ū ū:ū
+# TODO i/u before verb beginning with vowel: no change
+# TODO final vowel unchanged before other vowel
+# TODO if noun in vocative
+# TODO if ending in long vowel and not compounding with following word
+(VOWEL$) (atho|atha|yeva|adho|yathā|tathā|yāva|eva|ivā|va|re|are|ca|hi|tu|kacci|kho|khalu|kira|pana|ce|nanu|nūna|nāma):$1 $2
+e (ū|ā|ī):'$1
+e (a|i|u)(CONSONANT)(CONSONANT):'$1$2$3
+o (VOWEL):o'
+# Semi-vowel transformation
+(i|e) (VOWEL):y$2
+(u|o) (VOWEL):v$2
+# Exception
+iti eva:itveva
+(m|t|k|y)e a:$1ya
+(m|t|k|y)e a(CONSONANT)(VOWEL|$):$1yā$2$3
+e (VOWEL):e'
+e a:ā
+u (a|ā|i|ī|e|o):v$1
+u (a|ā|i|ī|e|o):'$1
+u i:ū
+o (a|ā|i|ī|u|ū|e):v$1
+# Exceptions
+o (ū|ā|ī):'$1
+o (a|i|u)(CONSONANT)(CONSONANT):'$1$2$3
+(k|kh|t|th|d|n|y|s|h)(u|o):$1v
+(i|ī) (VOWEL):$1y$2
+u (VOWEL):uv$1
+# Consonant insertion
+(VOWEL) (VOWEL):$1d$2
+(VOWEL) (VOWEL):$1r$2
+(VOWEL) (VOWEL):$1m$2
+(VOWEL) (VOWEL):$1y$2
+(VOWEL) (VOWEL):$1v$2
+(VOWEL) (VOWEL):$1n$2
+(VOWEL) (VOWEL):$1t$2
+(VOWEL) (VOWEL):$1l$2
+(VOWEL) (VOWEL):$1h$2
+u (VOWEL):ud$1
+(sakiṃ|kenaci|kiñci|kinniñci|koci|sammā|yāva|tāva|puna) (VOWEL):$1d$2
+# TODO pronoun VOWEL:pronoun d VOWEL
+(yāva|tāva|ajja) (VOWEL):$1t$2
+(VOWEL) (iha|agga):$1t$2
+(t|y)athā eva:$1athariva
+(ni|du|pātu|puna|dhi|pāta|catu) (VOWEL):$1r$2
+cha (VOWEL):chal$1
+cha (VOWEL):chaḷ$1
+su u:suhu
+#
+#
+#Consonantal sandhi
+(CONSONANT) (LONG_VOWEL):$1+short($2)
+(SHORT_VOWEL) (CONSONANT):+long($1)$2
+# word/particle ending in vowel + consonant: consonant doubling
+(VOWEL) v:$1bb
+(u|upa|pari|ati|pa|a|anu) (CONSONANT):$1+duplicate($2)
+# particle ending in long vowel + consonant doubling: shorten vowel
+# Exceptions
+na añña:nāñña
+na assa:nāssa
+na assu:nāssu
+kasmā assa:kasmāssa
+tatra assa:tatrāssa
+sa antevāsiko:sāntevāsiko
+sa atthi:sātthi
+vedanā khando:vedanākkhando
+^(es|s|ay|man|tam|par|tap)o$:$1a
+#
+# Niggahīta sandhi
+(SHORT_VOWEL) ṃ:+long($1)
+ṃ (CONSONANT):ṃ$1
+ṃ (j|c):ñ$1
+ṃ m:mm
+ṃ n:nn
+ṃ (k|kh):ṅ$1
+ṃ dh:ndh
+ṃ ṭh:ṇṭh
+saṃ l:sall
+puṃ l:pull
+ṃ e:ññ
+ṃ h:ñh
+ṃ y:ññ
+ṃ y:ṃy
+ṃ (VOWEL):m$1
+ṃ (VOWEL):d$1
+ṃ (VOWEL|CONSONANT):$1
+# insertion of ṃ before vowel or consonant
+ṃ (VOWEL):ṃ
+#
+#
+# Interchange of letters
+#dh:h
+#d:t
+#t:ṭ
+#t:d
+#g:k
+#r:l
+#y:j
+#k:y
+#j:y
+#t:k
+#k:kh
+#ḷ:ḍ
+#ḍ:ḷ
+#
+#
+# Assimilation
+(MUTE) (NON_NASAL):+duplicate($2)
+(GUTTURAL) (NASAL):+duplicate($1)
+(DENTAL) (GUTTURAL):+duplicate($2)
+# final palatal + dental surd or sonore: lingualize
+j t:tt
+c t:tt
+(DENTAL) (PALATAL):+duplicate($2)
+ṭṭ t:ṭṭh
+(DENTAL) (CONSONANT):+duplicate($2)
+(SONANT_ASPIRATE) t:+unasp($1)dh
+# Exception
+bh ta:ddha
+(GUTTURAL_SURD|LABIAL_SURD) (DENTAL_SURD):+duplicate($2)
+# kam ta:kanta???
+(DENTAL_SURD|SONANT_UNASPIRATE) (LABIAL):+duplicate($2)
+(LABIAL) (NASAL):+duplicate($1)
+# Assimilation of nasals
+m t:nt
+s m:sm
+(DENTAL) (NASAL):+duplicate($2)
+# Assimilation of y
+# Generally
+(CONSONANT) y:+duplicate($1)
+# Special cases
+d y:jj
+n y:ññ
+v y:bb
+ṇ y:ññ
+t y:cc
+dh y:jjh
+th y:cch
+ti (a|ā|u|ū|e|o):cc$1
+dhi (a|ā|u|ū|e|o):jjh$1
+di (a|ā|u|ū|e|o):jj$1
+^v(i|y):by
+h y:yh
+(t|th|d|dh) y:yy
+# Assimilation of r
+r$ (CONSONANT):+duplicate($1)
+r$ (CONSONANT):$1
+(SHORT_VOWEL)r$ (CONSONANT):+long($1)$2
+r n:ṇṇ
+# Assimilation of s
+j$ sa:kkha
+p$ sa:ccha
+t$ sa:ccha
+s$ sa:ccha
+s$ y:ss
+alasa ya:ālasya
+s$ t:ṭṭh
+u(t|d) s:uss
+s t:tt
+s t:tth
+# Assimilation of h
+(CONSONANT)$ h:+duplicate($1)
+h$ (NASAL):$1h
+h y:yh
+h v:vh
+h y:yy
+#h:gh
+h$ t:ddha
+h t:dh
+h t:ḷh
+h t:ḍh
+#Strengthening
+#strong(a):ā
+#strong(i):e
+#strong(ī):e
+#strong(u):o
+#strong(ū):o
+#strong(e$):ay
+#strong(o$):av
+(i|ī) a:aya
+(u|ū) a:ava
+#misc
+e a:aya
+o a:ava

@@ -1,0 +1,25 @@
+# letter interchange
+dh:h
+h:dh
+d:t
+t:ṭ
+ṭ:t
+t:d
+g:k
+k:g
+r:l
+l:r
+y:j
+k:y
+y:k
+j:y
+t:k
+k:t
+k:kh
+kh:k
+ḷ:ḍ
+ḍ:ḷ
+# rare
+h:gh
+gh:h
+#
