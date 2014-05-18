@@ -4,15 +4,15 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
-import de.unitrier.daalft.pali.morphology.Lemmatizer;
-import de.unitrier.daalft.pali.morphology.MorphologyAnalyzer;
+import de.cl.dictclient.DictWord;
 import de.unitrier.daalft.pali.phonology.element.SplitResult;
-import de.unitrier.daalft.pali.tools.WordConverter;
-import lu.cl.dictclient.DictWord;
+
 
 public class PaliConsole {
 
 	private static int mode = -1;
+	private static PaliNLP nlp = new PaliNLP();
+	
 	private static int evaluate(String s) {
 		if (s.equals("lemmatize") || s.equals("lemmatise")
 				|| s.equals("lemmatizer") || s.equals("lemmatiser")
@@ -136,32 +136,32 @@ public class PaliConsole {
 		String gender = split == null ? null : (split.length > 2 ? split[2] : null);
 		switch (mode) {
 		case 1:
-			for (DictWord dw : WordConverter.toDictWord(Lemmatizer.lemmatize(w, wc))) {
+			for (DictWord dw : nlp.lemmatize(w, wc)) {
 				System.out.println(dw.toString());
 			}
 			break;
 		case 2:
-			for (DictWord dw : WordConverter.toDictWord(MorphologyAnalyzer.analyze(w, wc))) {
+			for (DictWord dw : nlp.analyze(w, wc)) {
 				System.out.println(dw.toString());
 			}
 			break;
 		case 3:
-			for (DictWord dw : PaliNLP.generate(w, wc, gender)) {
+			for (DictWord dw : nlp.generate(w, wc, gender)) {
 				System.out.println(dw.toString());
 			}
 			break;
 		case 4:
-			for (SplitResult sr : PaliNLP.split(w, 1)) {
+			for (SplitResult sr : nlp.split(w, 1)) {
 				System.out.println(sr.toString());
 			}
 			break;
 		case 5:
-			for (String s : PaliNLP.merge(args)) {
+			for (String s : nlp.merge(args)) {
 				System.out.println(s);
 			}
 			break;
 		case 6:
-			System.out.println(PaliNLP.stem(w));
+			System.out.println(nlp.stem(w));
 		default:
 			break;
 		}

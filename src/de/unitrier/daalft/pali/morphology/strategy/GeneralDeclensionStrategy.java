@@ -24,11 +24,12 @@ public class GeneralDeclensionStrategy {
 	/**
 	 * Validator
 	 */
-	private static Validator v = new Validator();
+	private Validator v = new Validator();
 	/**
 	 * Sandhi manager
 	 */
-	private static SandhiManager sm = SandhiManager.getInstance();
+	private SandhiManager sm = new SandhiManager();
+	
 	
 	/**
 	 * Applies this strategy by combining every element of paradigm with the 

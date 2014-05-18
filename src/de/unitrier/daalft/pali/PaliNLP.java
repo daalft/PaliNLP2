@@ -1,14 +1,15 @@
 package de.unitrier.daalft.pali;
 
+import java.util.ArrayList;
 import java.util.List;
 
-import lu.cl.dictclient.DictWord;
-import lu.general.json.JProperty;
-import lu.general.json.JValue;
+import de.cl.dictclient.DictWord;
+import de.general.json.JProperty;
+import de.general.json.JValue;
 import de.unitrier.daalft.pali.morphology.Lemmatizer;
 import de.unitrier.daalft.pali.morphology.MorphologyAnalyzer;
 import de.unitrier.daalft.pali.morphology.MorphologyGenerator;
-import de.unitrier.daalft.pali.morphology.NaiveStemmer;
+import de.unitrier.daalft.pali.morphology.WordclassStemmer;
 import de.unitrier.daalft.pali.phonology.SandhiMerge;
 import de.unitrier.daalft.pali.phonology.SandhiSplit;
 import de.unitrier.daalft.pali.phonology.element.SplitResult;
@@ -16,6 +17,21 @@ import de.unitrier.daalft.pali.tools.WordConverter;
 
 public class PaliNLP {
 
+	private MorphologyGenerator mg;
+	private MorphologyAnalyzer ma;
+	private Lemmatizer l;
+	private SandhiMerge sm;
+	private SandhiSplit sp;
+	private WordclassStemmer wcs;
+	
+	public PaliNLP () {
+		mg = new MorphologyGenerator();
+		ma = new MorphologyAnalyzer();
+		l = new Lemmatizer();
+		sm = new SandhiMerge();
+		sp = new SandhiSplit();
+		wcs = new WordclassStemmer();
+	}
 	/**
 	 * Lemmatizes a word using rules
 	 * <p>
@@ -26,9 +42,18 @@ public class PaliNLP {
 	 * @return lemmata of word
 	 * @see #lemmatizeWithDictionary(String)
 	 */
-	public static List<DictWord> lemmatize (String word) {
+	public List<DictWord> lemmatize (String word) {
 		try {
-			return WordConverter.toDictWord(Lemmatizer.lemmatize(word));
+			return WordConverter.toDictWord(l.lemmatize(word));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+	public List<DictWord> lemmatize (String word, String option) {
+		try {
+			return WordConverter.toDictWord(l.lemmatize(word, option));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -45,10 +70,10 @@ public class PaliNLP {
 	 * @return lemmata of word
 	 * @see #lemmatizeWithDictionary(DictWord)
 	 */
-	public static List<DictWord> lemmatize (DictWord word) throws Exception {
-		return WordConverter.toDictWord(Lemmatizer.lemmatize(word));
+	public List<DictWord> lemmatize (DictWord word) throws Exception {
+		return WordConverter.toDictWord(l.lemmatize(word));
 	}
-	
+
 	/**
 	 * Lemmatizes a word using the lexical database, with fall-back to offline mode
 	 * if dictionary lookup fails
@@ -56,10 +81,10 @@ public class PaliNLP {
 	 * @return lemmata of word
 	 * @throws Exception
 	 */
-	public static List<DictWord> lemmatizeWithDictionary (String word) throws Exception {
-		return Lemmatizer.lemmatizeWithDictionary(word);
+	public String lemmatizeWithDictionary (String word) throws Exception {
+		return l.lemmatizeWithDictionary(word);
 	}
-	
+
 	/**
 	 * Lemmatizes a word using the lexical database, with fall-back to offline mode
 	 * if dictionary lookup fails
@@ -67,35 +92,43 @@ public class PaliNLP {
 	 * @return lemmata of word
 	 * @throws Exception
 	 */
-	public static List<DictWord> lemmatizeWithDictionary (DictWord word) throws Exception {
-		return Lemmatizer.lemmatizeWithDictionary(word);
+	public String lemmatizeWithDictionary (DictWord word) throws Exception {
+		return l.lemmatizeWithDictionary(word);
 	}
-	
+
 	/**
 	 * Returns morphological analyses of a given word using rules
 	 * @param word word to analyse
 	 * @return possible analyses
 	 * @throws Exception
 	 */
-	public static List<DictWord> analyze (String word) {
+	public List<DictWord> analyze (String word) {
 		try {
-			return WordConverter.toDictWord(MorphologyAnalyzer.analyze(word));
+			return WordConverter.toDictWord(ma.analyze(word));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return null;
 	}
-	
+
+	public List<DictWord> analyze (String word, String wc) {
+		try {
+			return WordConverter.toDictWord(ma.analyze(word, wc));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
 	/**
 	 * Returns morphological analyses of a given word using rules
 	 * @param word word to analyse
 	 * @return possible analyses
 	 * @throws Exception
 	 */
-	public static List<DictWord> analyze (DictWord word) throws Exception {
-		return WordConverter.toDictWord(MorphologyAnalyzer.analyze(word));
+	public List<DictWord> analyze (DictWord word) throws Exception {
+		return WordConverter.toDictWord(ma.analyze(word));
 	}
-	
+
 	/**
 	 * Returns morphological analyses of a given word using the lexical database,
 	 * falling back to rule based analysis if lexical database lookup fails
@@ -103,10 +136,10 @@ public class PaliNLP {
 	 * @return possible analyses
 	 * @throws Exception
 	 */
-	public static List<DictWord> analyzeWithDictionary (String word) throws Exception {
-		return MorphologyAnalyzer.analyzeWithDictionary(word);
+	public String analyzeWithDictionary (String word) throws Exception {
+		return ma.analyzeWithDictionary(word);
 	}
-	
+
 	/**
 	 * Returns morphological analyses of a given word using the lexical database,
 	 * falling back to rule based analysis if lexical database lookup fails
@@ -114,10 +147,11 @@ public class PaliNLP {
 	 * @return possible analyses
 	 * @throws Exception
 	 */
-	public static List<DictWord> analyzeWithDictionary (DictWord word) throws Exception {
-		return MorphologyAnalyzer.analyzeWithDictionary(word);
+	public String analyzeWithDictionary (DictWord word) throws Exception {
+		String w = word.getProperty("word").toString();
+		return ma.analyzeWithDictionary(w);
 	}
-	
+
 	/**
 	 * Stems a word
 	 * <p>
@@ -127,11 +161,10 @@ public class PaliNLP {
 	 * @param word word to stem
 	 * @return word stem
 	 */
-	public static String stem (String word) {
-		NaiveStemmer ns = new NaiveStemmer();
-		return ns.stem(word);
+	public List<String> stem (String word) {
+		return wcs.stem(word);
 	}
-	
+
 	/**
 	 * Stems a word
 	 * <p>
@@ -141,20 +174,23 @@ public class PaliNLP {
 	 * @param word word to stem
 	 * @return word stem
 	 */
-	public static DictWord stem (DictWord word) {
-		DictWord w = new DictWord();
-		NaiveStemmer ns = new NaiveStemmer();
-		String stem = ns.stem(word.getValue("word").toString());
-		for (JProperty p : word.getProperties()) {
-			if (p.getName().equals("word")) {
-				w.add("word", new JValue(stem));
-			} else {
-				w.add(p.getName(), p.getValue());
+	public List<DictWord> stem (DictWord word) {
+		List<String> stems = wcs.stem(word.getValue("word").toString());
+		List<DictWord> out = new ArrayList<DictWord>();
+		for (String stem : stems) {
+			DictWord w = new DictWord();
+			for (JProperty p : word.getProperties()) {
+				if (p.getName().equals("word")) {
+					w.add("word", new JValue(stem));
+				} else {
+					w.add(p.getName(), p.getValue());
+				}
 			}
+			out.add(w);
 		}
-		return w;
+		return out;
 	}
-	
+
 	/**
 	 * Generates all possible morphological forms of the given word
 	 * @param word word
@@ -162,15 +198,15 @@ public class PaliNLP {
 	 * @param options options
 	 * @return all morphological forms
 	 */
-	public static List<DictWord> generate (String word, String wordclass, String... options) {
+	public List<DictWord> generate (String word, String wordclass, String... options) {
 		try {
-			return WordConverter.toDictWord(MorphologyGenerator.generate(word, wordclass, options));
+			return WordConverter.toDictWord(mg.generate(word, wordclass, options));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return null;
 	}
-	
+
 	/**
 	 * Merges two or more words according to the rules of sandhi
 	 * <p>
@@ -178,10 +214,10 @@ public class PaliNLP {
 	 * @param words words to merge
 	 * @return merged words
 	 */
-	public static List<String> merge (String...words) {
-		return SandhiMerge.merge(words);
+	public List<String> merge (String...words) {
+		return sm.merge(words);
 	}
-	
+
 	/**
 	 * Returns a list containing the split results
 	 * <p>
@@ -193,7 +229,7 @@ public class PaliNLP {
 	 * @param depth depth
 	 * @return split result
 	 */
-	public static List<SplitResult> split (String word, int depth) {
-		return SandhiSplit.split(word, depth);
+	public List<SplitResult> split (String word, int depth) {
+		return sp.split(word, depth);
 	}
 }

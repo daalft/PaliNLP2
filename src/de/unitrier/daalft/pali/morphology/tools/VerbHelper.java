@@ -119,6 +119,8 @@ public class VerbHelper {
 		for (String s : temp) {
 			if (this.isPlausibleRoot(s))
 				out.add(s);
+			else 
+				System.out.println("Discarded calculated root: " + s);
 		}
 		return out;
 	}
@@ -516,13 +518,14 @@ public class VerbHelper {
 		 * @return roots
 		 */
 		private List<String> third (String stem) {
+			SandhiSplit ss = new SandhiSplit();
 			List<String> output = new ArrayList<String>();
 			if (Segmenter.segmentToArray(stem).length < 4) {
 				if (debug)
 					System.err.println("Could not apply third declension to derive root from " + stem);
 				return output;
 			}
-			List<SplitResult> list = SandhiSplit.split(stem, 1);
+			List<SplitResult> list = ss.split(stem, 1);
 			if (list.isEmpty()) {
 				if (debug)
 					System.err.println("Could not apply third declension to derive root from " + stem);

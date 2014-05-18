@@ -20,11 +20,20 @@ public class SandhiSplit {
 	/**
 	 * Sandhi manager instance
 	 */
-	private static SandhiManager sm = SandhiManager.getInstance();
+	private SandhiManager sm;
+	
+	public SandhiSplit () {
+		sm  = new SandhiManager();
+	}
+	
+	public SandhiSplit (int d) {
+		this();
+		defaultDepth = d;
+	}
 	/**
 	 * Default splitting depth
 	 */
-	private final static int DEFAULT_DEPTH = 2;
+	private int defaultDepth = 2;
 	
 	/**
 	 * Splits a word into possible constituent words according to
@@ -38,9 +47,9 @@ public class SandhiSplit {
 	 * @param depth depth of split
 	 * @return possible splits
 	 */
-	public static List<SplitResult> split (String word, int depth) {
+	public List<SplitResult> split (String word, int depth) {
 		if (depth == 0)
-			depth = DEFAULT_DEPTH;
+			depth = defaultDepth;
 		List<SplitResult> out = new ArrayList<SplitResult>();
 		List<SplitResult> result = splitWord(word);
 		out.addAll(result);
@@ -56,7 +65,7 @@ public class SandhiSplit {
 	 * @param word word to split
 	 * @return split result
 	 */
-	private static List<SplitResult> splitWord (String word) {
+	private List<SplitResult> splitWord (String word) {
 
 		List<SplitResult> result = new ArrayList<SplitResult>();
 		SandhiTable st = new SandhiTable();
@@ -80,7 +89,7 @@ public class SandhiSplit {
 	 * @param list list to clean
 	 * @return cleaned list
 	 */
-	private static List<SplitResult> cleanList (List<SplitResult> list) {
+	private List<SplitResult> cleanList (List<SplitResult> list) {
 		List<SplitResult> copy = new ArrayList<SplitResult>();
 		copy.addAll(list);
 		for (SplitResult sr : copy)

@@ -4,8 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import lu.cl.dictclient.DictWord;
-
+import de.cl.dictclient.DictWord;
 import de.unitrier.daalft.pali.lexicon.LexiconAdapter;
 import de.unitrier.daalft.pali.morphology.element.ConstructedWord;
 import de.unitrier.daalft.pali.morphology.element.FeatureSet;
@@ -48,8 +47,9 @@ public class Lemmatizer {
 	 * @param word word to lemmatize
 	 * @return lemmata
 	 */
-	public static List<ConstructedWord> lemmatize (String word, String... options) {
-		List<ConstructedWord> analyses = MorphologyAnalyzer.analyze(word, options);
+	public List<ConstructedWord> lemmatize (String word, String... options) {
+		MorphologyAnalyzer ma = new MorphologyAnalyzer();
+		List<ConstructedWord> analyses = ma.analyze(word, options);
 		List<ConstructedWord> out = new ArrayList<ConstructedWord>();
 		for (ConstructedWord cw : analyses) {
 			ConstructedWord lemma = new ConstructedWord();
@@ -70,7 +70,7 @@ public class Lemmatizer {
 	 * @param word word to lemmatize
 	 * @return lemmata
 	 */
-	public static List<ConstructedWord> lemmatize (DictWord word) {
+	public List<ConstructedWord> lemmatize (DictWord word) {
 		String w = word.getValue("word").toString();
 		String wc = word.getValue("pos") == null ? "" : word.getValue("pos").toString();
 		return lemmatize(w, wc);
@@ -85,13 +85,13 @@ public class Lemmatizer {
 	 * @return lemmata
 	 * @throws Exception
 	 */
-	public static List<DictWord> lemmatizeWithDictionary (String word) throws Exception {
+	public String lemmatizeWithDictionary (String word, String...opt) throws Exception {
 		LexiconAdapter la = new LexiconAdapter();
 		if (la.lemmaContains(word)) {
 			return la.getLemma(word);
 		} else {
 			System.err.println("Could not retrieve lemma via lookup. Falling back to offline mode.");
-			return WordConverter.toDictWord(lemmatize(word));
+			return WordConverter.toJSONStringLemmatizer(lemmatize(word, opt));
 		}
 	}
 	
@@ -104,7 +104,7 @@ public class Lemmatizer {
 	 * @return lemmata
 	 * @throws Exception
 	 */
-	public static List<DictWord> lemmatizeWithDictionary (DictWord word) throws Exception {
+	public String lemmatizeWithDictionary (DictWord word) throws Exception {
 		String w = word.getValue("word") == null ? "" : word.getValue("word").toString();
 		if (w == null || w.isEmpty()) {
 			w = word.getValue("lemma") == null ? "":word.getValue("lemma").toString();
@@ -142,6 +142,10 @@ public class Lemmatizer {
 			// and that "stem" could be the stem
 			out.add(stem + VERB_ENDING);
 			for (String s : stems)
+				out.add(s + VERB_ENDING);
+			// or that we have to derive a root from stem
+			List<String> roots = vh.rootFromStem(stem);
+			for (String s : roots)
 				out.add(s + VERB_ENDING);
 			break;
 		case "numeral":

@@ -21,7 +21,7 @@ public class SoundChanger {
 	 * @return spelling alternatives
 	 */
 	public List<String> getAlternatives (String word) {
-		SandhiManager sm = SandhiManager.getInstance();
+		SandhiManager sm = new SandhiManager();
 		SandhiTable st = new SandhiTable();
 		for (int i = 0; i < word.length(); i++) {
 			for (SandhiRule sr : sm.getSoundRules()) {
@@ -50,7 +50,7 @@ public class SoundChanger {
 	 * @param word word
 	 * @return word with sound change
 	 */
-	public static String getCommonChange (String word) {
+	public String getCommonChange (String word) {
 		return word.replace("ava", "o").replace("aya", "e");
 	}
 }

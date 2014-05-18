@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import lu.cl.dictclient.DictWord;
+import de.cl.dictclient.DictWord;
 import de.unitrier.daalft.pali.lexicon.LexiconAdapter;
 import de.unitrier.daalft.pali.morphology.element.ConstructedWord;
 import de.unitrier.daalft.pali.morphology.element.Feature;
@@ -46,7 +46,7 @@ public class MorphologyAnalyzer {
 	 * @param word word to analyze
 	 * @return possible analyses
 	 */
-	public static List<ConstructedWord> analyze (DictWord word) {
+	public List<ConstructedWord> analyze (DictWord word) {
 		// extract class if applicable
 		String pos = word.getValue("pos").toString();
 		String w = word.getValue("word").toString();
@@ -62,13 +62,14 @@ public class MorphologyAnalyzer {
 	 * @param word word to analyze
 	 * @return possible analyses
 	 */
-	public static List<ConstructedWord> analyze (String word, String...options) {
+	public List<ConstructedWord> analyze (String word, String...options) {
 		List<ConstructedWord> analyses = new ArrayList<ConstructedWord>();
 		List<String> wc = null;
+		WordClassGuesser wcg = new WordClassGuesser();
 		if (options != null && options.length > 0 && !options[0].isEmpty()) {
 			wc = Collections.singletonList(options[0]);
 		} else {
-			wc = WordClassGuesser.guess(word);
+			wc = wcg.guess(word);
 		}
 		ParadigmAccessor pa = new ParadigmAccessor();
 		IrregularNouns irrnoun = pa.getIrregularNouns();
@@ -195,13 +196,13 @@ public class MorphologyAnalyzer {
 	 * @param word word to analyze
 	 * @return possible analyses
 	 */
-	public static List<DictWord> analyzeWithDictionary (String word, String... options) throws Exception {
+	public String analyzeWithDictionary (String word, String... options) throws Exception {
 		LexiconAdapter la = new LexiconAdapter();
 		if (la.generatedContains(word)) {
 			return la.getGenerated(word);
 		} else {
 			System.err.println("Could not analyze " + word + " with dictionary. Falling back to offline mode.");
-			return WordConverter.toDictWord(analyze(word, options));
+			return WordConverter.toJSONStringAnalyzer(analyze(word, options));
 		}
 	}
 
@@ -213,7 +214,8 @@ public class MorphologyAnalyzer {
 	 * @param word word to analyze
 	 * @return possible analyses
 	 */
-	public static List<DictWord> analyzeWithDictionary (DictWord word) throws Exception {
+	public String analyzeWithDictionary (String json) throws Exception {
+		DictWord word = WordConverter.toDictWord(json);
 		String pos = word.getValue("pos").toString();
 		String w = word.getValue("word").toString();
 		if (w == null || w.isEmpty()) 
@@ -228,7 +230,7 @@ public class MorphologyAnalyzer {
 	 * @param featureSet morpheme feature set
 	 * @return constructed word
 	 */
-	private static ConstructedWord constructWord(String match, String lemma, FeatureSet featureSet) {
+	private ConstructedWord constructWord(String match, String lemma, FeatureSet featureSet) {
 		ConstructedWord cw = new ConstructedWord(match, featureSet);
 		cw.setLemma(lemma);
 		return cw;

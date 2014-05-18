@@ -17,7 +17,11 @@ public class SandhiMerge {
 	/**
 	 * Sandhi manager
 	 */
-	private static SandhiManager sm = SandhiManager.getInstance();
+	private SandhiManager sm;
+	
+	public SandhiMerge () {
+		sm  = new SandhiManager();
+	}
 
 	/**
 	 * Merges two words by using sandhi rules
@@ -27,7 +31,7 @@ public class SandhiMerge {
 	 * @param w2 second word
 	 * @return merged word
 	 */
-	private static List<String> mergeTwo (String w1, String w2) {
+	private List<String> mergeTwo (String w1, String w2) {
 		List<SandhiRule> rules = sm.getRules();
 		Set<String> out = new TreeSet<String>();
 		for (SandhiRule sr : rules) {
@@ -50,7 +54,7 @@ public class SandhiMerge {
 	 * @param words word to merge
 	 * @return merged words
 	 */
-	public static List<String> merge (String... words) {
+	public List<String> merge (String... words) {
 		Set<String> out = new TreeSet<String>();
 		List<String> first = mergeTwo(words[0], words[1]);
 		out.addAll(first);
@@ -60,9 +64,5 @@ public class SandhiMerge {
 			}
 		}
 		return Arrays.asList(out.toArray(new String[1]));
-	}
-	public static void main(String[] args) {
-		for (String s : merge("pis", "ya", "aha"))
-			System.err.println(s);
 	}
 }

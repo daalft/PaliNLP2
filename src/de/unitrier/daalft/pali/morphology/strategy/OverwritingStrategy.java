@@ -2,7 +2,7 @@ package de.unitrier.daalft.pali.morphology.strategy;
 
 import java.util.List;
 
-import lu.general.json.JProperty;
+import de.general.json.JProperty;
 
 import de.unitrier.daalft.pali.morphology.element.ConstructedWord;
 import de.unitrier.daalft.pali.morphology.element.Feature;

@@ -25,8 +25,15 @@ public class WordClassGuesser {
 	/**
 	 * Prune limit
 	 */
-	private static int prune = 10;
+	private int prune;
 
+	public WordClassGuesser () {
+		prune = 10;
+	}
+	
+	public WordClassGuesser (int p) {
+		prune = p;
+	}
 	/**
 	 * Guesses the word class of a given word
 	 * <p>
@@ -37,7 +44,7 @@ public class WordClassGuesser {
 	 * @param word word 
 	 * @return word class
 	 */
-	public static List<String> guess (String word) {
+	public List<String> guess (String word) {
 		ParadigmAccessor pa = new ParadigmAccessor();
 		
 		IrregularNouns inoun = pa.getIrregularNouns();
@@ -62,6 +69,7 @@ public class WordClassGuesser {
 				String wordclass = m.getFeatureByName("paradigm");
 				// weigh the result so that longer matches are given more importance than short matches
 				map.put(wordclass, inc(wordclass, map)+(m.match(word).length()));
+				
 			}
 		}
 		List<Entry<String, Integer>> list = new LinkedList<Entry<String, Integer>>(map.entrySet());
@@ -102,7 +110,7 @@ public class WordClassGuesser {
 	 * @param lemma lemma
 	 * @return word classes
 	 */
-	public static List<String> guessLemma (String lemma) {
+	public List<String> guessLemma (String lemma) {
 		List<String> guesses = new ArrayList<String>();
 		ParadigmAccessor pa = new ParadigmAccessor();
 		
@@ -141,7 +149,7 @@ public class WordClassGuesser {
 	 * @param ends endings
 	 * @return true if lemma ends with ending
 	 */
-	private static boolean ends (String lemma, String... ends) {
+	private boolean ends (String lemma, String... ends) {
 		List<String> lest = Arrays.asList(ends);
 		Collections.sort(lest, new Comparator<String>() {
 			@Override
@@ -165,7 +173,7 @@ public class WordClassGuesser {
 	 * @param map map
 	 * @return frequency of word class incremented by one
 	 */
-	private static int inc (String wc, Map<String, Integer> map) {
+	private int inc (String wc, Map<String, Integer> map) {
 		if (map.containsKey(wc))
 			return map.get(wc) + 1;
 		return 1;

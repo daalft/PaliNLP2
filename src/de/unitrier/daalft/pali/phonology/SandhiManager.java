@@ -20,20 +20,13 @@ public class SandhiManager {
 	/**
 	 * Sandhi rules
 	 */
-	private static List<SandhiRule> rules, revRules, soundRules;
+	private List<SandhiRule> rules, revRules, soundRules;
 	/**
 	 * Dictionary
 	 */
-	private static MyDictionary dict;
-	/**
-	 * Instance
-	 */
-	private static volatile SandhiManager instance;
+	private MyDictionary dict;
 
-	/**
-	 * Private constructor
-	 */
-	private SandhiManager() {
+	public SandhiManager() {
 		rules = new ArrayList<SandhiRule>();
 		revRules = new ArrayList<SandhiRule>();
 		soundRules = new ArrayList<SandhiRule>();
@@ -44,7 +37,7 @@ public class SandhiManager {
 	/**
 	 * Initializer
 	 */
-	private static void init () {
+	private void init () {
 		SandhiReader sr = new SandhiReader();
 		try {
 			sr.run(null,null,null,null);
@@ -69,20 +62,6 @@ public class SandhiManager {
 			out.add(RuleMethods.replaceConstants(sr));
 		}
 		return out;
-	}
-	
-	/**
-	 * Returns the instance of the sandhi manager
-	 * @return sandhi manager
-	 */
-	public static SandhiManager getInstance () {
-		if (instance != null ) return instance;
-		
-			if (instance == null ) {
-				instance = new SandhiManager();
-			}
-		
-		return instance;
 	}
 	
 	/**
@@ -155,7 +134,8 @@ public class SandhiManager {
 	 * @return merged words
 	 */
 	public List<String> merge (String... words) {
-		return SandhiMerge.merge(words);
+		SandhiMerge sm = new SandhiMerge();
+		return sm.merge(words);
 	}
 	
 	/**
@@ -165,6 +145,7 @@ public class SandhiManager {
 	 * @return split word
 	 */
 	public List<SplitResult> split (String word, int depth) {
-		return SandhiSplit.split(word, depth);
+		SandhiSplit sp = new SandhiSplit();
+		return sp.split(word, depth);
 	}
 }

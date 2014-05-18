@@ -24,6 +24,7 @@ public class AffixStrategy extends AbstractStrategy {
 	 * @return list with affixes
 	 */
 	public static List<ConstructedWord> apply (List<ConstructedWord> list) {
+		SandhiMerge sm = new SandhiMerge();
 		List<ConstructedWord> out = new ArrayList<ConstructedWord>();
 		ParadigmAccessor pa = new ParadigmAccessor();
 		Paradigm prefix = pa.getPrefixParadigm();
@@ -31,7 +32,7 @@ public class AffixStrategy extends AbstractStrategy {
 		for (Morpheme mo : suffix.getMorphemes()) {
 			for (Morph m : mo.getAllomorphs()) {
 				for (ConstructedWord cws : list) {
-					Set<String> merges = new HashSet<String>(SandhiMerge.merge(cws.getWord(), m.getMorph()));
+					Set<String> merges = new HashSet<String>(sm.merge(cws.getWord(), m.getMorph()));
 					for (String s : merges) {
 						ConstructedWord copy = new ConstructedWord(s, union(cws.getInfo(), mo.getFeatureSet()));
 						copy.setLemma(cws.getLemma());
@@ -43,7 +44,7 @@ public class AffixStrategy extends AbstractStrategy {
 		for (Morpheme mo : prefix.getMorphemes()) {
 			for (Morph m : mo.getAllomorphs()) {
 				for (ConstructedWord cws : list) {
-					Set<String> merges = new HashSet<String>(SandhiMerge.merge(m.getMorph(),cws.getWord()));
+					Set<String> merges = new HashSet<String>(sm.merge(m.getMorph(),cws.getWord()));
 					for (String s : merges) {
 						ConstructedWord copy = new ConstructedWord(s, union(cws.getInfo(), mo.getFeatureSet()));
 						copy.setLemma(cws.getLemma());

@@ -8,6 +8,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+
 /**
  * Class to manage the alphabet and provide functionality related to the alphabet
  * @author David
@@ -127,7 +128,7 @@ public class Alphabet {
 	 * @return true if the alphabet contains c
 	 */
 	public static boolean contains (String c) {
-		return getConsonants().contains(c) || getVowels().contains(c);
+		return getConsonants().contains(c) || getVowels().contains(c) || c.equals("'") || c.equals("-");
 	}
 
 	/**
@@ -169,6 +170,9 @@ public class Alphabet {
 					return 1;
 				return 0;
 			}
+
+
+			
 		});
 		return list;
 	}

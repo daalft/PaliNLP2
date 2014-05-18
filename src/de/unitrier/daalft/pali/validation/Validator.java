@@ -3,6 +3,7 @@ package de.unitrier.daalft.pali.validation;
 import java.util.List;
 
 import de.unitrier.daalft.pali.general.Alphabet;
+import de.unitrier.daalft.pali.ngram.NGramScorer;
 import de.unitrier.daalft.pali.tools.Patterner;
 import de.unitrier.daalft.pali.tools.Segmenter;
 
@@ -12,6 +13,9 @@ import de.unitrier.daalft.pali.tools.Segmenter;
  *
  */
 public class Validator {
+	
+	private static double threshold = 0.18;
+	private NGramScorer ngs = NGramScorer.getInstance();
 	
 	public Validator () {
 		
@@ -80,6 +84,14 @@ public class Validator {
 			if (!valid) return false;
 				//throw new Exception("LawOfMoraViolation");
 		}
+		// TODO maybe move ngram check to isProbableWord?
+		/*if (valid) {
+			if (ngs.compositeScore(word) < threshold) {
+				System.err.println("Low validity score for word [" + word + "]!");
+				return false;
+			} else
+				return true;
+		}*/
 		return valid;
 	}
 	
@@ -91,10 +103,12 @@ public class Validator {
 	 * @return true if word is probable word according to the rules of the language
 	 * @throws Exception
 	 */
-	public boolean isProbableWord (String word) throws Exception {
+	public boolean isProbableWord (String word) {
 		boolean b = isValidWord(word);
 		// consonant-only word match
 		boolean a = !word.matches(Patterner.patternOr(Alphabet.getConsonants())+"+");
+		//boolean c = ngs.compositeScore(word) < threshold;
+		//return a && b && c;
 		return a && b;
 	}
 	
@@ -105,7 +119,7 @@ public class Validator {
 	 * @return true if word is valid noun according to the rules of the language
 	 * @throws Exception 
 	 */
-	public boolean isValidNounLemma (String word) throws Exception {
+	public boolean isValidNounLemma (String word) {
 		return isValidWord(word) && !word.endsWith("e");
 	}
 
@@ -116,7 +130,7 @@ public class Validator {
 	 * @return true if word is valid verb according to the rules of the language
 	 * @throws Exception 
 	 */
-	public boolean isValidVerb (String word) throws Exception {
+	public boolean isValidVerb (String word) {
 		return isValidWord(word);
 	}
 	

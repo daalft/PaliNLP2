@@ -21,6 +21,8 @@ import de.unitrier.daalft.pali.morphology.tools.WordClassGuesser;
 
 public class MorphologyGenerator {
 
+	public MorphologyGenerator () {}
+	
 	/**
 	 * Returns all possible morphological word forms 
 	 * for the given lemma and the given word class
@@ -34,7 +36,7 @@ public class MorphologyGenerator {
 	 * @param options options
 	 * @return list of constructed words
 	 */
-	public static List<ConstructedWord> generate (String lemma, String wc, String... options) {
+	public List<ConstructedWord> generate (String lemma, String wc, String... options) {
 		ParadigmAccessor pa = new ParadigmAccessor();
 		IrregularNouns ino = pa.getIrregularNouns();
 		IrregularNumerals inu = pa.getIrregularNumerals();
@@ -49,7 +51,6 @@ public class MorphologyGenerator {
 				}
 			}
 		}
-		
 		if (inu.isIrregular(lemma)) {
 			Paradigm p = inu.getForms(lemma);
 			for (Morpheme m : p.getMorphemes()) {
@@ -64,7 +65,8 @@ public class MorphologyGenerator {
 			return irrOut;
 		List<String> wcs = new ArrayList<String>();
 		if (wc == null || wc.isEmpty()) {
-			wcs = WordClassGuesser.guessLemma(lemma);
+			WordClassGuesser wcg = new WordClassGuesser();
+			wcs = wcg.guessLemma(lemma);
 		}
 		if (wcs.isEmpty()) {
 			return _generate(lemma, wc, options);	
@@ -84,7 +86,7 @@ public class MorphologyGenerator {
 	 * @param options options
 	 * @return list of constructed words
 	 */
-	private static List<ConstructedWord> _generate (String lemma, String wc, String... options) {
+	private List<ConstructedWord> _generate (String lemma, String wc, String... options) {
 		return StrategyManager.getStrategy(wc).apply(lemma, options);
 	}
 }

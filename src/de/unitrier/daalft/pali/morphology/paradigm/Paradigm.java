@@ -109,10 +109,8 @@ public class Paradigm {
 	public Paradigm getParadigmByFeatures (FeatureSet feat) {
 		Paradigm out = new Paradigm();
 		for (Morpheme m : morphemes) {
-		
 			if (m.getFeatureSet().satisfies(feat)) {
-				
-				out.add(m);
+					out.add(m);
 			}
 		}
 		return (out.isEmpty())?null:out;

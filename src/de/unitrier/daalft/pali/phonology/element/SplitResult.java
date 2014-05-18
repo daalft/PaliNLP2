@@ -69,7 +69,8 @@ public class SplitResult implements Comparable <SplitResult> {
 	 * @throws Exception
 	 */
 	public double getConfidence () throws Exception {
-		calculateConfidence();
+		double confidence = 0.0;
+		//calculateConfidence();
 		return confidence;
 	}
 	/**
@@ -108,7 +109,7 @@ public class SplitResult implements Comparable <SplitResult> {
 				System.err.println("Could not establish connection to database!");
 			}
 		}
-		return la.lemmaContains(s) || la.wordformContains(s) || la.generatedContains(s);
+		return la.lemmaContains(s) || la.wordformContains(s);// || la.generatedContains(s);
 	}
 	/**
 	 * Self-validates this split result

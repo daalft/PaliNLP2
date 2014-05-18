@@ -24,6 +24,8 @@ public class StrategyManager {
 			return new NumeralStrategy();
 		if (wc.equals("adverb"))
 			return new AdverbStrategy();
+		if (wc.equals("pronoun"))
+			return new PronounStrategy();
 		if (debug)
 			System.err.println("Could not find strategy for " + wc);
 		return new NullStrategy();

@@ -30,9 +30,6 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import de.unitrier.daalft.pali.PaliNLP;
-import de.unitrier.daalft.pali.morphology.Lemmatizer;
-import de.unitrier.daalft.pali.morphology.MorphologyAnalyzer;
-import de.unitrier.daalft.pali.morphology.MorphologyGenerator;
 
 /**
  * This code was edited or generated using CloudGarden's Jigloo
@@ -76,6 +73,7 @@ public class PaliPanel extends javax.swing.JPanel {
 	private JLabel lTitle;
 	private JScrollPane spScrollBottom;
 	private static CancelGlassPane cancel;
+	private PaliNLP nlp;
 	/**
 	 * Auto-generated main method to display this 
 	 * JPanel inside a new JFrame.
@@ -93,6 +91,7 @@ public class PaliPanel extends javax.swing.JPanel {
 
 	public PaliPanel() {
 		super();
+		nlp = new PaliNLP();
 		initGUI();
 	}
 
@@ -416,12 +415,12 @@ public class PaliPanel extends javax.swing.JPanel {
 							return;
 						}
 						switch (mode) {
-						case 1: container.addAll(Lemmatizer.lemmatize(w, wc)); break;
-						case 2: container.add(PaliNLP.stem(w)); break;
-						case 3: container.addAll(MorphologyAnalyzer.analyze(w, wc)); break;
-						case 4: container.addAll(MorphologyGenerator.generate(w, wc, g)); break;
-						case 5: container.addAll(PaliNLP.split(w, 1)); break;
-						case 6: container.addAll(PaliNLP.merge(words)); break;
+						case 1: container.addAll(nlp.lemmatize(w, wc)); break;
+						case 2: container.add(nlp.stem(w)); break;
+						case 3: container.addAll(nlp.analyze(w, wc)); break;
+						case 4: container.addAll(nlp.generate(w, wc, g)); break;
+						case 5: container.addAll(nlp.split(w, 1)); break;
+						case 6: container.addAll(nlp.merge(words)); break;
 						default: break;
 						}
 						if (Thread.currentThread().isInterrupted()) {
