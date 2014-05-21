@@ -167,7 +167,7 @@ public class WordConverter {
 		 
 		
 		ArrayNode array = forms.putArray(first.getInfo().getFeature("paradigm"));
-		
+		String initialPos = first.getInfo().getFeature("paradigm");
 		ObjectNode content = array.addObject();
 		content.put("word", first.getWord());
 		ObjectNode grammar = content.putObject("grammar");
@@ -178,6 +178,9 @@ public class WordConverter {
 		}
 		
 		for (ConstructedWord cw : list) {
+			if (!cw.getInfo().getFeature("paradigm").equals(initialPos)) {
+				array = forms.putArray(cw.getInfo().getFeature("paradigm"));
+			}
 			ObjectNode c = array.addObject();	
 			c.put("word", cw.getWord());
 			ObjectNode g = c.putObject("grammar");
@@ -207,6 +210,7 @@ public class WordConverter {
 			if (!cw.getInfo().getFeature("paradigm").equals(initialPos)) {
 				array = forms.putArray(cw.getInfo().getFeature("paradigm"));
 			}
+			
 			ObjectNode c = array.addObject();	
 			c.put("lemma", cw.getLemma());
 		}
