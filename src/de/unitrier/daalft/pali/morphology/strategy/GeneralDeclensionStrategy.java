@@ -50,7 +50,7 @@ public class GeneralDeclensionStrategy {
 			for (Morph m : me.getAllomorphs()) {
 				if (m.hasOccurrenceInformation()) {				
 					cw.setStem(stem);
-					cw.setInfo(me.getFeatureSet());
+					cw.setFeatureSet(me.getFeatureSet());
 					cw = m.getOccurrence().apply(cw);
 					String stemTemp = cw.getStem();
 					String morph = m.getMorph();
@@ -72,14 +72,14 @@ public class GeneralDeclensionStrategy {
 					try {
 						if (v.isValidWord(form)) {			
 							cw.setWord(form);
-							cw.setInfo(me.getFeatureSet());
+							cw.setFeatureSet(me.getFeatureSet());
 							out.add(copy(cw));
 						}
 					} catch (Exception e) {
 						// try sandhi merge
 						for (String ls : sm.merge(stem, m.getMorph())) {
 							ConstructedWord c = new ConstructedWord();
-							c.setInfo(me.getFeatureSet());
+							c.setFeatureSet(me.getFeatureSet());
 							c.setWord(ls);
 							c.setLemma(lemma);
 							out.add(copy(c));
@@ -100,10 +100,10 @@ public class GeneralDeclensionStrategy {
 		ConstructedWord copy = new ConstructedWord();
 		copy.setWord(cw.getWord());
 		FeatureSet fscopy = new FeatureSet();
-		for (Feature f : cw.getInfo()) {
+		for (Feature f : cw.getFeatureSet()) {
 			fscopy.add(f);
 		}
-		copy.setInfo(fscopy);
+		copy.setFeatureSet(fscopy);
 		copy.setLemma(cw.getLemma());
 		return copy;
 	}

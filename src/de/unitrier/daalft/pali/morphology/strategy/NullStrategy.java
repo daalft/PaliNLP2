@@ -22,7 +22,7 @@ public class NullStrategy extends AbstractStrategy {
 		ConstructedWord cw = new ConstructedWord();
 		cw.setWord(lemma);
 		cw.setLemma(lemma);
-		cw.addInfo(new Feature("pos", "unknown"));
+		cw.addFeature(new Feature("pos", "unknown"));
 		list.add(cw);
 		
 		return list;

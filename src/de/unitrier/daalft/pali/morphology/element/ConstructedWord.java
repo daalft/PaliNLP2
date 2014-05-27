@@ -13,12 +13,12 @@ public class ConstructedWord {
 	/**
 	 * Morphological information
 	 */
-	private FeatureSet info;
+	private FeatureSet featureSet;
 	/**
 	 * Constructor
 	 */
 	public ConstructedWord () {
-		info = new FeatureSet();
+		featureSet = new FeatureSet();
 	}
 	
 	/**
@@ -37,7 +37,7 @@ public class ConstructedWord {
 	 */
 	public ConstructedWord (String s, FeatureSet fs) {
 		word = s;
-		info = fs;
+		featureSet = fs;
 	}
 	
 	/**
@@ -60,16 +60,16 @@ public class ConstructedWord {
 	 * Sets the feature set
 	 * @param fs feature set
 	 */
-	public void setInfo (FeatureSet fs) {
-		info = fs;
+	public void setFeatureSet (FeatureSet fs) {
+		featureSet = fs;
 	}
 	
 	/**
 	 * Returns the feature set
 	 * @return feature set
 	 */
-	public FeatureSet getInfo () {
-		return info;
+	public FeatureSet getFeatureSet () {
+		return featureSet;
 	}
 	
 	/**
@@ -77,15 +77,15 @@ public class ConstructedWord {
 	 */
 	public String toString () {
 		String l = lemma == null ? "" : "\nLemma:\n" + lemma;
-		return "Constructed word: " + word + l + "\nFeatures:\n" + info.toString();
+		return "Constructed word: " + word + l + "\nFeatures:\n" + featureSet.toString();
 	}
 	
 	/**
 	 * Adds a feature to this feature set
 	 * @param f feature
 	 */
-	public void addInfo (Feature f) {
-		info.add(f);
+	public void addFeature (Feature f) {
+		featureSet.add(f);
 	}
 	
 	/**
@@ -124,7 +124,7 @@ public class ConstructedWord {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((info == null) ? 0 : info.hashCode());
+		result = prime * result + ((featureSet == null) ? 0 : featureSet.hashCode());
 		result = prime * result + ((lemma == null) ? 0 : lemma.hashCode());
 		result = prime * result + ((stem == null) ? 0 : stem.hashCode());
 		result = prime * result + ((word == null) ? 0 : word.hashCode());
@@ -140,10 +140,10 @@ public class ConstructedWord {
 		if (getClass() != obj.getClass())
 			return false;
 		ConstructedWord other = (ConstructedWord) obj;
-		if (info == null) {
-			if (other.info != null)
+		if (featureSet == null) {
+			if (other.featureSet != null)
 				return false;
-		} else if (!info.equals(other.info))
+		} else if (!featureSet.equals(other.featureSet))
 			return false;
 		if (lemma == null) {
 			if (other.lemma != null)
@@ -161,5 +161,21 @@ public class ConstructedWord {
 		} else if (!word.equals(other.word))
 			return false;
 		return true;
+	}
+	
+	/**
+	 * Returns a deep copy of this object
+	 */
+	public ConstructedWord clone () {
+		ConstructedWord copy = new ConstructedWord();
+		copy.stem = this.stem;
+		copy.lemma = this.lemma;
+		copy.word = this.word;
+		FeatureSet fs = new FeatureSet();
+		for (Feature f : this.featureSet) {
+			fs.add(new Feature(f.getKey(), f.getValue()));
+		}
+		copy.setFeatureSet(featureSet);
+		return copy;
 	}
 }

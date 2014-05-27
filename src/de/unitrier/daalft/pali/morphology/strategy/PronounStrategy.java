@@ -109,7 +109,7 @@ public class PronounStrategy extends AbstractStrategy {
 				String morph = mo.getMorph();
 				FeatureSet fs = m.getFeatureSet();
 				ConstructedWord cw = new ConstructedWord();
-				cw.setInfo(fs);
+				cw.setFeatureSet(fs);
 				cw.setWord(morph);
 				cw.setLemma(lemma);
 				if (!out.contains(cw))

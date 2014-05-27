@@ -19,7 +19,7 @@ public class OverwritingStrategy extends AbstractStrategy {
 		List<ConstructedWord> words = main.apply(lemma, options);
 		for (ConstructedWord cw : words) {
 			for (JProperty jp : over) {
-				if (cw.getInfo().contains(new Feature(jp.getName(), jp.getValue().toString()))) {
+				if (cw.getFeatureSet().contains(new Feature(jp.getName(), jp.getValue().toString()))) {
 					
 				}
 			}

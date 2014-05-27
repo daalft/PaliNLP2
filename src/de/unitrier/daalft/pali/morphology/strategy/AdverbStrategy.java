@@ -12,8 +12,8 @@ public class AdverbStrategy extends AbstractStrategy {
 	public List<ConstructedWord> apply(String lemma, String... options) {
 		List<ConstructedWord> out = new ArrayList<ConstructedWord>();
 		ConstructedWord cw = new ConstructedWord(lemma);
-		cw.addInfo(new Feature("paradigm", "adverb"));
-		cw.addInfo(new Feature("subtype", "indeclinable"));
+		cw.addFeature(new Feature("paradigm", "adverb"));
+		cw.addFeature(new Feature("subtype", "indeclinable"));
 		out.add(cw);
 		return out;
 	}

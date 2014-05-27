@@ -177,7 +177,7 @@ public class MorphologyAnalyzer {
 							cw.setLemma(lemma);
 							String pword = pre.isEmpty() ? "":pre+SEPARATOR;
 							cw.setWord(pword + start + SEPARATOR + ending);
-							cw.setInfo(morpheme.getFeatureSet());
+							cw.setFeatureSet(morpheme.getFeatureSet());
 							analyses.add(cw);
 							cw = null;
 						}

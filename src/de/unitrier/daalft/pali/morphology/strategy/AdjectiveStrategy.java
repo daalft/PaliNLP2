@@ -128,7 +128,7 @@ public class AdjectiveStrategy extends AbstractStrategy {
 
 		for (int i = 0; i < superlative.size(); i++) {
 			ConstructedWord cw = superlative.get(i);
-			cw.addInfo(new Feature("frequency", "rare"));
+			cw.addFeature(new Feature("frequency", "rare"));
 		}
 		
 		String comp_i = "";
@@ -167,12 +167,12 @@ public class AdjectiveStrategy extends AbstractStrategy {
 		
 		for (int i = 0; i < comparative.size(); i++) {
 			ConstructedWord cw = comparative.get(i);
-			cw.addInfo(new Feature("comparison", "comparative"));
+			cw.addFeature(new Feature("comparison", "comparative"));
 			cw.setLemma(lemma);
 		}
 		for (int i = 0; i < superlative.size(); i++) {
 			ConstructedWord cw = superlative.get(i);
-			cw.addInfo(new Feature("comparison", "superlative"));
+			cw.addFeature(new Feature("comparison", "superlative"));
 			cw.setLemma(lemma);
 		}
 		out.addAll(comparative);

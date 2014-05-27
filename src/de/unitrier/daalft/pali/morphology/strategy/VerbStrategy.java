@@ -69,7 +69,7 @@ public class VerbStrategy extends AbstractStrategy {
 		List<ConstructedWord> additional = new ArrayList<ConstructedWord>();
 		SoundChanger sc = new SoundChanger();
 		for (ConstructedWord cw : out) {
-			ConstructedWord cwa = (new ConstructedWord(sc.getCommonChange(cw.getWord()), cw.getInfo()));
+			ConstructedWord cwa = (new ConstructedWord(sc.getCommonChange(cw.getWord()), cw.getFeatureSet()));
 			cwa.setLemma(cw.getLemma());
 			if (!out.contains(cwa))
 				additional.add(cwa);

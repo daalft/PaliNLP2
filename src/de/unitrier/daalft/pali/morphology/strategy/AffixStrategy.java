@@ -34,7 +34,7 @@ public class AffixStrategy extends AbstractStrategy {
 				for (ConstructedWord cws : list) {
 					Set<String> merges = new HashSet<String>(sm.merge(cws.getWord(), m.getMorph()));
 					for (String s : merges) {
-						ConstructedWord copy = new ConstructedWord(s, union(cws.getInfo(), mo.getFeatureSet()));
+						ConstructedWord copy = new ConstructedWord(s, union(cws.getFeatureSet(), mo.getFeatureSet()));
 						copy.setLemma(cws.getLemma());
 						out.add(copy);
 					}
@@ -46,7 +46,7 @@ public class AffixStrategy extends AbstractStrategy {
 				for (ConstructedWord cws : list) {
 					Set<String> merges = new HashSet<String>(sm.merge(m.getMorph(),cws.getWord()));
 					for (String s : merges) {
-						ConstructedWord copy = new ConstructedWord(s, union(cws.getInfo(), mo.getFeatureSet()));
+						ConstructedWord copy = new ConstructedWord(s, union(cws.getFeatureSet(), mo.getFeatureSet()));
 						copy.setLemma(cws.getLemma());
 						out.add(copy);
 					}

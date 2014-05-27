@@ -55,7 +55,7 @@ public class Lemmatizer {
 			ConstructedWord lemma = new ConstructedWord();
 			lemma.setWord(word);
 			lemma.setLemma(cw.getLemma());
-			lemma.setInfo(new FeatureSet("paradigm", cw.getInfo().getFeature("paradigm")));
+			lemma.setFeatureSet(new FeatureSet("paradigm", cw.getFeatureSet().getFeature("paradigm")));
 			if (!out.contains(lemma))
 				out.add(lemma);
 		}

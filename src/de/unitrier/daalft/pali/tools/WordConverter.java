@@ -98,7 +98,7 @@ public class WordConverter {
 		ObjectNode morphology = grammar.putObject("morphology");
 		morphology.put("lemma", cw.getLemma());
 		ObjectNode paradigm = morphology.putObject("information");
-		for (Feature f : cw.getInfo()) {
+		for (Feature f : cw.getFeatureSet()) {
 			paradigm.put(f.getKey(), f.getValue());
 		}
 		String mys = om.writeValueAsString(toplevel);
@@ -127,12 +127,12 @@ public class WordConverter {
 		ObjectNode forms = toplevel.putObject("forms");
 		 
 		
-		ArrayNode array = forms.putArray(first.getInfo().getFeature("paradigm"));
+		ArrayNode array = forms.putArray(first.getFeatureSet().getFeature("paradigm"));
 		
 		ObjectNode content = array.addObject();
 		content.put("word", first.getWord());
 		ObjectNode grammar = content.putObject("grammar");
-		for (Feature f : first.getInfo()) {
+		for (Feature f : first.getFeatureSet()) {
 			if (f.getKey().equals("paradigm"))
 				continue;
 			grammar.put(f.getKey(), f.getValue());
@@ -142,7 +142,7 @@ public class WordConverter {
 			ObjectNode c = array.addObject();	
 			c.put("word", cw.getWord());
 			ObjectNode g = c.putObject("grammar");
-			for (Feature f : cw.getInfo()) {
+			for (Feature f : cw.getFeatureSet()) {
 				if (f.getKey().equals("paradigm"))
 					continue;
 				g.put(f.getKey(), f.getValue());
@@ -166,25 +166,25 @@ public class WordConverter {
 		ObjectNode forms = toplevel.putObject("forms");
 		 
 		
-		ArrayNode array = forms.putArray(first.getInfo().getFeature("paradigm"));
-		String initialPos = first.getInfo().getFeature("paradigm");
+		ArrayNode array = forms.putArray(first.getFeatureSet().getFeature("paradigm"));
+		String initialPos = first.getFeatureSet().getFeature("paradigm");
 		ObjectNode content = array.addObject();
 		content.put("word", first.getWord());
 		ObjectNode grammar = content.putObject("grammar");
-		for (Feature f : first.getInfo()) {
+		for (Feature f : first.getFeatureSet()) {
 			if (f.getKey().equals("paradigm"))
 				continue;
 			grammar.put(f.getKey(), f.getValue());
 		}
 		
 		for (ConstructedWord cw : list) {
-			if (!cw.getInfo().getFeature("paradigm").equals(initialPos)) {
-				array = forms.putArray(cw.getInfo().getFeature("paradigm"));
+			if (!cw.getFeatureSet().getFeature("paradigm").equals(initialPos)) {
+				array = forms.putArray(cw.getFeatureSet().getFeature("paradigm"));
 			}
 			ObjectNode c = array.addObject();	
 			c.put("word", cw.getWord());
 			ObjectNode g = c.putObject("grammar");
-			for (Feature f : cw.getInfo()) {
+			for (Feature f : cw.getFeatureSet()) {
 				if (f.getKey().equals("paradigm"))
 					continue;
 				g.put(f.getKey(), f.getValue());
@@ -202,13 +202,13 @@ public class WordConverter {
 		ConstructedWord first = list.remove(0);
 		toplevel.put("word", first.getWord());
 		ObjectNode forms = toplevel.putObject("forms");
-		String initialPos = first.getInfo().getFeature("paradigm");
+		String initialPos = first.getFeatureSet().getFeature("paradigm");
 		ArrayNode array = forms.putArray(initialPos);
 		ObjectNode content = array.addObject();
 		content.put("lemma", first.getLemma());
 		for (ConstructedWord cw : list) {
-			if (!cw.getInfo().getFeature("paradigm").equals(initialPos)) {
-				array = forms.putArray(cw.getInfo().getFeature("paradigm"));
+			if (!cw.getFeatureSet().getFeature("paradigm").equals(initialPos)) {
+				array = forms.putArray(cw.getFeatureSet().getFeature("paradigm"));
 			}
 			
 			ObjectNode c = array.addObject();	
@@ -230,21 +230,21 @@ public class WordConverter {
 		
 		ObjectNode forms = toplevel.putObject("forms");
 		 
-		String initialPos = first.getInfo().getFeature("paradigm");
+		String initialPos = first.getFeatureSet().getFeature("paradigm");
 		ArrayNode array = forms.putArray(initialPos);
 		
 		ObjectNode content = array.addObject();
 		content.put("word", first.getWord());
 		ObjectNode grammar = content.putObject("grammar");
-		for (Feature f : first.getInfo()) {
+		for (Feature f : first.getFeatureSet()) {
 			if (f.getKey().equals("paradigm"))
 				continue;
 			grammar.put(f.getKey(), f.getValue());
 		}
 		
 		for (ConstructedWord cw : list) {
-			if (!cw.getInfo().getFeature("paradigm").equals(initialPos)) {
-				array = forms.putArray(cw.getInfo().getFeature("paradigm"));
+			if (!cw.getFeatureSet().getFeature("paradigm").equals(initialPos)) {
+				array = forms.putArray(cw.getFeatureSet().getFeature("paradigm"));
 			}
 			if (!cw.getLemma().equals(initialLemma)) {
 				analyses.add(om.writeValueAsString(toplevel));
@@ -255,14 +255,14 @@ public class WordConverter {
 				
 				forms = toplevel.putObject("forms");
 				 
-				initialPos = cw.getInfo().getFeature("paradigm");
+				initialPos = cw.getFeatureSet().getFeature("paradigm");
 				array = forms.putArray(initialPos);
 				initialLemma = cw.getLemma();
 			}
 			ObjectNode c = array.addObject();	
 			c.put("word", cw.getWord());
 			ObjectNode g = c.putObject("grammar");
-			for (Feature f : cw.getInfo()) {
+			for (Feature f : cw.getFeatureSet()) {
 				if (f.getKey().equals("paradigm"))
 					continue;
 				g.put(f.getKey(), f.getValue());
