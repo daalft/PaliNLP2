@@ -13,13 +13,13 @@ public class ParadigmAccessor {
 	/**
 	 * Paradigm Reader
 	 */
-	private static ParadigmReader pr;
+	private ParadigmReader pr;
 	
 	/**
 	 * Constructor
 	 */
 	public ParadigmAccessor () {
-		pr = ParadigmReader.getInstance();
+		pr = new ParadigmReader();
 	}
 	
 	/**

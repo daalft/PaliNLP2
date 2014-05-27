@@ -70,7 +70,8 @@ public class NounStrategy extends AbstractStrategy {
 				for (Morph n : m.getAllomorphs()) {
 					ConstructedWord cw1 = new ConstructedWord(n.getMorph(), m.getFeatureSet());
 					out.add(cw1);
-					out.addAll(AffixStrategy.apply(out));
+					if (useAffixes)
+						out.addAll(AffixStrategy.apply(out));
 				}
 			}
 			return out;

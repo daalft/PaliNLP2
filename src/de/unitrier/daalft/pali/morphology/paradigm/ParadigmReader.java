@@ -29,17 +29,13 @@ import de.unitrier.daalft.pali.tools.StackReader;
  */
 public class ParadigmReader {
 	/**
-	 * Singleton instance
-	 */
-	private static ParadigmReader instance;
-	/**
 	 * Paths to file
 	 */
 	private String path, defaultPath = "./data/grammar/fullGrammar4.xml";
 	/**
 	 * Paradigms
 	 */
-	private static Paradigm paradigms;
+	private Paradigm paradigms;
 
 	/**
 	 * Irregular noun handler
@@ -58,7 +54,7 @@ public class ParadigmReader {
 	/**
 	 * No-argument constructor
 	 */
-	private ParadigmReader () {
+	public ParadigmReader () {
 		init();
 	}
 
@@ -66,19 +62,9 @@ public class ParadigmReader {
 	 * Constructor
 	 * @param path path to grammar file
 	 */
-	private ParadigmReader (String path) {
+	public ParadigmReader (String path) {
 		this.path = path;
 		init();
-	}
-
-	/**
-	 * Returns the singleton instance of this class
-	 * @return singleton instance
-	 */
-	public synchronized static ParadigmReader getInstance() {
-		if (instance == null)
-			instance = new ParadigmReader();		
-		return instance;
 	}
 
 	/**
@@ -93,7 +79,7 @@ public class ParadigmReader {
 			readIrregular(irregularNounPath, irrNoun);
 			readIrregular(irregularNumeralPath, irrNum);
 		} catch (ParserConfigurationException | SAXException | IOException | TransformerException e) {
-			// TODO Auto-generated catch block
+			
 			e.printStackTrace();
 		}
 	}
