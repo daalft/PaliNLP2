@@ -50,4 +50,22 @@ public abstract class AbstractStrategy {
 		}
 		return u;
 	}
+	
+
+	/**
+	 * Creates a deep copy of the specified ConstructedWord
+	 * @param cw constructed word
+	 * @return deep copy
+	 */
+	ConstructedWord copy (ConstructedWord cw) {
+		ConstructedWord copy = new ConstructedWord();
+		copy.setWord(cw.getWord());
+		FeatureSet fscopy = new FeatureSet();
+		for (Feature f : cw.getFeatureSet()) {
+			fscopy.add(f);
+		}
+		copy.setFeatureSet(fscopy);
+		copy.setLemma(cw.getLemma());
+		return copy;
+	}
 }

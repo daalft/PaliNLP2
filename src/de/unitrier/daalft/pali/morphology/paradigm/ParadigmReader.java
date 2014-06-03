@@ -31,7 +31,7 @@ public class ParadigmReader {
 	/**
 	 * Paths to file
 	 */
-	private String path, defaultPath = "./data/grammar/fullGrammar4.xml";
+	private String path, defaultPath = "./data/grammar/fullGrammar5.xml";
 	/**
 	 * Paradigms
 	 */

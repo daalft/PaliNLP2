@@ -40,7 +40,7 @@ public class AdjectiveStrategy extends AbstractStrategy {
 		Paradigm u_neut = adjectives.getParadigmByFeatures(new FeatureSet("declension", "u")).getParadigmByFeatures(new FeatureSet("gender", "neuter"));
 		Paradigm long_u_masc = adjectives.getParadigmByFeatures(new FeatureSet("declension", "ū")).getParadigmByFeatures(new FeatureSet("gender", "masculine"));
 		Paradigm ant = adjectives.getParadigmByFeatures(new FeatureSet("declension", "ant"));
-		Paradigm as = nouns.getParadigmByFeatures(new FeatureSet("declension", "as"));
+		Paradigm as = nouns.getParadigmByFeatures(new FeatureSet("declension", "as")).changeFeature("paradigm", "adjective");
 		// Initialize output list
 		List<ConstructedWord> out = new LinkedList<ConstructedWord>();
 		// Initialize right deleting rule 1

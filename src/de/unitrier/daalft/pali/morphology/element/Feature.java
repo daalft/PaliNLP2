@@ -83,4 +83,9 @@ public class Feature {
 			return false;
 		return true;
 	}
+
+	public boolean setValue(String featureValue) {
+		this.value = featureValue;
+		return true;
+	}
 }

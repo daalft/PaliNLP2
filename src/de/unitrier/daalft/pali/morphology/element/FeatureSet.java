@@ -130,4 +130,13 @@ public class FeatureSet implements Iterable<Feature> {
 		}
 		return "";
 	}
+	
+	public boolean setFeature(String featureName, String featureValue) {
+		for(Feature f : features) {
+			if (f.getKey().equals(featureName)) {
+				return f.setValue(featureValue);
+			}
+		}
+		return false;
+	}
 }

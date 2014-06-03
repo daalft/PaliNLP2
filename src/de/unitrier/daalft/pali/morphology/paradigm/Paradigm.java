@@ -200,4 +200,23 @@ public class Paradigm {
 		System.err.println("Could not retrieve feature set for " + word);
 		return null;
 	}
+	
+	/**
+	 * Changes a feature in this paradigm to the <em>newValue</em>
+	 * @param targetFeatureName
+	 * @param newValue
+	 * @return
+	 */
+	public Paradigm changeFeature(String targetFeatureName, String newValue) {
+		Paradigm out = new Paradigm();
+		
+		for (Morpheme m : this.morphemes) {
+			if (!m.getFeatureSet().getFeature(targetFeatureName).isEmpty()) {
+				m.getFeatureSet().setFeature(targetFeatureName, newValue);
+			}
+			out.add(m);
+		}
+		
+		return out;
+	}
 }

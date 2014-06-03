@@ -19,7 +19,7 @@ import de.unitrier.daalft.pali.validation.Validator;
  * @author David
  *
  */
-public class GeneralDeclensionStrategy {
+public class GeneralDeclensionStrategy extends AbstractStrategy {
 	
 	/**
 	 * Validator
@@ -29,6 +29,7 @@ public class GeneralDeclensionStrategy {
 	 * Sandhi manager
 	 */
 	private SandhiManager sm = new SandhiManager();
+	
 	
 	
 	/**
@@ -55,17 +56,11 @@ public class GeneralDeclensionStrategy {
 					String stemTemp = cw.getStem();
 					String morph = m.getMorph();
 					
-					// especially for verbs
-					if (paradigm.getParadigmByFeatures(new FeatureSet("paradigm", "verb")) != null)
-						if (stemTemp.matches(".+"+vowel) && morph.matches(vowel+".+"))
-							stemTemp = stemTemp.substring(0, stemTemp.length()-1);
+					
 					cw.setWord(stemTemp + morph);	
 					out.add(copy(cw));			
 				} else {
-					// create new morph
-					if (paradigm.getParadigmByFeatures(new FeatureSet("paradigm", "verb")) != null)
-						if (stem.matches(".+"+vowel) && m.getMorph().matches(vowel+".+"))
-							stem = stem.substring(0, stem.length()-1);
+					
 						
 					String form = stem + m.getMorph();
 						
@@ -74,6 +69,7 @@ public class GeneralDeclensionStrategy {
 							cw.setWord(form);
 							cw.setFeatureSet(me.getFeatureSet());
 							out.add(copy(cw));
+							
 						}
 					} catch (Exception e) {
 						// try sandhi merge
@@ -90,21 +86,12 @@ public class GeneralDeclensionStrategy {
 		}
 		return out;
 	}
-	
-	/**
-	 * Creates a deep copy of the specified ConstructedWord
-	 * @param cw constructed word
-	 * @return deep copy
-	 */
-	private ConstructedWord copy (ConstructedWord cw) {
-		ConstructedWord copy = new ConstructedWord();
-		copy.setWord(cw.getWord());
-		FeatureSet fscopy = new FeatureSet();
-		for (Feature f : cw.getFeatureSet()) {
-			fscopy.add(f);
-		}
-		copy.setFeatureSet(fscopy);
-		copy.setLemma(cw.getLemma());
-		return copy;
+
+
+
+	@Override
+	public List<ConstructedWord> apply(String lemma, String... options) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

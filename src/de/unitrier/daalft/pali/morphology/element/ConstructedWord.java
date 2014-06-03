@@ -77,7 +77,7 @@ public class ConstructedWord {
 	 */
 	public String toString () {
 		String l = lemma == null ? "" : "\nLemma:\n" + lemma;
-		return "Constructed word: " + word + l + "\nFeatures:\n" + featureSet.toString();
+		return "Constructed word: " + word + l + "\nFeatures:\n" + featureSet.toString() + "\n\n";
 	}
 	
 	/**

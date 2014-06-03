@@ -17,7 +17,7 @@ public class StrategyManager {
 		if (wc.equals("noun"))
 			return new NounStrategy();
 		if (wc.equals("verb"))
-			return new VerbStrategy();
+			return new AlternativeVerbStrategy();
 		if (wc.equals("adjective"))
 			return new AdjectiveStrategy();
 		if (wc.equals("numeral"))

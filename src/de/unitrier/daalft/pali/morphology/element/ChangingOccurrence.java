@@ -20,15 +20,21 @@ public class ChangingOccurrence extends Occurrence {
 	@Override
 	public String apply(String word) {
 		// determine type of change
+		// deleting
 		if (occ.matches("m(\\d+)")) {
 			int offset = Integer.parseInt(occ.substring(1));
 			return word.substring(0, word.length()-offset);
 		}
-		if (occ.matches("l(\\d+)")) {
-			int offset = word.length() - Integer.parseInt(occ.substring(1)) + 1;
+		// lengthening of vowel
+		if (occ.matches("l(\\d+)[aiu]")) {
+			int offset = word.length() - Integer.parseInt(occ.substring(1,occ.length()-1));
+			if (!(word.charAt(offset)+"").matches("[aiu]")) {
+				return word;
+			}
+			char toLengthen = word.charAt(offset);
 			StringBuilder sb = new StringBuilder();
 			for (int i = 0; i < word.length(); i++) {
-				if (i == offset) {
+				if (i == offset && word.charAt(i) == toLengthen) {
 					sb.append(Alphabet.getLong(word.charAt(i)+""));
 				} else {
 					sb.append(word.charAt(i));
