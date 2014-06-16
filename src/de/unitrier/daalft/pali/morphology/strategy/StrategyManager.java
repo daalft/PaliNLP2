@@ -26,8 +26,10 @@ public class StrategyManager {
 			return new AdverbStrategy();
 		if (wc.equals("pronoun"))
 			return new PronounStrategy();
+		if (wc.equals("indeclinable")) 
+			return new IndeclinableStrategy();
 		if (debug)
 			System.err.println("Could not find strategy for " + wc);
-		return new IndeclinableStrategy();
+		return new NullStrategy();
 	}
 }
