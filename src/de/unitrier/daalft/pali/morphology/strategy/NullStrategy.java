@@ -1,5 +1,6 @@
 package de.unitrier.daalft.pali.morphology.strategy;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import de.unitrier.daalft.pali.morphology.element.ConstructedWord;
@@ -15,7 +16,7 @@ public class NullStrategy extends AbstractStrategy {
 
 	@Override
 	public List<ConstructedWord> apply(String lemma, String... options) {
-		return null;
+		return new ArrayList<ConstructedWord>();
 	}
 
 }
