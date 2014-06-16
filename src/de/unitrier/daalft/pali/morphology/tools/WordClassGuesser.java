@@ -142,9 +142,6 @@ public class WordClassGuesser {
 		if (ends(lemma, "uṃ")) {
 			guesses.add("indeclinable");
 		}
-		if (guesses.size() == 0) {
-			guesses.add("indeclinable");
-		}
 		return guesses;
 	}
 	
