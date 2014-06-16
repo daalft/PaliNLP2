@@ -13,6 +13,7 @@ public class IndeclinableStrategy extends AbstractStrategy {
 		List<ConstructedWord> out = new ArrayList<ConstructedWord>();
 		ConstructedWord cw = new ConstructedWord(lemma);
 		cw.addFeature(new Feature("paradigm", "indeclinable"));
+		cw.setLemma(lemma);
 		//cw.addFeature(new Feature("subtype", "indeclinable"));
 		out.add(cw);
 		return out;
