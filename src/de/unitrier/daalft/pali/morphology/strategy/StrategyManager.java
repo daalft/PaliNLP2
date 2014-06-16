@@ -28,6 +28,6 @@ public class StrategyManager {
 			return new PronounStrategy();
 		if (debug)
 			System.err.println("Could not find strategy for " + wc);
-		return new NullStrategy();
+		return new IndeclinableStrategy();
 	}
 }
