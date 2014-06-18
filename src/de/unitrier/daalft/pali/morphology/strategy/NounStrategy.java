@@ -53,66 +53,65 @@ public class NounStrategy extends AbstractStrategy {
 		GeneralDeclensionStrategy gds = new GeneralDeclensionStrategy();
 		String gender = (options != null && options.length > 0) ? options[0].isEmpty()?null:options[0] : null;
 		Paradigm nouns = pa.getNounParadigm();
-		System.out.println(nouns.getMorphemes().size());
 
 		Paradigm a = nouns.getParadigmByFeatures(new FeatureSet("declension", "a"));
-		log.debug("declension 'a' : " + a);
+		//log.debug("declension 'a' : " + a);
 		if (gender != null && can(a, gender))
 			a = a.getParadigmByFeatures(new FeatureSet("gender", gender));
 
 		Paradigm as = nouns.getParadigmByFeatures(new FeatureSet("declension","as"));
 		
-		log.debug("declension 'as' : " + as);
+		//log.debug("declension 'as' : " + as);
 		if (gender != null && can(as, gender))
 			as = as.getParadigmByFeatures(new FeatureSet("gender", gender));
 		
 		Paradigm u = nouns.getParadigmByFeatures(new FeatureSet("declension", "u"));
-		log.debug("declension 'u' : " + u);
+		//log.debug("declension 'u' : " + u);
 		if (gender != null && can(u, gender))
 			u = u.getParadigmByFeatures(new FeatureSet("gender", gender));
 
 		Paradigm us = nouns.getParadigmByFeatures(new FeatureSet("declension", "us"));
-		log.debug("declension 'us' : " + us);
+		//log.debug("declension 'us' : " + us);
 		if (gender != null && can(us, gender))
 			us = us.getParadigmByFeatures(new FeatureSet("gender", gender));
 
 		Paradigm i = nouns.getParadigmByFeatures(new FeatureSet("declension", "i"));
-		log.debug("declension 'i' : " + i);
+		//log.debug("declension 'i' : " + i);
 		if (gender != null && can (i, gender))
 			i = i.getParadigmByFeatures(new FeatureSet("gender", gender));
 
 		Paradigm in = nouns.getParadigmByFeatures(new FeatureSet("declension", "in"));
-		log.debug("declension 'in' : " + in);
+		//log.debug("declension 'in' : " + in);
 		if (gender != null && can(in, gender))
 			in = in.getParadigmByFeatures(new FeatureSet("gender", gender));
 
 		Paradigm ar = nouns.getParadigmByFeatures(new FeatureSet("declension", "ar"));
-		log.debug("declension 'ar' : " + ar);
+		//log.debug("declension 'ar' : " + ar);
 		if (gender != null && can(ar, gender))
 			ar = ar.getParadigmByFeatures(new FeatureSet("gender", gender));
 
 		Paradigm an = nouns.getParadigmByFeatures(new FeatureSet("declension", "an"));
-		log.debug("declension 'an' : " + an);
+		//log.debug("declension 'an' : " + an);
 		if (gender != null && can(ar, gender))
 			an = an.getParadigmByFeatures(new FeatureSet("gender", gender));
 
 		Paradigm ant = nouns.getParadigmByFeatures(new FeatureSet("declension", "ant"));
-		log.debug("declension 'ant' : " + ant);
+		//log.debug("declension 'ant' : " + ant);
 		if (gender != null && can(ant, gender))
 			ant = ant.getParadigmByFeatures(new FeatureSet("gender", gender));
 
 		Paradigm longa = nouns.getParadigmByFeatures(new FeatureSet("declension", "ā"));
-		log.debug("declension 'ā' : " + longa);
+		//log.debug("declension 'ā' : " + longa);
 		if (gender != null && can(longa, gender))
 			longa = longa.getParadigmByFeatures(new FeatureSet("gender", gender));
 
 		Paradigm longi = nouns.getParadigmByFeatures(new FeatureSet("declension", "ī"));
-		log.debug("declension 'ī' : " + longi);
+		//log.debug("declension 'ī' : " + longi);
 		if (gender != null && can(longi, gender))
 			longi = longi.getParadigmByFeatures(new FeatureSet("gender", gender));
 
 		Paradigm longu = nouns.getParadigmByFeatures(new FeatureSet("declension", "ū"));
-		log.debug("declension 'ū' : " + longu);
+		//log.debug("declension 'ū' : " + longu);
 		if (gender != null && can (longu, gender))
 			longu = longu.getParadigmByFeatures(new FeatureSet("gender", gender));
 				

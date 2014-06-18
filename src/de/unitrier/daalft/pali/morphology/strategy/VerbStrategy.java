@@ -75,11 +75,9 @@ public class VerbStrategy extends AbstractStrategy {
 		List<ConstructedWord> stemforms = new ArrayList<ConstructedWord>();
 		List<ConstructedWord> rootforms = new ArrayList<ConstructedWord>();
 		for (String root : roots) {
-			System.out.println("Root: " + root);
 			rootforms.addAll(gds.apply(lemma, verbs, new ReplacingRule(root)));
 		}
 		for (String stem : stems) {
-			System.out.println("Stem: " + stem);
 			stemforms.addAll(gds.apply(lemma, verbs, new ReplacingRule(stem)));
 		}
 		// Initialize output list

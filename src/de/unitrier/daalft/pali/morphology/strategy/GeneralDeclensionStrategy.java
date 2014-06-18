@@ -55,7 +55,6 @@ public class GeneralDeclensionStrategy extends AbstractStrategy {
 				ConstructedWord cw = new ConstructedWord();
 				cw.setLemma(lemma);
 				if (m.hasOccurrenceInformation()) {		
-					System.err.println(">>>> OCC INFO:" + m.getMorph());
 					cw.setStem(stem);
 					cw.setFeatureSet(me.getFeatureSet());
 					cw = m.getOccurrence().apply(cw);

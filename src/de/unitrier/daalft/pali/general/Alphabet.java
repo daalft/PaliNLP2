@@ -325,8 +325,4 @@ public class Alphabet {
 		if (s.equals("u")) return "ū";
 		return s;
 	}
-	
-	public static void main(String[] args) {
-		System.out.println("ū".toUpperCase());
-	}
 }
