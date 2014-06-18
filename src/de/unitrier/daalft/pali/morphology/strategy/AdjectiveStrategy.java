@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
+import de.general.log.*;
+
 import de.unitrier.daalft.pali.general.Alphabet;
 import de.unitrier.daalft.pali.morphology.element.ConstructedWord;
 import de.unitrier.daalft.pali.morphology.element.Feature;
@@ -13,6 +15,8 @@ import de.unitrier.daalft.pali.morphology.paradigm.ParadigmAccessor;
 import de.unitrier.daalft.pali.morphology.paradigm.rule.NullDerivingRule;
 import de.unitrier.daalft.pali.morphology.paradigm.rule.RightDeletingRule;
 import de.unitrier.daalft.pali.tools.Patterner;
+
+
 /**
  * Pre-configured strategy for adjectives. Uses the general declension strategy
  * @author David
@@ -20,13 +24,35 @@ import de.unitrier.daalft.pali.tools.Patterner;
  */
 public class AdjectiveStrategy extends AbstractStrategy {
 
+	////////////////////////////////////////////////////////////////
+	// Constants
+	////////////////////////////////////////////////////////////////
+
 	private static boolean useAffixes = false;
 	
-	public List<ConstructedWord> apply(String lemma, String... options) {
+	////////////////////////////////////////////////////////////////
+	// Variables
+	////////////////////////////////////////////////////////////////
+
+	ParadigmAccessor pa;
+
+	////////////////////////////////////////////////////////////////
+	// Constructors
+	////////////////////////////////////////////////////////////////
+
+	public AdjectiveStrategy(ParadigmAccessor pa)
+	{
+		this.pa = pa;
+	}
+
+	////////////////////////////////////////////////////////////////
+	// Methods
+	////////////////////////////////////////////////////////////////
+
+	public List<ConstructedWord> apply(ILogInterface log, String lemma, String... options) {
 		// General declension strategy
 		GeneralDeclensionStrategy gds = new GeneralDeclensionStrategy();
 		// Fetch all relevant paradigms
-		ParadigmAccessor pa = new ParadigmAccessor();
 		Paradigm adjectives = pa.getAdjectiveParadigm();
 		Paradigm nouns = pa.getNounParadigm();
 		Paradigm a_masc = adjectives.getParadigmByFeatures(new FeatureSet("declension", "a")).getParadigmByFeatures(new FeatureSet("gender", "masculine"));
@@ -177,8 +203,8 @@ public class AdjectiveStrategy extends AbstractStrategy {
 		}
 		out.addAll(comparative);
 		out.addAll(superlative);
-		if (useAffixes)
-			out.addAll(AffixStrategy.apply(out));
+		// if (useAffixes)
+		// 	out.addAll(AffixStrategy.apply(out));
 		return out;
 	
 	}

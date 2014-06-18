@@ -13,12 +13,14 @@ import de.unitrier.daalft.pali.morphology.paradigm.Paradigm;
 import de.unitrier.daalft.pali.morphology.paradigm.ParadigmAccessor;
 import de.unitrier.daalft.pali.morphology.tools.WordClassGuesser;
 
+
 /**
  * Class to stem words
  * @author David
  *
  */
-public class WordclassStemmer {
+public class WordclassStemmer
+{
 
 	/**
 	 * List with word endings
@@ -26,22 +28,24 @@ public class WordclassStemmer {
 	private List<String> endings;
 
 	private Paradigm p;
+	private WordClassGuesser wcg;
 
 	/**
 	 * Constructor
 	 */
-	public WordclassStemmer () {
-		endings = new ArrayList<String>();
-		readAndFetch();
+	public WordclassStemmer(ParadigmAccessor pa)
+	{
+		initialize(pa);
 	}
 
 	/**
 	 * Reads paradigms, fetches paradigms and populates list of endings
 	 */
-	private void readAndFetch () {
-		ParadigmAccessor pa = new ParadigmAccessor();
+	private void initialize(ParadigmAccessor pa)
+	{
 		p = pa.getParadigms();
 		endings = retainEndingsOnly(p);
+		wcg = new WordClassGuesser(pa);
 	}
 
 	/**
@@ -82,7 +86,6 @@ public class WordclassStemmer {
 	 * @return stemmed word
 	 */
 	public List<String> stem (String word) {
-		WordClassGuesser wcg = new WordClassGuesser();
 		sort(endings);
 		List<String> out = new ArrayList<String>();
 		List<String> wordclasses = wcg.guess(word);

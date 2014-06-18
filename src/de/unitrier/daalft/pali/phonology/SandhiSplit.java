@@ -9,13 +9,16 @@ import java.util.Set;
 import de.unitrier.daalft.pali.phonology.element.SandhiRule;
 import de.unitrier.daalft.pali.phonology.element.SandhiTableEntry;
 import de.unitrier.daalft.pali.phonology.element.SplitResult;
+
+
 /**
  * Class responsible for splitting words according
  * to the rules of sandhi
  * @author David
  *
  */
-public class SandhiSplit {
+public class SandhiSplit
+{
 
 	/**
 	 * Sandhi manager instance
@@ -30,6 +33,7 @@ public class SandhiSplit {
 		this();
 		defaultDepth = d;
 	}
+
 	/**
 	 * Default splitting depth
 	 */

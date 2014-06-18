@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import de.general.log.*;
+
 import de.unitrier.daalft.pali.morphology.element.ConstructedWord;
 import de.unitrier.daalft.pali.morphology.element.FeatureSet;
 import de.unitrier.daalft.pali.morphology.element.Morph;
@@ -12,6 +14,8 @@ import de.unitrier.daalft.pali.morphology.paradigm.Paradigm;
 import de.unitrier.daalft.pali.morphology.paradigm.ParadigmAccessor;
 import de.unitrier.daalft.pali.morphology.paradigm.irregular.IrregularNumerals;
 import de.unitrier.daalft.pali.morphology.paradigm.rule.RightDeletingRule;
+
+
 /**
  * Pre-configured strategy for numerals
  * @author David
@@ -19,15 +23,19 @@ import de.unitrier.daalft.pali.morphology.paradigm.rule.RightDeletingRule;
  */
 public class NumeralStrategy extends AbstractStrategy {
 
+	////////////////////////////////////////////////////////////////
+	// Constants
+	////////////////////////////////////////////////////////////////
+
 	/**
 	 * Irregular numerals 1-4
 	 * and "ubho" (both)
 	 */
-	private static String[] a = {"eka", "dve", "ubho", "tayo", "cattāro"};
+	private final static String[] a = {"eka", "dve", "ubho", "tayo", "cattāro"};
 	/**
 	 * Irregular numerals 5-18
 	 */
-	private static String[] b = {
+	private final static String[] b = {
 		"pañca",
 		"cha",
 		"satta",
@@ -43,16 +51,35 @@ public class NumeralStrategy extends AbstractStrategy {
 		"sattadasa", "sattarasa",
 		"aṭṭhādasa", "aṭṭhārasa"
 		};
-	private static List<String> oneToFour = Arrays.asList(a);
-	private static List<String> fiveTo18 = Arrays.asList(b);
+	private final static List<String> oneToFour = Arrays.asList(a);
+	private final static List<String> fiveTo18 = Arrays.asList(b);
 	
-	public List<ConstructedWord> apply(String lemma, String... options) {
+	////////////////////////////////////////////////////////////////
+	// Variables
+	////////////////////////////////////////////////////////////////
+
+	ParadigmAccessor pa;
+
+	////////////////////////////////////////////////////////////////
+	// Constructors
+	////////////////////////////////////////////////////////////////
+
+	public NumeralStrategy(ParadigmAccessor pa)
+	{
+		this.pa = pa;
+	}
+
+	////////////////////////////////////////////////////////////////
+	// Methods
+	////////////////////////////////////////////////////////////////
+
+	@Override
+	public List<ConstructedWord> apply(ILogInterface log, String lemma, String... options) {
 		if (isOneToFour(lemma)) {
 			return oneToFourDec(lemma);
 		}
 		GeneralDeclensionStrategy gds = new GeneralDeclensionStrategy();
 		
-		ParadigmAccessor pa = new ParadigmAccessor();
 		Paradigm num = pa.getNumeralParadigm();
 		Paradigm fte = num.getParadigmByFeatures(new FeatureSet("restriction", "5to18"));
 		Paradigm nu = num.getParadigmByFeatures(new FeatureSet("restriction", "19up"));
@@ -116,7 +143,6 @@ public class NumeralStrategy extends AbstractStrategy {
 	 * @return morphological forms
 	 */
 	private List<ConstructedWord> oneToFourDec (String lemma) {
-		ParadigmAccessor pa = new ParadigmAccessor();
 		IrregularNumerals in = pa.getIrregularNumerals();
 		Paradigm p = in.getForms(lemma);
 		List<ConstructedWord> out = new ArrayList<ConstructedWord>();

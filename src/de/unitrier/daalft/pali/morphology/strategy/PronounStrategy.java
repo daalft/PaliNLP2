@@ -3,6 +3,8 @@ package de.unitrier.daalft.pali.morphology.strategy;
 import java.util.ArrayList;
 import java.util.List;
 
+import de.general.log.*;
+
 import de.unitrier.daalft.pali.morphology.element.ConstructedWord;
 import de.unitrier.daalft.pali.morphology.element.Feature;
 import de.unitrier.daalft.pali.morphology.element.FeatureSet;
@@ -11,12 +13,37 @@ import de.unitrier.daalft.pali.morphology.element.Morpheme;
 import de.unitrier.daalft.pali.morphology.paradigm.Paradigm;
 import de.unitrier.daalft.pali.morphology.paradigm.ParadigmAccessor;
 
-public class PronounStrategy extends AbstractStrategy {
+
+public class PronounStrategy extends AbstractStrategy
+{
+
+	////////////////////////////////////////////////////////////////
+	// Constants
+	////////////////////////////////////////////////////////////////
 
 	private final static byte debugLevel = 2;
 	
+	////////////////////////////////////////////////////////////////
+	// Variables
+	////////////////////////////////////////////////////////////////
+
+	ParadigmAccessor pa;
+
+	////////////////////////////////////////////////////////////////
+	// Constructors
+	////////////////////////////////////////////////////////////////
+
+	public PronounStrategy(ParadigmAccessor pa)
+	{
+		this.pa = pa;
+	}
+
+	////////////////////////////////////////////////////////////////
+	// Methods
+	////////////////////////////////////////////////////////////////
+
 	@Override
-	public List<ConstructedWord> apply(String lemma, String... options) {
+	public List<ConstructedWord> apply(ILogInterface log, String lemma, String... options) {
 		// main filter
 		FeatureSet filter = new FeatureSet();
 		// auxiliary filter
@@ -81,7 +108,6 @@ public class PronounStrategy extends AbstractStrategy {
 			System.err.println(lemma + " is not recognized as valid pronoun lemma!");
 			System.err.println("Falling back to paradigmatic analysis.");
 		}
-		ParadigmAccessor pa = new ParadigmAccessor();
 		Paradigm pronoun = pa.getPronounParadigm();
 		for (Morpheme mo : pronoun.getMorphemes()) {
 			if (mo.exactly(lemma)) {

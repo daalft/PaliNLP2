@@ -27,11 +27,26 @@ import de.unitrier.daalft.pali.tools.StackReader;
  * @author David
  *
  */
-public class ParadigmReader {
+public class ParadigmReader
+{
+
+	////////////////////////////////////////////////////////////////
+	// Constants
+	////////////////////////////////////////////////////////////////
+
+	private final static String DEFAULT_PARADIGMS_FILEPATH = "./data/grammar/fullGrammar5.xml";
+	private final static String IRREGULAR_NOUNS_FILEPATH = "./data/grammar/irregularNoun.txt";
+	private final static String IRREGULAR_NUMERALS_FILEPATH = "./data/grammar/irregularNumerals.txt";
+
+	////////////////////////////////////////////////////////////////
+	// Variables
+	////////////////////////////////////////////////////////////////
+
 	/**
 	 * Paths to file
 	 */
-	private String path, defaultPath = "./data/grammar/fullGrammar5.xml";
+	private String paradigmsCfgFilePath;
+
 	/**
 	 * Paradigms
 	 */
@@ -48,40 +63,45 @@ public class ParadigmReader {
 	/**
 	 * Irregular paths
 	 */
-	private final static String irregularNounPath = "./data/grammar/irregularNoun.txt",
-			irregularNumeralPath = "./data/grammar/irregularNumerals.txt";
+
+	////////////////////////////////////////////////////////////////
+	// Constructors
+	////////////////////////////////////////////////////////////////
 
 	/**
 	 * No-argument constructor
 	 */
-	public ParadigmReader () {
-		init();
+	public ParadigmReader () throws Exception
+	{
+		this(DEFAULT_PARADIGMS_FILEPATH);
 	}
 
 	/**
 	 * Constructor
-	 * @param path path to grammar file
+	 * @param paradigmsCfgFilePath path to grammar file
 	 */
-	public ParadigmReader (String path) {
-		this.path = path;
+	public ParadigmReader (String paradigmsCfgFilePath) throws Exception
+	{
+		this.paradigmsCfgFilePath = paradigmsCfgFilePath;
 		init();
 	}
+
+	////////////////////////////////////////////////////////////////
+	// Methods
+	////////////////////////////////////////////////////////////////
 
 	/**
 	 * Initializer
 	 */
-	private void init () {
+	private void init() throws Exception
+	{
 		paradigms = new Paradigm();
 		irrNoun = new IrregularNouns();
 		irrNum = new IrregularNumerals();
-		try {
-			read();
-			readIrregular(irregularNounPath, irrNoun);
-			readIrregular(irregularNumeralPath, irrNum);
-		} catch (ParserConfigurationException | SAXException | IOException | TransformerException e) {
-			
-			e.printStackTrace();
-		}
+
+		read();
+		readIrregular(IRREGULAR_NOUNS_FILEPATH, irrNoun);
+		readIrregular(IRREGULAR_NUMERALS_FILEPATH, irrNum);
 	}
 
 	/**
@@ -122,10 +142,9 @@ public class ParadigmReader {
 	 * @throws IOException
 	 * @throws TransformerException 
 	 */
-	private void read () throws ParserConfigurationException, SAXException, IOException, TransformerException {
-		if (path == null)
-			path = defaultPath;
-		File file = new File(path);
+	private void read() throws ParserConfigurationException, SAXException, IOException, TransformerException
+	{
+		File file = new File(paradigmsCfgFilePath);
 		StackReader sr = new StackReader();
 		paradigms = buildParadigm(sr.readFile(file), sr.getDelimiter(), sr.getOccurrenceDelimiter());
 	}

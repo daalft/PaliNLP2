@@ -29,7 +29,7 @@ public class Paradigm {
 	 * Standard toString method
 	 * @return string representation
 	 */
-	public String toString () {
+	public String toString() {
 		StringBuilder sb = new StringBuilder("Paradigm");
 		sb.append(System.lineSeparator());
 		for (Morpheme m : morphemes) {

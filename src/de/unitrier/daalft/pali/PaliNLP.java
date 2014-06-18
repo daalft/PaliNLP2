@@ -6,10 +6,12 @@ import java.util.List;
 import de.cl.dictclient.DictWord;
 import de.general.json.JProperty;
 import de.general.json.JValue;
+import de.general.log.*;
 import de.unitrier.daalft.pali.morphology.Lemmatizer;
 import de.unitrier.daalft.pali.morphology.MorphologyAnalyzer;
 import de.unitrier.daalft.pali.morphology.MorphologyGenerator;
 import de.unitrier.daalft.pali.morphology.WordclassStemmer;
+import de.unitrier.daalft.pali.morphology.paradigm.ParadigmAccessor;
 import de.unitrier.daalft.pali.phonology.SandhiMerge;
 import de.unitrier.daalft.pali.phonology.SandhiSplit;
 import de.unitrier.daalft.pali.phonology.element.SplitResult;
@@ -24,14 +26,23 @@ public class PaliNLP {
 	private SandhiSplit sp;
 	private WordclassStemmer wcs;
 	
-	public PaliNLP () {
-		mg = new MorphologyGenerator();
-		ma = new MorphologyAnalyzer();
-		l = new Lemmatizer();
-		sm = new SandhiMerge();
-		sp = new SandhiSplit();
-		wcs = new WordclassStemmer();
+	public PaliNLP()
+	{
+		try {
+			ParadigmAccessor pa = new ParadigmAccessor();
+
+			mg = new MorphologyGenerator(pa);
+			ma = new MorphologyAnalyzer(pa);
+			l = new Lemmatizer(pa);
+			sm = new SandhiMerge();
+			sp = new SandhiSplit();
+			wcs = new WordclassStemmer(pa);
+		} catch (Exception ee) {
+			// TODO: change this! the exception is swallowed!
+			ee.printStackTrace();
+		}
 	}
+
 	/**
 	 * Lemmatizes a word using rules
 	 * <p>
@@ -44,7 +55,7 @@ public class PaliNLP {
 	 */
 	public List<DictWord> lemmatize (String word) {
 		try {
-			return WordConverter.toDictWord(l.lemmatize(word));
+			return WordConverter.toDictWord(l.lemmatize(new PrintLogger(), word));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -53,7 +64,7 @@ public class PaliNLP {
 
 	public List<DictWord> lemmatize (String word, String option) {
 		try {
-			return WordConverter.toDictWord(l.lemmatize(word, option));
+			return WordConverter.toDictWord(l.lemmatize(new PrintLogger(), word, option));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -71,7 +82,7 @@ public class PaliNLP {
 	 * @see #lemmatizeWithDictionary(DictWord)
 	 */
 	public List<DictWord> lemmatize (DictWord word) throws Exception {
-		return WordConverter.toDictWord(l.lemmatize(word));
+		return WordConverter.toDictWord(l.lemmatize(new PrintLogger(), word));
 	}
 
 	/**
@@ -82,7 +93,7 @@ public class PaliNLP {
 	 * @throws Exception
 	 */
 	public String lemmatizeWithDictionary (String word) throws Exception {
-		return l.lemmatizeWithDictionary(word);
+		return l.lemmatizeWithDictionary(new PrintLogger(), word);
 	}
 
 	/**
@@ -93,7 +104,7 @@ public class PaliNLP {
 	 * @throws Exception
 	 */
 	public String lemmatizeWithDictionary (DictWord word) throws Exception {
-		return l.lemmatizeWithDictionary(word);
+		return l.lemmatizeWithDictionary(new PrintLogger(), word);
 	}
 
 	/**
@@ -104,7 +115,7 @@ public class PaliNLP {
 	 */
 	public List<DictWord> analyze (String word) {
 		try {
-			return WordConverter.toDictWord(ma.analyze(word));
+			return WordConverter.toDictWord(ma.analyze(new PrintLogger(), word));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -113,7 +124,7 @@ public class PaliNLP {
 
 	public List<DictWord> analyze (String word, String wc) {
 		try {
-			return WordConverter.toDictWord(ma.analyze(word, wc));
+			return WordConverter.toDictWord(ma.analyze(new PrintLogger(), word, wc));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -126,7 +137,7 @@ public class PaliNLP {
 	 * @throws Exception
 	 */
 	public List<DictWord> analyze (DictWord word) throws Exception {
-		return WordConverter.toDictWord(ma.analyze(word));
+		return WordConverter.toDictWord(ma.analyze(word, new PrintLogger()));
 	}
 
 	/**
@@ -137,7 +148,7 @@ public class PaliNLP {
 	 * @throws Exception
 	 */
 	public String analyzeWithDictionary (String word) throws Exception {
-		return ma.analyzeWithDictionary(word);
+		return ma.analyzeWithDictionary(new PrintLogger(), word);
 	}
 
 	/**
@@ -149,7 +160,7 @@ public class PaliNLP {
 	 */
 	public String analyzeWithDictionary (DictWord word) throws Exception {
 		String w = word.getProperty("word").toString();
-		return ma.analyzeWithDictionary(w);
+		return ma.analyzeWithDictionary(new PrintLogger(), w);
 	}
 
 	/**
@@ -198,9 +209,13 @@ public class PaliNLP {
 	 * @param options options
 	 * @return all morphological forms
 	 */
-	public List<DictWord> generate (String word, String wordclass, String... options) {
+	public List<DictWord> generate (String word, String wordclass, String... options)
+	{
 		try {
-			return WordConverter.toDictWord(mg.generate(word, wordclass, options));
+			// NOTE: it may be reasonable to enhance the generate-method in such a way, that a logger is passed from some caller
+			// NOTE: the basic idea might be that regardless of the application type - console, GUI or client/server - all output
+			// NOTE: that might be created during execution will be written using the same infrastructure - a logging infrastructure
+			return WordConverter.toDictWord(mg.generate(new PrintLogger(), word, wordclass, options));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

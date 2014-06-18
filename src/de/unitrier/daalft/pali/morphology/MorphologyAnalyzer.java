@@ -7,6 +7,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import de.general.log.*;
+
 import de.cl.dictclient.DictWord;
 import de.unitrier.daalft.pali.lexicon.LexiconAdapter;
 import de.unitrier.daalft.pali.morphology.element.ConstructedWord;
@@ -20,7 +22,11 @@ import de.unitrier.daalft.pali.morphology.paradigm.irregular.IrregularNouns;
 import de.unitrier.daalft.pali.morphology.paradigm.irregular.IrregularNumerals;
 import de.unitrier.daalft.pali.morphology.strategy.AdverbStrategy;
 import de.unitrier.daalft.pali.morphology.tools.WordClassGuesser;
+import de.unitrier.daalft.pali.morphology.tools.VerbHelper;
+import de.unitrier.daalft.pali.morphology.strategy.NumeralStrategy;
 import de.unitrier.daalft.pali.tools.WordConverter;
+
+
 /**
  * Class responsible for the morphological analysis of words
  * @author David
@@ -28,16 +34,52 @@ import de.unitrier.daalft.pali.tools.WordConverter;
  */
 public class MorphologyAnalyzer {
 
+	////////////////////////////////////////////////////////////////
+	// Constants
+	////////////////////////////////////////////////////////////////
+
+	/**
+	 * Word class specific endings
+	 */
+	private final static String 
+			VERB_ENDING = "ti",
+			NUMERAL_ENDING_5_18 = "a";
+	/**
+	 * Word class specific endings
+	 */
+	private final static String[] 
+			NOUN_ENDINGS = {"as", "a", "u", "us", "i", "in", "ar", "an", "ant", "ā", "ī", "ū"},
+			ADJ_ENDINGS = {"a", "i", "u", "ant", "ā", "ī", "ū"},
+			NUMERAL_ENDING_19 = {"a", "i", "aṃ"};
+
 	/**
 	 * Separator between morphemes
 	 */
 	private final static String SEPARATOR = "_";
+
+	////////////////////////////////////////////////////////////////
+	// Variables
+	////////////////////////////////////////////////////////////////
+
+	private ParadigmAccessor pa;
+	private WordClassGuesser wcg;
+
+	////////////////////////////////////////////////////////////////
+	// Constructors
+	////////////////////////////////////////////////////////////////
+
 	/**
 	 * Constructor
 	 */
-	public MorphologyAnalyzer () {
-
+	public MorphologyAnalyzer(ParadigmAccessor pa)
+	{
+		this.pa = pa;
+		this.wcg = new WordClassGuesser(pa);
 	}
+
+	////////////////////////////////////////////////////////////////
+	// Methods
+	////////////////////////////////////////////////////////////////
 
 	/**
 	 * Analyze in offline mode
@@ -46,13 +88,13 @@ public class MorphologyAnalyzer {
 	 * @param word word to analyze
 	 * @return possible analyses
 	 */
-	public List<ConstructedWord> analyze (DictWord word) {
+	public List<ConstructedWord> analyze(DictWord word, ILogInterface log) {
 		// extract class if applicable
 		String pos = word.getValue("pos").toString();
 		String w = word.getValue("word").toString();
 		if (w == null || w.isEmpty()) 
 			w = word.getValue("lemma").toString();
-		return analyze(w, pos); 
+		return analyze(log, w, pos); 
 	}
 
 	/**
@@ -62,19 +104,16 @@ public class MorphologyAnalyzer {
 	 * @param word word to analyze
 	 * @return possible analyses
 	 */
-	public List<ConstructedWord> analyze (String word, String...options) {
+	public List<ConstructedWord> analyze(ILogInterface log, String word, String...options) {
 		List<ConstructedWord> analyses = new ArrayList<ConstructedWord>();
 		List<String> wc = null;
-		WordClassGuesser wcg = new WordClassGuesser();
 		if (options != null && options.length > 0 && !options[0].isEmpty()) {
 			wc = Collections.singletonList(options[0]);
 		} else {
 			wc = wcg.guess(word);
 		}
-		ParadigmAccessor pa = new ParadigmAccessor();
 		IrregularNouns irrnoun = pa.getIrregularNouns();
 		IrregularNumerals irrnum = pa.getIrregularNumerals();
-		Lemmatizer l = new Lemmatizer();
 		Paradigm pronoun = pa.getPronounParadigm();
 
 		for (Morpheme mo : pronoun.getMorphemes()) {
@@ -141,7 +180,7 @@ public class MorphologyAnalyzer {
 		for (String wci : wc) {
 			if (wci.equals("adverb")) {
 				AdverbStrategy as = new AdverbStrategy();
-				analyses.addAll(as.apply(word));
+				analyses.addAll(as.apply(log, word));
 				continue;
 			}
 			// retrieve relevant paradigm
@@ -171,7 +210,7 @@ public class MorphologyAnalyzer {
 						// derive lemma from start under "wci" assumption 
 						// with declension info if present
 						String dec = morpheme.getFeatureByName("declension");
-						List<String> lemmata = l.lemmaFromStem(start, wci, dec);
+						List<String> lemmata = lemmaFromStem(start, wci, dec);
 						for (String lemma : lemmata) {
 							ConstructedWord cw = new ConstructedWord();
 							cw.setLemma(lemma);
@@ -189,6 +228,63 @@ public class MorphologyAnalyzer {
 	}
 
 	/**
+	 * Returns the lemma built from a given word stem and a given word class
+	 *
+	 * TODO: this method has been moved from Lemmatizer to this class; this was necessary because of cyclic dependencies between MorphologyAnalyzer and Lemmatizer;
+	 * TODO: moving this method to this class might not have been the best option; rethink: Is this reasonable? Is there a better solution?
+	 *
+	 * @param stem word stem
+	 * @param wc word class
+	 * @param strings options
+	 * @return lemmata
+	 */
+	public List<String> lemmaFromStem (String stem, String wc, String...strings) {
+		if (strings.length > 0 && !strings[0].isEmpty()) {
+			String dec = strings[0];
+			return Collections.singletonList(stem + dec);
+		}
+		List<String> out = new ArrayList<String>();
+		switch (wc) {
+		case "noun":
+			// append all noun declensions
+			for (String s : NOUN_ENDINGS)
+				out.add(stem + s);
+			break; 
+		case "verb": 
+			VerbHelper vh = new VerbHelper();
+			// if we assume that "stem" is in fact a root
+			List<String> stems = vh.stemFromRoot(stem);
+			// and that "stem" could be the stem
+			out.add(stem + VERB_ENDING);
+			for (String s : stems)
+				out.add(s + VERB_ENDING);
+			// or that we have to derive a root from stem
+			List<String> roots = vh.rootFromStem(stem);
+			for (String s : roots)
+				out.add(s + VERB_ENDING);
+			break;
+		case "numeral":
+			// one to four should have been caught by analyzer before this point
+			if (NumeralStrategy.isFiveTo18Stem(stem)) {
+				out.add(stem + NUMERAL_ENDING_5_18);
+			} else if (NumeralStrategy.is19upStem(stem)) {
+				for (String s : NUMERAL_ENDING_19) {
+					out.add(stem + s);
+				}
+			}
+			break;
+		case "adjective":
+			for (String s : ADJ_ENDINGS)
+				out.add(stem + s);
+			break;
+		case "adverb":
+			out.add(stem); break;
+		default: break;
+		}
+		return out;
+	}
+
+	/**
 	 * Analyze in online mode
 	 * <p>
 	 * Returns possible analyses of a given word using dictionary lookup. If 
@@ -196,13 +292,13 @@ public class MorphologyAnalyzer {
 	 * @param word word to analyze
 	 * @return possible analyses
 	 */
-	public String analyzeWithDictionary (String word, String... options) throws Exception {
+	public String analyzeWithDictionary (ILogInterface log, String word, String... options) throws Exception {
 		LexiconAdapter la = new LexiconAdapter();
 		if (la.generatedContains(word)) {
 			return la.getGenerated(word);
 		} else {
 			System.err.println("Could not analyze " + word + " with dictionary. Falling back to offline mode.");
-			return WordConverter.toJSONStringAnalyzer(analyze(word, options));
+			return WordConverter.toJSONStringAnalyzer(analyze(log, word, options));
 		}
 	}
 
@@ -214,13 +310,13 @@ public class MorphologyAnalyzer {
 	 * @param word word to analyze
 	 * @return possible analyses
 	 */
-	public String analyzeWithDictionary (String json) throws Exception {
+	public String analyzeWithDictionary(String json, ILogInterface log) throws Exception {
 		DictWord word = WordConverter.toDictWord(json);
 		String pos = word.getValue("pos").toString();
 		String w = word.getValue("word").toString();
 		if (w == null || w.isEmpty()) 
 			w = word.getValue("lemma").toString();
-		return analyzeWithDictionary(w, pos);
+		return analyzeWithDictionary(log, w, pos);
 	}
 
 	/**

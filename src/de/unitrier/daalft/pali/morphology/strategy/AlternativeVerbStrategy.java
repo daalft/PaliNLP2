@@ -4,12 +4,16 @@ import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import java.util.List;
 
+import de.general.log.*;
+
 import de.unitrier.daalft.pali.morphology.paradigm.Paradigm;
 import de.unitrier.daalft.pali.morphology.paradigm.ParadigmAccessor;
 import de.unitrier.daalft.pali.morphology.paradigm.rule.ReplacingRule;
 import de.unitrier.daalft.pali.morphology.tools.VerbHelper;
 import de.unitrier.daalft.pali.morphology.element.ConstructedWord;
 import de.unitrier.daalft.pali.phonology.SoundChanger;
+
+
 /**
  * Pre-configured strategy for verbs
  * @author David
@@ -17,11 +21,34 @@ import de.unitrier.daalft.pali.phonology.SoundChanger;
  */
 public class AlternativeVerbStrategy extends AbstractStrategy {
 
-	private static boolean useAffixes = false;
-	
-	private String augment = "a";
-	
-	public List<ConstructedWord> apply(String lemma, String... options) {
+	////////////////////////////////////////////////////////////////
+	// Constants
+	////////////////////////////////////////////////////////////////
+
+	private static final boolean useAffixes = false;
+
+	private static final String augment = "a";
+
+	////////////////////////////////////////////////////////////////
+	// Variables
+	////////////////////////////////////////////////////////////////
+
+	ParadigmAccessor pa;
+
+	////////////////////////////////////////////////////////////////
+	// Constructors
+	////////////////////////////////////////////////////////////////
+
+	public AlternativeVerbStrategy(ParadigmAccessor pa)
+	{
+		this.pa = pa;
+	}
+
+	////////////////////////////////////////////////////////////////
+	// Methods
+	////////////////////////////////////////////////////////////////
+
+	public List<ConstructedWord> apply(ILogInterface log, String lemma, String... options) {
 		int declension = 0;
 		if (options.length > 0 && !options[0].isEmpty()) {
 			declension = Integer.parseInt(options[0]);
@@ -29,7 +56,6 @@ public class AlternativeVerbStrategy extends AbstractStrategy {
 		// General declension strategy
 		GeneralDeclensionStrategy gds = new GeneralDeclensionStrategy();
 		// Retrieve relevant paradigms
-		ParadigmAccessor pa = new ParadigmAccessor();
 		Paradigm verbs = pa.getVerbParadigm();
 
 		// If verb lemma does not end with "ti", probably not a verb lemma
@@ -49,9 +75,9 @@ public class AlternativeVerbStrategy extends AbstractStrategy {
 		// Add all results so far
 		
 		out.addAll(stemforms);
-		if (useAffixes)
-			// Add affixes
-			out.addAll(AffixStrategy.apply(out));
+		// if (useAffixes)
+		// 	// Add affixes
+		// 	out.addAll(AffixStrategy.apply(out));
 		
 		// Append additional forms derived by conversion "ava" => "o" and "aya" => e
 		List<ConstructedWord> additional = new ArrayList<ConstructedWord>();

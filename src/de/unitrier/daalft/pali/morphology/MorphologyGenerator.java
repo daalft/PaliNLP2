@@ -1,7 +1,8 @@
 package de.unitrier.daalft.pali.morphology;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
+
+import de.general.log.*;
 
 import de.unitrier.daalft.pali.morphology.element.ConstructedWord;
 import de.unitrier.daalft.pali.morphology.element.Morph;
@@ -10,8 +11,8 @@ import de.unitrier.daalft.pali.morphology.paradigm.Paradigm;
 import de.unitrier.daalft.pali.morphology.paradigm.ParadigmAccessor;
 import de.unitrier.daalft.pali.morphology.paradigm.irregular.IrregularNouns;
 import de.unitrier.daalft.pali.morphology.paradigm.irregular.IrregularNumerals;
-import de.unitrier.daalft.pali.morphology.strategy.StrategyManager;
 import de.unitrier.daalft.pali.morphology.tools.WordClassGuesser;
+import de.unitrier.daalft.pali.morphology.strategy.*;
 
 /**
  * Given a lemma, returns all possible morphological word forms
@@ -19,10 +20,54 @@ import de.unitrier.daalft.pali.morphology.tools.WordClassGuesser;
  *
  */
 
-public class MorphologyGenerator {
+public class MorphologyGenerator
+{
 
-	public MorphologyGenerator () {}
+	////////////////////////////////////////////////////////////////
+	// Constants
+	////////////////////////////////////////////////////////////////
+
+	private static boolean debug = false;
+
+	////////////////////////////////////////////////////////////////
+	// Variables
+	////////////////////////////////////////////////////////////////
+
+	private HashMap<String, AbstractStrategy> wordClassStrategies;
+	private NullStrategy wordClassNullStrategy;
+	private ParadigmAccessor pa;
+	private WordClassGuesser wcg;
+
+	////////////////////////////////////////////////////////////////
+	// Constructors
+	////////////////////////////////////////////////////////////////
+
+	/**
+	 * Default constructor.
+	 */
+	public MorphologyGenerator(ParadigmAccessor pa)
+	{
+		this.pa = pa;
+
+		wordClassStrategies = new HashMap<>();
+
+		wordClassStrategies.put("noun", new NounStrategy(pa));
+		wordClassStrategies.put("verb", new AlternativeVerbStrategy(pa));
+		wordClassStrategies.put("adjective", new AdjectiveStrategy(pa));
+		wordClassStrategies.put("numeral", new NumeralStrategy(pa));
+		wordClassStrategies.put("adverb", new AdverbStrategy());
+		wordClassStrategies.put("pronoun", new PronounStrategy(pa));
+		wordClassStrategies.put("indeclinable", new IndeclinableStrategy());
+
+		wordClassNullStrategy = new NullStrategy();
+
+		wcg = new WordClassGuesser(pa);
+	}
 	
+	////////////////////////////////////////////////////////////////
+	// Methods
+	////////////////////////////////////////////////////////////////
+
 	/**
 	 * Returns all possible morphological word forms 
 	 * for the given lemma and the given word class
@@ -36,8 +81,8 @@ public class MorphologyGenerator {
 	 * @param options options
 	 * @return list of constructed words
 	 */
-	public List<ConstructedWord> generate (String lemma, String wc, String... options) {
-		ParadigmAccessor pa = new ParadigmAccessor();
+	public List<ConstructedWord> generate(ILogInterface log, String lemma, String wc, String... options)
+	{
 		IrregularNouns ino = pa.getIrregularNouns();
 		IrregularNumerals inu = pa.getIrregularNumerals();
 		List<ConstructedWord> irrOut = new ArrayList<ConstructedWord>();
@@ -65,15 +110,14 @@ public class MorphologyGenerator {
 			return irrOut;
 		List<String> wcs = new ArrayList<String>();
 		if (wc == null || wc.isEmpty()) {
-			WordClassGuesser wcg = new WordClassGuesser();
 			wcs = wcg.guessLemma(lemma);
 		}
 		if (wcs.isEmpty()) {
-			return _generate(lemma, wc, options);	
+			return _generate(log, lemma, wc, options);
 		} else {
 			List<ConstructedWord> list = new ArrayList<ConstructedWord>();
 			for (String wci : wcs) {
-				list.addAll(_generate(lemma, wci, options));
+				list.addAll(_generate(log, lemma, wci, options));
 			}
 			return list;
 		}
@@ -86,7 +130,15 @@ public class MorphologyGenerator {
 	 * @param options options
 	 * @return list of constructed words
 	 */
-	private List<ConstructedWord> _generate (String lemma, String wc, String... options) {
-		return StrategyManager.getStrategy(wc).apply(lemma, options);
+	private List<ConstructedWord> _generate(ILogInterface log, String lemma, String wc, String... options)
+	{
+		AbstractStrategy strategy = wordClassStrategies.get(wc);
+		if (strategy != null) {
+			return strategy.apply(log, lemma, options);
+		}
+
+		if (debug) log.warn("Could not find strategy for " + wc);
+		return wordClassNullStrategy.apply(log, lemma, options);
 	}
+
 }

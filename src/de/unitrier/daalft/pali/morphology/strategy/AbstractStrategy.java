@@ -2,6 +2,8 @@ package de.unitrier.daalft.pali.morphology.strategy;
 
 import java.util.List;
 
+import de.general.log.*;
+
 import de.unitrier.daalft.pali.morphology.element.ConstructedWord;
 import de.unitrier.daalft.pali.morphology.element.Feature;
 import de.unitrier.daalft.pali.morphology.element.FeatureSet;
@@ -23,6 +25,7 @@ public abstract class AbstractStrategy {
 	public String getStrategyName() {
 		return this.getClass().getSimpleName();
 	}
+
 	/**
 	 * Applies the strategy to the given lemma
 	 * <p>
@@ -32,7 +35,7 @@ public abstract class AbstractStrategy {
 	 * @param options options
 	 * @return lemma with strategy applied
 	 */
-	public abstract List<ConstructedWord> apply(String lemma, String... options);
+	public abstract List<ConstructedWord> apply(ILogInterface log, String lemma, String... options);
 	
 	/**
 	 * Calculates the union between two feature sets
@@ -40,7 +43,7 @@ public abstract class AbstractStrategy {
 	 * @param f2 feature set 2
 	 * @return union of feature set
 	 */
-	protected static FeatureSet union (FeatureSet f1, FeatureSet f2) {
+	public static FeatureSet union (FeatureSet f1, FeatureSet f2) {
 		FeatureSet u = new FeatureSet();
 		for (Feature f : f1)
 			u.add(f);

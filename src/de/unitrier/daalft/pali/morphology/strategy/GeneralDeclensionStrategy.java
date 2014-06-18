@@ -3,6 +3,8 @@ package de.unitrier.daalft.pali.morphology.strategy;
 import java.util.ArrayList;
 import java.util.List;
 
+import de.general.log.*;
+
 import de.unitrier.daalft.pali.general.Alphabet;
 import de.unitrier.daalft.pali.morphology.element.ConstructedWord;
 import de.unitrier.daalft.pali.morphology.element.Feature;
@@ -14,6 +16,8 @@ import de.unitrier.daalft.pali.morphology.paradigm.rule.DerivingRule;
 import de.unitrier.daalft.pali.phonology.SandhiManager;
 import de.unitrier.daalft.pali.tools.Patterner;
 import de.unitrier.daalft.pali.validation.Validator;
+
+
 /**
  * General declension strategy
  * @author David
@@ -90,7 +94,7 @@ public class GeneralDeclensionStrategy extends AbstractStrategy {
 
 
 	@Override
-	public List<ConstructedWord> apply(String lemma, String... options) {
+	public List<ConstructedWord> apply(ILogInterface log, String lemma, String... options) {
 		// TODO Auto-generated method stub
 		return null;
 	}

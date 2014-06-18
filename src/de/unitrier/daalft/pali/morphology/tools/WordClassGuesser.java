@@ -22,18 +22,38 @@ import de.unitrier.daalft.pali.morphology.paradigm.irregular.IrregularNumerals;
  */
 public class WordClassGuesser {
 
+	////////////////////////////////////////////////////////////////
+	// Constants
+	////////////////////////////////////////////////////////////////
+
+	////////////////////////////////////////////////////////////////
+	// Variables
+	////////////////////////////////////////////////////////////////
+
 	/**
 	 * Prune limit
 	 */
 	private int prune;
+	private ParadigmAccessor pa;
 
-	public WordClassGuesser () {
+	////////////////////////////////////////////////////////////////
+	// Constructors
+	////////////////////////////////////////////////////////////////
+
+	public WordClassGuesser(ParadigmAccessor pa) {
+		this.pa = pa;
 		prune = 10;
 	}
 	
-	public WordClassGuesser (int p) {
+	public WordClassGuesser (ParadigmAccessor pa, int p) {
+		this.pa = pa;
 		prune = p;
 	}
+
+	////////////////////////////////////////////////////////////////
+	// Methods
+	////////////////////////////////////////////////////////////////
+
 	/**
 	 * Guesses the word class of a given word
 	 * <p>
@@ -44,9 +64,8 @@ public class WordClassGuesser {
 	 * @param word word 
 	 * @return word class
 	 */
-	public List<String> guess (String word) {
-		ParadigmAccessor pa = new ParadigmAccessor();
-		
+	public List<String> guess (String word)
+	{
 		IrregularNouns inoun = pa.getIrregularNouns();
 		IrregularNumerals inum = pa.getIrregularNumerals();
 		
@@ -112,7 +131,6 @@ public class WordClassGuesser {
 	 */
 	public List<String> guessLemma (String lemma) {
 		List<String> guesses = new ArrayList<String>();
-		ParadigmAccessor pa = new ParadigmAccessor();
 		
 		IrregularNouns inoun = pa.getIrregularNouns();
 		IrregularNumerals inum = pa.getIrregularNumerals();

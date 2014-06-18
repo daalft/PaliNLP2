@@ -18,7 +18,8 @@ public class ParadigmAccessor {
 	/**
 	 * Constructor
 	 */
-	public ParadigmAccessor () {
+	public ParadigmAccessor () throws Exception
+	{
 		pr = new ParadigmReader();
 	}
 	

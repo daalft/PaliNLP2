@@ -12,14 +12,15 @@ import de.unitrier.daalft.pali.phonology.element.SandhiRule;
  * @author David
  *
  */
-public class SandhiMerge {
+public class SandhiMerge
+{
 
 	/**
 	 * Sandhi manager
 	 */
 	private SandhiManager sm;
 	
-	public SandhiMerge () {
+	public SandhiMerge() {
 		sm  = new SandhiManager();
 	}
 
