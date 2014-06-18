@@ -51,19 +51,21 @@ public class NounStrategy extends AbstractStrategy {
 	public List<ConstructedWord> apply(ILogInterface log, String lemma, String... options)
 	{
 		GeneralDeclensionStrategy gds = new GeneralDeclensionStrategy();
-		String gender = (options != null && options.length > 0) ? options[0] : null;
+		String gender = (options != null && options.length > 0) ? options[0].isEmpty()?null:options[0] : null;
 		Paradigm nouns = pa.getNounParadigm();
-
-		Paradigm as = nouns.getParadigmByFeatures(new FeatureSet("declension","as"));
-		log.debug("declension 'as' : " + as);
-		if (gender != null && can(as, gender))
-			as = as.getParadigmByFeatures(new FeatureSet("gender", gender));
+		System.out.println(nouns.getMorphemes().size());
 
 		Paradigm a = nouns.getParadigmByFeatures(new FeatureSet("declension", "a"));
 		log.debug("declension 'a' : " + a);
 		if (gender != null && can(a, gender))
 			a = a.getParadigmByFeatures(new FeatureSet("gender", gender));
 
+		Paradigm as = nouns.getParadigmByFeatures(new FeatureSet("declension","as"));
+		
+		log.debug("declension 'as' : " + as);
+		if (gender != null && can(as, gender))
+			as = as.getParadigmByFeatures(new FeatureSet("gender", gender));
+		
 		Paradigm u = nouns.getParadigmByFeatures(new FeatureSet("declension", "u"));
 		log.debug("declension 'u' : " + u);
 		if (gender != null && can(u, gender))

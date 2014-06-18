@@ -46,6 +46,7 @@ public class ParadigmAccessor {
 	 * @return noun paradigm
 	 */
 	public Paradigm getNounParadigm () {
+		System.err.println(pr.getParadigmsByFeatures(new FeatureSet("declension", "as")));
 		return pr.getNounParadigm();
 	}
 	

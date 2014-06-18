@@ -22,9 +22,11 @@ public class DistributionOccurrence extends Occurrence {
 
 	@Override
 	public ConstructedWord apply(ConstructedWord cw) {
+		
 		Feature f = new Feature("frequency", occ);
 		if (!cw.getFeatureSet().contains(f))
 			cw.addFeature(f);
+		
 		return cw;
 	}	
 }

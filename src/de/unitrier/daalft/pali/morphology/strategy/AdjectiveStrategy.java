@@ -54,7 +54,7 @@ public class AdjectiveStrategy extends AbstractStrategy {
 		GeneralDeclensionStrategy gds = new GeneralDeclensionStrategy();
 		// Fetch all relevant paradigms
 		Paradigm adjectives = pa.getAdjectiveParadigm();
-		Paradigm nouns = pa.getNounParadigm();
+		
 		Paradigm a_masc = adjectives.getParadigmByFeatures(new FeatureSet("declension", "a")).getParadigmByFeatures(new FeatureSet("gender", "masculine"));
 		Paradigm a_neut = adjectives.getParadigmByFeatures(new FeatureSet("declension", "a")).getParadigmByFeatures(new FeatureSet("gender", "neuter"));
 		Paradigm long_a_fem = adjectives.getParadigmByFeatures(new FeatureSet("declension", "ā")).getParadigmByFeatures(new FeatureSet("gender", "feminine"));
@@ -66,7 +66,8 @@ public class AdjectiveStrategy extends AbstractStrategy {
 		Paradigm u_neut = adjectives.getParadigmByFeatures(new FeatureSet("declension", "u")).getParadigmByFeatures(new FeatureSet("gender", "neuter"));
 		Paradigm long_u_masc = adjectives.getParadigmByFeatures(new FeatureSet("declension", "ū")).getParadigmByFeatures(new FeatureSet("gender", "masculine"));
 		Paradigm ant = adjectives.getParadigmByFeatures(new FeatureSet("declension", "ant"));
-		Paradigm as = nouns.getParadigmByFeatures(new FeatureSet("declension", "as")).changeFeature("paradigm", "adjective");
+		Paradigm as = adjectives.getParadigmByFeatures(new FeatureSet("declension", "as"));
+		
 		// Initialize output list
 		List<ConstructedWord> out = new LinkedList<ConstructedWord>();
 		// Initialize right deleting rule 1

@@ -3943,7 +3943,52 @@
         </declension>
     </paradigm>
     <paradigm type="adjective">	
+	
         <number type="singular">
+		    <declension type="as">
+                <gender type="neuter">
+                    <case type="nominative">
+                        <ending>o</ending>
+                        <ending>aṃ</ending>
+                    </case>
+                    <case type="vocative">
+                        <ending>o</ending>
+                        <ending>aṃ</ending>
+                        <ending>a</ending>
+                        <ending>ā</ending>
+                    </case>
+                    <case type="accusative">
+                        <ending>o</ending>
+                        <ending>aṃ</ending>
+                    </case>
+                    <case type="instrumental">
+                        <ending>asā</ending>
+                        <ending>ena</ending>
+                    </case>
+                    <case type="ablative">
+                        <ending>asā</ending>
+                        <ending>ā</ending>
+                        <ending>asmā</ending>
+                        <ending>amhā</ending>
+                        <ending>ato</ending>
+                    </case>
+                    <case type="genitive">
+                        <ending>aso</ending>
+                        <ending>assa</ending>
+                    </case>
+                    <case type="dative">
+                        <ending>aso</ending>
+                        <ending>assa</ending>
+                    </case>
+                    <case type="locative">
+                        <ending>asi</ending>
+                        <ending>e</ending>
+                        <ending>asmiṃ</ending>
+                        <ending>amhi</ending>
+                    </case>
+                </gender>
+            </declension>
+
             <declension type="a">
                 <gender type="masculine">
                     <case type="nominative">
@@ -4421,6 +4466,39 @@
             </declension>
         </number>
         <number type="plural">
+		<declension type="as">
+                <gender type="neuter">
+                    <case type="nominative">
+                        <ending>āni</ending>
+                        <ending>ā</ending>
+                    </case>
+                    <case type="vocative">
+                        <ending>āni</ending>
+                        <ending>ā</ending>
+                    </case>
+                    <case type="accusative">
+                        <ending>āni</ending>
+                        <ending>e</ending>
+                    </case>
+                    <case type="instrumental">
+                        <ending>ehi</ending>
+                        <ending type="Drare">ebhi</ending>
+                    </case>
+                    <case type="ablative">
+                        <ending>ehi</ending>
+                        <ending type="Drare">ebhi</ending>
+                    </case>
+                    <case type="genitive">
+                        <ending>ānaṃ</ending>
+                    </case>
+                    <case type="dative">
+                        <ending>ānaṃ</ending>
+                    </case>
+                    <case type="locative">
+                        <ending>esu</ending>
+                    </case>
+                </gender>
+            </declension>
             <declension type="a">
                 <gender type="masculine">
                     <case type="nominative">

@@ -56,7 +56,12 @@ public class ConstructedWord
 	 */
 	public ConstructedWord (String s, FeatureSet fs) {
 		word = s;
-		featureSet = fs;
+		FeatureSet fsc = new FeatureSet();
+		for (Feature f : fs) 
+		{
+			fsc.add(f);
+		}
+		this.featureSet = fsc;
 	}
 	
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -84,7 +89,10 @@ public class ConstructedWord
 	 * @param fs feature set
 	 */
 	public void setFeatureSet (FeatureSet fs) {
-		featureSet = fs;
+		FeatureSet fsc = new FeatureSet();
+		for (Feature f : fs)
+			fsc.add(f);
+		this.featureSet = fsc;
 	}
 	
 	/**

@@ -49,25 +49,22 @@ public class GeneralDeclensionStrategy extends AbstractStrategy {
 		List<ConstructedWord> out = new ArrayList<ConstructedWord>();
 		String stem = rule.apply(lemma);
 		String vowel = Patterner.patternGroup(Alphabet.getVowels());
+		List<Morpheme> pcopy = paradigm.getMorphemes();
 		for (Morpheme me : paradigm.getMorphemes()) {
-			ConstructedWord cw = new ConstructedWord();
-			cw.setLemma(lemma);
 			for (Morph m : me.getAllomorphs()) {
-				if (m.hasOccurrenceInformation()) {				
+				ConstructedWord cw = new ConstructedWord();
+				cw.setLemma(lemma);
+				if (m.hasOccurrenceInformation()) {		
+					System.err.println(">>>> OCC INFO:" + m.getMorph());
 					cw.setStem(stem);
 					cw.setFeatureSet(me.getFeatureSet());
 					cw = m.getOccurrence().apply(cw);
 					String stemTemp = cw.getStem();
 					String morph = m.getMorph();
-					
-					
 					cw.setWord(stemTemp + morph);	
-					out.add(copy(cw));			
+					out.add(copy(cw));
 				} else {
-					
-						
 					String form = stem + m.getMorph();
-						
 					try {
 						if (v.isValidWord(form)) {			
 							cw.setWord(form);

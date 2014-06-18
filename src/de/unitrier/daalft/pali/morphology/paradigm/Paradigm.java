@@ -16,7 +16,7 @@ public class Paradigm {
 	/**
 	 * Feature map
 	 */
-	protected List<Morpheme> morphemes;
+	private List<Morpheme> morphemes;
 
 	/**
 	 * No-argument constructor
@@ -110,7 +110,10 @@ public class Paradigm {
 		Paradigm out = new Paradigm();
 		for (Morpheme m : morphemes) {
 			if (m.getFeatureSet().satisfies(feat)) {
-					out.add(m);
+				Morpheme newMorpheme = new Morpheme();
+				newMorpheme.add(m.getAllomorphs());
+				newMorpheme.addFS(m.getFeatureSet());
+				out.add(newMorpheme);
 			}
 		}
 		return (out.isEmpty())?null:out;
@@ -173,8 +176,11 @@ public class Paradigm {
 	 * @return difference
 	 */
 	public Paradigm difference (Paradigm p2) {
+		
 		Paradigm copy = new Paradigm();
 		for (Morpheme m : this.morphemes) {
+			if (p2.getMorphemes().contains(m))
+				continue;
 			Morpheme morpheme = new Morpheme();
 			for (Morph mo : m.getAllomorphs()) {
 				Morph morph = new Morph(mo.getMorph(), mo.getOccurrence());
@@ -183,7 +189,7 @@ public class Paradigm {
 			morpheme.addFS(m.getFeatureSet());
 			copy.add(morpheme);
 		}
-		copy.morphemes.removeAll(p2.morphemes);
+		//copy.morphemes.removeAll(p2.morphemes);
 		return copy;
 	}
 
@@ -201,22 +207,4 @@ public class Paradigm {
 		return null;
 	}
 	
-	/**
-	 * Changes a feature in this paradigm to the <em>newValue</em>
-	 * @param targetFeatureName
-	 * @param newValue
-	 * @return
-	 */
-	public Paradigm changeFeature(String targetFeatureName, String newValue) {
-		Paradigm out = new Paradigm();
-		
-		for (Morpheme m : this.morphemes) {
-			if (!m.getFeatureSet().getFeature(targetFeatureName).isEmpty()) {
-				m.getFeatureSet().setFeature(targetFeatureName, newValue);
-			}
-			out.add(m);
-		}
-		
-		return out;
-	}
 }
