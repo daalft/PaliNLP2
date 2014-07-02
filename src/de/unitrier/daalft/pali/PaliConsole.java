@@ -154,21 +154,21 @@ public class PaliConsole {
 			split = args[0].split(":");
 		}
 		String w = split == null ? args[0] : split[0];
-		String wc = split == null ? "" : split[1];
+		String pos = split == null ? "" : split[1];
 		String gender = split == null ? null : (split.length > 2 ? split[2] : null);
 		switch (mode) {
 		case 1:
-			for (DictWord dw : nlp.lemmatize(w, wc)) {
+			for (DictWord dw : nlp.lemmatize(w, pos)) {
 				System.out.println(dw.toString());
 			}
 			break;
 		case 2:
-			for (DictWord dw : nlp.analyze(w, wc)) {
+			for (DictWord dw : nlp.analyze(w, pos)) {
 				System.out.println(dw.toString());
 			}
 			break;
 		case 3:
-			for (DictWord dw : nlp.generate(w, wc, gender)) {
+			for (DictWord dw : nlp.generate(w, pos, gender)) {
 				System.out.println(dw.toString());
 			}
 			break;

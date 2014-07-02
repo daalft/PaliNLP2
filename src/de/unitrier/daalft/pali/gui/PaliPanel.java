@@ -396,16 +396,16 @@ public class PaliPanel extends javax.swing.JPanel {
 							split = word.split(":");
 						}
 						String w = "";
-						String wc = "";
+						String pos = "";
 						String g = "";
 						if (split == null)
 							w = word;
 						else if (split.length == 2){
 							w = split[0];
-							wc = split[1];
+							pos = split[1];
 						} else if (split.length == 3) {
 							w = split[0];
-							wc = split[1];
+							pos = split[1];
 							g = split[2];
 						} else {
 							w = word;
@@ -415,10 +415,10 @@ public class PaliPanel extends javax.swing.JPanel {
 							return;
 						}
 						switch (mode) {
-						case 1: container.addAll(nlp.lemmatize(w, wc)); break;
+						case 1: container.addAll(nlp.lemmatize(w, pos)); break;
 						case 2: container.add(nlp.stem(w)); break;
-						case 3: container.addAll(nlp.analyze(w, wc)); break;
-						case 4: container.addAll(nlp.generate(w, wc, g)); break;
+						case 3: container.addAll(nlp.analyze(w, pos)); break;
+						case 4: container.addAll(nlp.generate(w, pos, g)); break;
 						case 5: container.addAll(nlp.split(w, 1)); break;
 						case 6: container.addAll(nlp.merge(words)); break;
 						default: break;

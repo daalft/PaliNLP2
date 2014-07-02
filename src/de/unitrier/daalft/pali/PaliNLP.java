@@ -122,9 +122,9 @@ public class PaliNLP {
 		return null;
 	}
 
-	public List<DictWord> analyze (String word, String wc) {
+	public List<DictWord> analyze (String word, String pos) {
 		try {
-			return WordConverter.toDictWord(ma.analyze(new PrintLogger(), word, wc));
+			return WordConverter.toDictWord(ma.analyze(new PrintLogger(), word, pos));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

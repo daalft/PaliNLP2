@@ -52,6 +52,8 @@ public class NounStrategy extends AbstractStrategy {
 	{
 		GeneralDeclensionStrategy gds = new GeneralDeclensionStrategy();
 		String gender = (options != null && options.length > 0) ? options[0].isEmpty()?null:options[0] : null;
+		String nounDeclension = (options !=null && options.length > 1) ? options[1] : null;
+		
 		Paradigm nouns = pa.getNounParadigm();
 
 		Paradigm a = nouns.getParadigmByFeatures(new FeatureSet("declension", "a"));
@@ -138,12 +140,21 @@ public class NounStrategy extends AbstractStrategy {
 				list = gds.apply(lemma, as, new RightDeletingRule(2));
 			}
 		} else if (lemma.endsWith("a")) {
-			List<ConstructedWord> ls = gds.apply(lemma, a, new RightDeletingRule(1));
-			ls.addAll(gds.apply(lemma, as, new RightDeletingRule(1)));
+			List<ConstructedWord> ls = new ArrayList<ConstructedWord>();
+			if (nounDeclension != null) {
+				if (nounDeclension.equals("a")) {
+					ls.addAll(gds.apply(lemma, a, new RightDeletingRule(1)));
+				} else if (nounDeclension.equals("as")) {
+					ls.addAll(gds.apply(lemma, as, new RightDeletingRule(1)));	
+				}
+			} else {
+				// NOTE: Do not apply 'as' by default. Only if specified
+				ls.addAll(gds.apply(lemma, a, new RightDeletingRule(1)));
+			}
 			list = ls;
 		} else if (lemma.endsWith("u")) {
 			List<ConstructedWord> ls = gds.apply(lemma, u, new RightDeletingRule(1));
-			ls.addAll(gds.apply(lemma, u, new RightDeletingRule(1)));
+			//ls.addAll(gds.apply(lemma, u, new RightDeletingRule(1)));
 			list = ls;
 		} else if (lemma.endsWith("us")) {
 			list = gds.apply(lemma, us, new RightDeletingRule(2));
@@ -162,9 +173,20 @@ public class NounStrategy extends AbstractStrategy {
 				list = gds.apply(lemma, ant, new RightDeletingRule(3));
 			}
 		} else if (lemma.endsWith("ā")) {
-			List<ConstructedWord> ls = gds.apply(lemma, longa, new RightDeletingRule(1));
-			ls.addAll(gds.apply(lemma, ar, new RightDeletingRule(1)));
-			ls.addAll(gds.apply(lemma, an, new RightDeletingRule(1)));
+			List<ConstructedWord> ls = new ArrayList<ConstructedWord>();
+			if (nounDeclension != null) {
+				if (nounDeclension.equals("ā")) {
+					ls.addAll(gds.apply(lemma, longa, new RightDeletingRule(1)));
+				} else if (nounDeclension.equals("ar")) {
+					ls.addAll(gds.apply(lemma, ar, new RightDeletingRule(1)));
+				} else if (nounDeclension.equals("an")) {
+					ls.addAll(gds.apply(lemma, an, new RightDeletingRule(1)));
+				}
+			} else {
+				ls.addAll(gds.apply(lemma, longa, new RightDeletingRule(1)));
+				ls.addAll(gds.apply(lemma, ar, new RightDeletingRule(1)));
+				ls.addAll(gds.apply(lemma, an, new RightDeletingRule(1)));	
+			}
 			list = ls;
 		} else if (lemma.endsWith("ī")) {
 			list = gds.apply(lemma, longi, new RightDeletingRule(1));

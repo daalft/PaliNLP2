@@ -63,12 +63,12 @@ public class WordclassStemmer
 		return l;
 	}
 
-	public List<String> stem (String word, String wc) {
+	public List<String> stem (String word, String pos) {
 		sort(endings);
 		List<String> out = new ArrayList<String>();
 		List<String> endings = null;
 		Set<String> set = new HashSet<String>();
-		endings = retainEndingsOnly(p.getParadigmByFeatures(new FeatureSet("paradigm", wc)));
+		endings = retainEndingsOnly(p.getParadigmByFeatures(new FeatureSet("paradigm", pos)));
 		if (endings == null)
 			endings = this.endings;
 		sort(endings);
@@ -95,8 +95,8 @@ public class WordclassStemmer
 			out.add(stemRecursive(word, this.endings));
 			return out;
 		}
-		for (String wc : wordclasses) {
-			endings = retainEndingsOnly(p.getParadigmByFeatures(new FeatureSet("paradigm", wc)));
+		for (String pos : wordclasses) {
+			endings = retainEndingsOnly(p.getParadigmByFeatures(new FeatureSet("paradigm", pos)));
 			if (endings == null)
 				endings = this.endings;
 			sort(endings);

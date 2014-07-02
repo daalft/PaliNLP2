@@ -65,8 +65,8 @@ public class Lemmatizer {
 	 */
 	public List<ConstructedWord> lemmatize(ILogInterface log, DictWord word) {
 		String w = word.getValue("word").toString();
-		String wc = word.getValue("pos") == null ? "" : word.getValue("pos").toString();
-		return lemmatize(log, w, wc);
+		String pos = word.getValue("pos") == null ? "" : word.getValue("pos").toString();
+		return lemmatize(log, w, pos);
 	}
 	
 	/**

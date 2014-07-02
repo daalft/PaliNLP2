@@ -2,8 +2,9 @@ package de.unitrier.daalft.pali.morphology;
 
 import java.util.*;
 
+import de.general.json.JObject;
+import de.general.json.JToken;
 import de.general.log.*;
-
 import de.unitrier.daalft.pali.morphology.element.ConstructedWord;
 import de.unitrier.daalft.pali.morphology.element.Morph;
 import de.unitrier.daalft.pali.morphology.element.Morpheme;
@@ -77,12 +78,13 @@ public class MorphologyGenerator
 	 * be a valid lemma
 	 * </b>
 	 * @param lemma lemma
-	 * @param wc word class of the lemma
+	 * @param pos word class of the lemma
 	 * @param options options
 	 * @return list of constructed words
 	 */
-	public List<ConstructedWord> generate(ILogInterface log, String lemma, String wc, String... options)
+	public List<ConstructedWord> generate(ILogInterface log, String lemma, String pos, String... options)
 	{
+		// TODO remove
 		IrregularNouns ino = pa.getIrregularNouns();
 		IrregularNumerals inu = pa.getIrregularNumerals();
 		List<ConstructedWord> irrOut = new ArrayList<ConstructedWord>();
@@ -108,12 +110,13 @@ public class MorphologyGenerator
 		}
 		if (irrOut.size() > 0)
 			return irrOut;
+		// end remove
 		List<String> wcs = new ArrayList<String>();
-		if (wc == null || wc.isEmpty()) {
+		if (pos == null || pos.isEmpty()) {
 			wcs = wcg.guessLemma(lemma);
 		}
 		if (wcs.isEmpty()) {
-			return _generate(log, lemma, wc, options);
+			return _generate(log, lemma, pos, options);
 		} else {
 			List<ConstructedWord> list = new ArrayList<ConstructedWord>();
 			for (String wci : wcs) {
@@ -123,22 +126,62 @@ public class MorphologyGenerator
 		}
 	}
 
+	public List<ConstructedWord> generate (ILogInterface log, String lemma, JObject gramgrp) {
+		List<String> options = new ArrayList<String>();
+		String[] posPath = {"gramGrp", "PoS", "value"};
+		String pos = gramgrp.getPropertyStringValueNormalized(posPath);
+		// NOTE: if PoS value is an array, pos will be null
+		// 		 posArray will not be null in that case
+		String[] posArray = gramgrp.getPropertyStringListValueNormalized(posPath);
+		String[] genderPath = {"gramGrp", "genus", "value"};
+		String gender = gramgrp.getPropertyStringValueNormalized(genderPath);
+		// NOTE: same as above
+		String[] genderArray = gramgrp.getPropertyStringListValueNormalized(genderPath);
+		
+		// TODO extract other grammar information
+		
+		if (gender != null) {
+			options.add(expand(gender));
+		} else if (genderArray.length > 0) {
+			for (String g : genderArray) {
+				options.add(expand(g));
+			}
+		}
+		
+		if (pos == null && posArray.length > 0) {
+			List<ConstructedWord> tempList = this._generate(log, lemma, posArray[0], options.toArray(new String[1]));
+			for (int i = 1; i < posArray.length; i++) {
+				tempList.addAll(this._generate(log, lemma, posArray[i], options.toArray(new String[1])));
+			}
+			return tempList;
+		}
+		return this._generate(log, lemma, pos, options.toArray(new String[1]));
+	}
+	
 	/**
 	 * Internal generator method
 	 * @param lemma lemma
-	 * @param wc word class of lemma
+	 * @param pos word class of lemma
 	 * @param options options
 	 * @return list of constructed words
 	 */
-	private List<ConstructedWord> _generate(ILogInterface log, String lemma, String wc, String... options)
+	private List<ConstructedWord> _generate(ILogInterface log, String lemma, String pos, String... options)
 	{
-		AbstractStrategy strategy = wordClassStrategies.get(wc);
+		AbstractStrategy strategy = wordClassStrategies.get(pos);
 		if (strategy != null) {
 			return strategy.apply(log, lemma, options);
 		}
 
-		if (debug) log.warn("Could not find strategy for " + wc);
+		if (debug) log.warn("Could not find strategy for " + pos);
 		return wordClassNullStrategy.apply(log, lemma, options);
 	}
 
+	private String expand (String s) {
+		switch (s) {
+		case "n" : return "neuter";
+		case "m" : return "masculine";
+		case "f" : return "feminine";
+		default: return s;
+		}
+	}
 }

@@ -190,13 +190,13 @@ public class WordClassGuesser {
 	}
 	/**
 	 * Increase the frequency of the given string
-	 * @param wc word class
+	 * @param pos part of speech (word class)
 	 * @param map map
 	 * @return frequency of word class incremented by one
 	 */
-	private int inc (String wc, Map<String, Integer> map) {
-		if (map.containsKey(wc))
-			return map.get(wc) + 1;
+	private int inc (String pos, Map<String, Integer> map) {
+		if (map.containsKey(pos))
+			return map.get(pos) + 1;
 		return 1;
 	}
 }

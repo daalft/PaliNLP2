@@ -106,11 +106,11 @@ public class MorphologyAnalyzer {
 	 */
 	public List<ConstructedWord> analyze(ILogInterface log, String word, String...options) {
 		List<ConstructedWord> analyses = new ArrayList<ConstructedWord>();
-		List<String> wc = null;
+		List<String> pos = null;
 		if (options != null && options.length > 0 && !options[0].isEmpty()) {
-			wc = Collections.singletonList(options[0]);
+			pos = Collections.singletonList(options[0]);
 		} else {
-			wc = wcg.guess(word);
+			pos = wcg.guess(word);
 		}
 		IrregularNouns irrnoun = pa.getIrregularNouns();
 		IrregularNumerals irrnum = pa.getIrregularNumerals();
@@ -177,7 +177,7 @@ public class MorphologyAnalyzer {
 			}
 		}*/
 		// for each word class guess
-		for (String wci : wc) {
+		for (String wci : pos) {
 			if (wci.equals("adverb")) {
 				AdverbStrategy as = new AdverbStrategy();
 				analyses.addAll(as.apply(log, word));
@@ -234,17 +234,17 @@ public class MorphologyAnalyzer {
 	 * TODO: moving this method to this class might not have been the best option; rethink: Is this reasonable? Is there a better solution?
 	 *
 	 * @param stem word stem
-	 * @param wc word class
+	 * @param pos word class
 	 * @param strings options
 	 * @return lemmata
 	 */
-	public List<String> lemmaFromStem (String stem, String wc, String...strings) {
+	public List<String> lemmaFromStem (String stem, String pos, String...strings) {
 		if (strings.length > 0 && !strings[0].isEmpty()) {
 			String dec = strings[0];
 			return Collections.singletonList(stem + dec);
 		}
 		List<String> out = new ArrayList<String>();
-		switch (wc) {
+		switch (pos) {
 		case "noun":
 			// append all noun declensions
 			for (String s : NOUN_ENDINGS)
