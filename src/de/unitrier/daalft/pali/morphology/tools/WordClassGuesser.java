@@ -64,7 +64,7 @@ public class WordClassGuesser {
 	 * @param word word 
 	 * @return word class
 	 */
-	public List<String> guess (String word)
+	public List<String> guessWordClassFromWordForm(String word)
 	{
 		IrregularNouns inoun = pa.getIrregularNouns();
 		IrregularNumerals inum = pa.getIrregularNumerals();
@@ -129,7 +129,7 @@ public class WordClassGuesser {
 	 * @param lemma lemma
 	 * @return word classes
 	 */
-	public List<String> guessLemma (String lemma) {
+	public List<String> guessWordClassFromLemma(String lemma) {
 		List<String> guesses = new ArrayList<String>();
 		
 		IrregularNouns inoun = pa.getIrregularNouns();

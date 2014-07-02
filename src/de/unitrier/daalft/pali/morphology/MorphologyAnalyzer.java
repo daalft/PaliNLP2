@@ -110,7 +110,9 @@ public class MorphologyAnalyzer {
 		if (options != null && options.length > 0 && !options[0].isEmpty()) {
 			pos = Collections.singletonList(options[0]);
 		} else {
-			pos = wcg.guess(word);
+
+			pos = wcg.guessWordClassFromWordForm(word);
+
 		}
 		IrregularNouns irrnoun = pa.getIrregularNouns();
 		IrregularNumerals irrnum = pa.getIrregularNumerals();

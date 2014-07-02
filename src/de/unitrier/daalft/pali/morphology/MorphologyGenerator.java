@@ -77,10 +77,17 @@ public class MorphologyGenerator
 	 * Please note that the input is expected to
 	 * be a valid lemma
 	 * </b>
+<<<<<<< HEAD
 	 * @param lemma lemma
 	 * @param pos word class of the lemma
 	 * @param options options
 	 * @return list of constructed words
+=======
+	 * @param lemma		lemma
+	 * @param wc		Word class of the lemma. This parameter is either a single string representing word class information or <code>null</code>.
+	 * @param options	options
+	 * @return			list of constructed words
+>>>>>>> refs/remotes/origin/master
 	 */
 	public List<ConstructedWord> generate(ILogInterface log, String lemma, String pos, String... options)
 	{
@@ -88,8 +95,9 @@ public class MorphologyGenerator
 		IrregularNouns ino = pa.getIrregularNouns();
 		IrregularNumerals inu = pa.getIrregularNumerals();
 		List<ConstructedWord> irrOut = new ArrayList<ConstructedWord>();
-		if (ino.isIrregular(lemma)) {
-			Paradigm p = ino.getForms(lemma);
+
+		Paradigm p = ino.getForms(lemma);
+		if (p != null) {
 			for (Morpheme m : p.getMorphemes()) {
 				for (Morph n : m.getAllomorphs()) {
 					ConstructedWord cw = new ConstructedWord(n.getMorph(), m.getFeatureSet());
@@ -98,8 +106,9 @@ public class MorphologyGenerator
 				}
 			}
 		}
-		if (inu.isIrregular(lemma)) {
-			Paradigm p = inu.getForms(lemma);
+
+		p = inu.getForms(lemma);
+		if (p != null) {
 			for (Morpheme m : p.getMorphemes()) {
 				for (Morph n : m.getAllomorphs()) {
 					ConstructedWord cw = new ConstructedWord(n.getMorph(), m.getFeatureSet());
@@ -108,12 +117,17 @@ public class MorphologyGenerator
 				}
 			}
 		}
+
 		if (irrOut.size() > 0)
 			return irrOut;
+
 		// end remove
+
 		List<String> wcs = new ArrayList<String>();
+
 		if (pos == null || pos.isEmpty()) {
-			wcs = wcg.guessLemma(lemma);
+			wcs = wcg.guessWordClassFromLemma(lemma);
+
 		}
 		if (wcs.isEmpty()) {
 			return _generate(log, lemma, pos, options);
