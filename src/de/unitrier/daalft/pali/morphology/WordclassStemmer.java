@@ -88,7 +88,7 @@ public class WordclassStemmer
 	public List<String> stem (String word) {
 		sort(endings);
 		List<String> out = new ArrayList<String>();
-		List<String> wordclasses = wcg.guess(word);
+		List<String> wordclasses = wcg.guessWordClassFromWordForm(word);
 		List<String> endings = null;
 		Set<String> set = new HashSet<String>();
 		if (wordclasses.size() == 0) {
