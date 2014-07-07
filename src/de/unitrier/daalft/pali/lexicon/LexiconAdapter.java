@@ -11,6 +11,7 @@ import de.cl.dictclient.DictWord;
 import de.cl.dictclient.DictionaryClient;
 import de.cl.dictclient.DictionaryCollection;
 import de.cl.dictclient.impl.ConnectionProfile;
+import de.general.json.JObject;
 
 /**
  * Provides functionality related to the lexical database<br/>
@@ -33,7 +34,7 @@ public class LexiconAdapter {
 	/**
 	 * Connection profile
 	 */
-	private ConnectionProfile cp = new ConnectionProfile("germa232.uni-trier.de", 81, "testrw", "testrw");//TODO = StandardProfile.getProfile();
+	private ConnectionProfile cp = new ConnectionProfile("germa232.uni-trier.de", 8080, "testrw", "testrw");//TODO = StandardProfile.getProfile();
 
 	/**
 	 * Constructor
@@ -179,6 +180,14 @@ public class LexiconAdapter {
 			}
 		} else {
 			System.err.println("Lemma " + lemma + " cannot be found in " + LEMMA);
+		}
+		return null;
+	}
+	
+	public JObject[] getLemmaEntriesAsJObjectArray (String lemma) throws Exception {
+		DictionaryCollection c = dc.getCollection(LEMMA);
+		if (lemmaContains(lemma)) {
+			return c.getWordsByTags("form.lemma", lemma);
 		}
 		return null;
 	}

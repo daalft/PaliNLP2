@@ -77,17 +77,11 @@ public class MorphologyGenerator
 	 * Please note that the input is expected to
 	 * be a valid lemma
 	 * </b>
-<<<<<<< HEAD
-	 * @param lemma lemma
-	 * @param pos word class of the lemma
-	 * @param options options
-	 * @return list of constructed words
-=======
 	 * @param lemma		lemma
 	 * @param wc		Word class of the lemma. This parameter is either a single string representing word class information or <code>null</code>.
 	 * @param options	options
 	 * @return			list of constructed words
->>>>>>> refs/remotes/origin/master
+
 	 */
 	public List<ConstructedWord> generate(ILogInterface log, String lemma, String pos, String... options)
 	{
@@ -141,6 +135,11 @@ public class MorphologyGenerator
 	}
 
 	public List<ConstructedWord> generate (ILogInterface log, String lemma, JObject gramgrp) {
+		
+		if (gramgrp == null) {
+			return generate(log, lemma, "");
+		}
+		
 		List<String> options = new ArrayList<String>();
 		String[] posPath = {"gramGrp", "PoS", "value"};
 		String pos = gramgrp.getPropertyStringValueNormalized(posPath);
@@ -156,7 +155,7 @@ public class MorphologyGenerator
 		
 		if (gender != null) {
 			options.add(expand(gender));
-		} else if (genderArray.length > 0) {
+		} else if (genderArray != null && genderArray.length > 0) {
 			for (String g : genderArray) {
 				options.add(expand(g));
 			}
@@ -165,11 +164,11 @@ public class MorphologyGenerator
 		if (pos == null && posArray.length > 0) {
 			List<ConstructedWord> tempList = this._generate(log, lemma, posArray[0], options.toArray(new String[1]));
 			for (int i = 1; i < posArray.length; i++) {
-				tempList.addAll(this._generate(log, lemma, posArray[i], options.toArray(new String[1])));
+				tempList.addAll(this._generate(log, lemma, expand(posArray[i]), options.toArray(new String[1])));
 			}
 			return tempList;
 		}
-		return this._generate(log, lemma, pos, options.toArray(new String[1]));
+		return this._generate(log, lemma, expand(pos), options.toArray(new String[1]));
 	}
 	
 	/**
@@ -195,6 +194,8 @@ public class MorphologyGenerator
 		case "n" : return "neuter";
 		case "m" : return "masculine";
 		case "f" : return "feminine";
+		case "adj" : return "adjective";
+		case "adv" : return "adverb";
 		default: return s;
 		}
 	}
