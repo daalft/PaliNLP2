@@ -51,7 +51,8 @@ public class NounStrategy extends AbstractStrategy {
 	public List<ConstructedWord> apply(ILogInterface log, String lemma, String... options)
 	{
 		GeneralDeclensionStrategy gds = new GeneralDeclensionStrategy();
-		String gender = (options != null && options.length > 0) ? options[0].isEmpty()?null:options[0] : null;
+		
+		String gender = (options != null && options.length > 0 && options[0] != null) ? options[0].isEmpty()?null:options[0] : null;
 		String nounDeclension = (options !=null && options.length > 1) ? options[1] : null;
 		
 		Paradigm nouns = pa.getNounParadigm();
