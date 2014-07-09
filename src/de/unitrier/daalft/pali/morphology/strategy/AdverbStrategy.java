@@ -17,6 +17,7 @@ public class AdverbStrategy extends AbstractStrategy {
 		ConstructedWord cw = new ConstructedWord(lemma);
 		cw.addFeature(new Feature("paradigm", "adverb"));
 		cw.addFeature(new Feature("subtype", "indeclinable"));
+		cw.setLemma(lemma);
 		out.add(cw);
 		return out;
 	}

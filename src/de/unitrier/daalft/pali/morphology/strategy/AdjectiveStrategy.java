@@ -138,6 +138,13 @@ public class AdjectiveStrategy extends AbstractStrategy {
 			
 			out.addAll(gds.apply(mn, long_i_fem, new NullDerivingRule()));
 		}
+		// add positive information
+		
+		for (int i = 0; i < out.size(); i++) {
+			ConstructedWord cw = out.get(i);
+			cw.addFeature(new Feature("comparison", "positive"));
+		}
+		
 		// create comparative + superlative in tara/tama
 		String comp_a = lemma + "tara";
 		String sup_a = lemma + "tama";
