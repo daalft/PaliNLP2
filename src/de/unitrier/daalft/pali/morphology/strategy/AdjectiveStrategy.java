@@ -145,6 +145,7 @@ public class AdjectiveStrategy extends AbstractStrategy {
 			cw.addFeature(new Feature("comparison", "positive"));
 		}
 		
+		
 		// create comparative + superlative in tara/tama
 		String comp_a = lemma + "tara";
 		String sup_a = lemma + "tama";
