@@ -478,7 +478,7 @@ public class VerbHelper {
 			}
 			// undo reduplication
 			String undup = unduplicate(stem);
-			if (undup == null) {
+			if (undup == null || undup.isEmpty()) {
 				return output;
 			}
 			String sroot = undup.substring(0, undup.length()-1);
