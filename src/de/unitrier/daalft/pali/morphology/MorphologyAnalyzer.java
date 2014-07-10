@@ -20,7 +20,7 @@ import de.unitrier.daalft.pali.morphology.paradigm.Paradigm;
 import de.unitrier.daalft.pali.morphology.paradigm.ParadigmAccessor;
 import de.unitrier.daalft.pali.morphology.paradigm.irregular.IrregularNouns;
 import de.unitrier.daalft.pali.morphology.paradigm.irregular.IrregularNumerals;
-import de.unitrier.daalft.pali.morphology.strategy.AdverbStrategy;
+import de.unitrier.daalft.pali.morphology.strategy.*;
 import de.unitrier.daalft.pali.morphology.tools.WordClassGuesser;
 import de.unitrier.daalft.pali.morphology.tools.VerbHelper;
 import de.unitrier.daalft.pali.morphology.strategy.NumeralStrategy;
@@ -63,7 +63,9 @@ public class MorphologyAnalyzer {
 
 	private ParadigmAccessor pa;
 	private WordClassGuesser wcg;
-
+	private AdverbStrategy as;
+	private UnknownStrategy us;
+	
 	////////////////////////////////////////////////////////////////
 	// Constructors
 	////////////////////////////////////////////////////////////////
@@ -75,6 +77,8 @@ public class MorphologyAnalyzer {
 	{
 		this.pa = pa;
 		this.wcg = new WordClassGuesser(pa);
+		as = new AdverbStrategy();
+		us = new UnknownStrategy();
 	}
 
 	////////////////////////////////////////////////////////////////
@@ -182,12 +186,17 @@ public class MorphologyAnalyzer {
 		// for each word class guess
 		for (String wci : pos) {
 			if (wci.equals("adverb")) {
-				AdverbStrategy as = new AdverbStrategy();
+				
 				analyses.addAll(as.apply(log, word));
 				continue;
 			}
 			// retrieve relevant paradigm
 			Paradigm p = pa.getParadigmsByFeatures(new FeatureSet("paradigm", wci));
+			if (p == null) {
+				
+				analyses.addAll(us.apply(log,word));
+				continue;
+			}
 			// merge suffix paradigm in
 			// TODO affix not used
 			//p.getMorphemes().addAll(suffix.getMorphemes());
