@@ -1,6 +1,7 @@
 package de.unitrier.daalft.pali.morphology.tools;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -118,7 +119,8 @@ public class VerbHelper {
 		List<String> out = new ArrayList<String>();
 		for (String s : temp) {
 			if (this.isPlausibleRoot(s))
-				out.add(s);
+				if (!out.contains(s))
+					out.add(s);
 			else 
 				System.out.println("Discarded calculated root: " + s);
 		}
@@ -167,6 +169,7 @@ public class VerbHelper {
 		 */
 		private List<String> stemFromRoot (String root) {
 			List<String> output = new ArrayList<String>();
+			List<String> output2 = new ArrayList<String>();
 			output.addAll(first(root));
 			output.addAll(second(root));
 			output.addAll(third(root));
@@ -174,7 +177,11 @@ public class VerbHelper {
 			output.addAll(fifth(root));
 			output.addAll(sixth(root));
 			output.addAll(seventh(root));
-			return output;
+			for (String s : output) {
+				if (!output2.contains(s))
+					output2.add(s);
+			}
+			return output2;
 		}
 
 		/**
@@ -205,6 +212,9 @@ public class VerbHelper {
 		private List<String> reduplicate (String root) {
 			List<String> output = new ArrayList<String>();
 			String[] parts = Segmenter.segmentToArray(root);
+			if (parts.length < 2) {
+				return Collections.singletonList(root);
+			}
 			String one = null;
 			String two = null;
 
@@ -439,6 +449,9 @@ public class VerbHelper {
 		 */
 		private String unduplicate (String stem) {
 			String[] split = Segmenter.segmentToArray(stem);
+			if (split.length < 2) {
+				return stem;
+			}
 			if (Alphabet.isConsonant(split[1])) {
 				return stem.substring(1);
 			}
