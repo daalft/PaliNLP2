@@ -7,7 +7,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import de.general.jettyserver.IAppRuntime;
 import de.general.json.JObject;
 import de.general.log.*;
 import de.cl.dictclient.DictWord;
