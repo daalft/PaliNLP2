@@ -72,6 +72,15 @@ public class IrregularNumerals implements Irregular {
 		fs4.add(new Feature("number", "plural"));
 		fs4.add(new Feature("case", "nominative"));
 		fs4.add(new Feature("gender", "masculine"));
+		FeatureSet fs5 = new FeatureSet();
+		fs1.add(new Feature("number", "singular"));
+		fs1.add(new Feature("case", "vocative"));
+		
+		FeatureSet fs6 = new FeatureSet();
+		fs2.add(new Feature("number", "plural"));
+		fs2.add(new Feature("case", "vocative"));
+		
+		
 		for (Paradigm p : paradigms) {
 			for (Morpheme m : p.getMorphemes()) {
 				for (Morph n : m.getAllomorphs()) {
@@ -84,6 +93,10 @@ public class IrregularNumerals implements Irregular {
 							return p.getParadigmByFeatures(fs3);
 						} else if (p.getParadigmByFeatures(fs4) != null && !p.getParadigmByFeatures(fs4).isEmpty()) {
 							return p.getParadigmByFeatures(fs4);
+						} else if (p.getParadigmByFeatures(fs5) != null && !p.getParadigmByFeatures(fs5).isEmpty()) {
+							return p.getParadigmByFeatures(fs5);
+						} else if (p.getParadigmByFeatures(fs6) != null && !p.getParadigmByFeatures(fs6).isEmpty()) {
+							return p.getParadigmByFeatures(fs6);
 						} else {
 							return null;
 						}

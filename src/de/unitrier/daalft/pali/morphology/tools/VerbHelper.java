@@ -121,8 +121,8 @@ public class VerbHelper {
 			if (this.isPlausibleRoot(s))
 				if (!out.contains(s))
 					out.add(s);
-			else 
-				System.out.println("Discarded calculated root: " + s);
+				else 
+					System.out.println("Discarded calculated root: " + s);
 		}
 		return out;
 	}
@@ -428,7 +428,16 @@ public class VerbHelper {
 			List<String> out = new ArrayList<String>();
 			List<String> vowels = new ArrayList<String>();
 			String[] headtail = root.split(Patterner.patternGroup(Alphabet.getVowels()));
+			try {
+				String v = headtail[0];
+				if (v.isEmpty()) {
+					return Collections.singletonList(root);
+				}
+			} catch(ArrayIndexOutOfBoundsException e) {
+				return Collections.singletonList(root);
+			}
 			String[] parts = Segmenter.segmentToArray(root);
+
 			for (String s : parts) {
 				if (Alphabet.isVowel(s))
 					vowels.addAll(Alphabet.getWeak(s));
