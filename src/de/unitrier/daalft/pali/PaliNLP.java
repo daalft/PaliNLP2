@@ -130,6 +130,7 @@ public class PaliNLP {
 		}
 		return null;
 	}
+	
 	/**
 	 * Returns morphological analyses of a given word using rules
 	 * @param word word to analyse
