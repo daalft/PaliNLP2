@@ -5,7 +5,6 @@ import java.util.LinkedHashSet;
 import java.util.List;
 
 import de.general.log.*;
-
 import de.unitrier.daalft.pali.morphology.paradigm.Paradigm;
 import de.unitrier.daalft.pali.morphology.paradigm.ParadigmAccessor;
 import de.unitrier.daalft.pali.morphology.paradigm.rule.ReplacingRule;
@@ -49,10 +48,12 @@ public class AlternativeVerbStrategy extends AbstractStrategy {
 	////////////////////////////////////////////////////////////////
 
 	public List<ConstructedWord> apply(ILogInterface log, String lemma, String... options) {
-		int declension = 0;
-		if (options.length > 0 && !options[0].isEmpty()) {
+		// TODO declension not used
+		/*
+		if (options != null && options.length > 0 && !options[0].isEmpty()) {
 			declension = Integer.parseInt(options[0]);
 		}
+		*/
 		// General declension strategy
 		GeneralDeclensionStrategy gds = new GeneralDeclensionStrategy();
 		// Retrieve relevant paradigms

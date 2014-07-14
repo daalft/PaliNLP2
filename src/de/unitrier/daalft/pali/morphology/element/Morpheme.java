@@ -55,6 +55,11 @@ public class Morpheme {
 		allomorphs.add(m);
 	}
 	
+	public Morpheme (String m) {
+		this();
+		allomorphs.add(new Morph(m));
+	}
+	
 	/**
 	 * Returns the feature set
 	 * @return feature set

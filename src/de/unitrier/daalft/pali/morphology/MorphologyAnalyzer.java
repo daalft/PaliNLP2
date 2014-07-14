@@ -7,8 +7,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import de.general.json.JObject;
 import de.general.log.*;
-
 import de.cl.dictclient.DictWord;
 import de.unitrier.daalft.pali.lexicon.LexiconAdapter;
 import de.unitrier.daalft.pali.morphology.element.ConstructedWord;
@@ -20,7 +20,7 @@ import de.unitrier.daalft.pali.morphology.paradigm.Paradigm;
 import de.unitrier.daalft.pali.morphology.paradigm.ParadigmAccessor;
 import de.unitrier.daalft.pali.morphology.paradigm.irregular.IrregularNouns;
 import de.unitrier.daalft.pali.morphology.paradigm.irregular.IrregularNumerals;
-import de.unitrier.daalft.pali.morphology.strategy.AdverbStrategy;
+import de.unitrier.daalft.pali.morphology.strategy.*;
 import de.unitrier.daalft.pali.morphology.tools.WordClassGuesser;
 import de.unitrier.daalft.pali.morphology.tools.VerbHelper;
 import de.unitrier.daalft.pali.morphology.strategy.NumeralStrategy;
@@ -63,7 +63,9 @@ public class MorphologyAnalyzer {
 
 	private ParadigmAccessor pa;
 	private WordClassGuesser wcg;
-
+	private AdverbStrategy as;
+	private UnknownStrategy us;
+	
 	////////////////////////////////////////////////////////////////
 	// Constructors
 	////////////////////////////////////////////////////////////////
@@ -75,6 +77,8 @@ public class MorphologyAnalyzer {
 	{
 		this.pa = pa;
 		this.wcg = new WordClassGuesser(pa);
+		as = new AdverbStrategy();
+		us = new UnknownStrategy();
 	}
 
 	////////////////////////////////////////////////////////////////
@@ -106,9 +110,10 @@ public class MorphologyAnalyzer {
 	 */
 	public List<ConstructedWord> analyze(ILogInterface log, String word, String...options) {
 		List<ConstructedWord> analyses = new ArrayList<ConstructedWord>();
-		List<String> pos = null;
+		List<String> pos = new ArrayList<String>();
 		if (options != null && options.length > 0 && !options[0].isEmpty()) {
-			pos = Collections.singletonList(options[0]);
+			for (String opt : options)
+				pos.add(opt);
 		} else {
 
 			pos = wcg.guessWordClassFromWordForm(word);
@@ -181,12 +186,17 @@ public class MorphologyAnalyzer {
 		// for each word class guess
 		for (String wci : pos) {
 			if (wci.equals("adverb")) {
-				AdverbStrategy as = new AdverbStrategy();
+				
 				analyses.addAll(as.apply(log, word));
 				continue;
 			}
 			// retrieve relevant paradigm
 			Paradigm p = pa.getParadigmsByFeatures(new FeatureSet("paradigm", wci));
+			if (p == null) {
+				
+				analyses.addAll(us.apply(log,word));
+				continue;
+			}
 			// merge suffix paradigm in
 			// TODO affix not used
 			//p.getMorphemes().addAll(suffix.getMorphemes());
@@ -299,7 +309,6 @@ public class MorphologyAnalyzer {
 		if (la.generatedContains(word)) {
 			return la.getGenerated(word);
 		} else {
-			System.err.println("Could not analyze " + word + " with dictionary. Falling back to offline mode.");
 			return WordConverter.toJSONStringAnalyzer(analyze(log, word, options));
 		}
 	}
@@ -333,4 +342,24 @@ public class MorphologyAnalyzer {
 		cw.setLemma(lemma);
 		return cw;
 	}
+
+	public String analyzeWithDictionary(ILogInterface log, String word, JObject gramGrp) throws Exception {
+		if (gramGrp == null) return analyzeWithDictionary(log, word);
+		String[] posPath = {"gramGrp", "PoS", "value"};
+		String pos = gramGrp.getPropertyStringValueNormalized(posPath);
+		String[] posArray = null;
+		if (pos == null)
+			posArray = gramGrp.getPropertyStringListValueNormalized(posPath);
+		if (pos == null && posArray == null) {
+			log.warn("No PoS found for entry " + word);
+		}
+		String[] posArray2 = new String[1];
+		posArray2[0] = pos;
+		String[] array = (pos == null) ? (posArray == null) ? null : posArray : posArray2;
+		if (array == null) return analyzeWithDictionary(log, word);
+		return analyzeWithDictionary(log, word, array);
+	}
+	
+	
+	
 }

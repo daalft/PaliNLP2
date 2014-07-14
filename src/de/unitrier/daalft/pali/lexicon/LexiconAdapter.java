@@ -183,7 +183,7 @@ public class LexiconAdapter {
 		}
 		return null;
 	}
-	
+		
 	public JObject[] getLemmaEntriesAsJObjectArray (String lemma) throws Exception {
 		DictionaryCollection c = dc.getCollection(LEMMA);
 		if (lemmaContains(lemma)) {

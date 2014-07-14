@@ -141,6 +141,7 @@ public class MorphologyGenerator
 		}
 		
 		List<String> options = new ArrayList<String>();
+		
 		String[] posPath = {"gramGrp", "PoS", "value"};
 		String pos = gramgrp.getPropertyStringValueNormalized(posPath);
 		// NOTE: if PoS value is an array, pos will be null
@@ -160,10 +161,9 @@ public class MorphologyGenerator
 				options.add(expand(g));
 			}
 		}
-		
-		if (pos == null && posArray.length > 0) {
-			List<ConstructedWord> tempList = this._generate(log, lemma, posArray[0], options.toArray(new String[1]));
-			for (int i = 1; i < posArray.length; i++) {
+		List<ConstructedWord> tempList = new ArrayList<ConstructedWord>();
+		if (pos == null && posArray != null && posArray.length > 0) {		
+			for (int i = 0; i < posArray.length; i++) {
 				tempList.addAll(this._generate(log, lemma, expand(posArray[i]), options.toArray(new String[1])));
 			}
 			return tempList;

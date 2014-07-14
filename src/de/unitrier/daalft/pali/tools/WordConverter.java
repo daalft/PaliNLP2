@@ -270,12 +270,12 @@ public class WordConverter {
 		}
 		
 		analyses.add(om.writeValueAsString(toplevel));
-		StringBuilder sb = new StringBuilder("[");
+		StringBuilder sb = new StringBuilder("{\"analyses\":[");
 		for (String a : analyses) {
 			sb.append(a).append(",");
 		}
 		sb.deleteCharAt(sb.length()-1);
-		sb.append("]");
+		sb.append("]}");
 		return sb.toString();
 	}
 
