@@ -7,6 +7,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+
 import de.general.json.JObject;
 import de.general.log.*;
 import de.cl.dictclient.DictWord;
@@ -360,6 +362,26 @@ public class MorphologyAnalyzer {
 		return analyzeWithDictionary(log, word, array);
 	}
 	
-	
+	public String analyzeWithoutDictionary(ILogInterface log, String word, JObject gramGrp) throws Exception {
+		String[] ea = {};
+		if (gramGrp == null) return analyzeWithoutDictionary(log, word, ea);
+		String[] posPath = {"gramGrp", "PoS", "value"};
+		String pos = gramGrp.getPropertyStringValueNormalized(posPath);
+		String[] posArray = null;
+		if (pos == null)
+			posArray = gramGrp.getPropertyStringListValueNormalized(posPath);
+		if (pos == null && posArray == null) {
+			log.warn("No PoS found for entry " + word);
+		}
+		String[] posArray2 = new String[1];
+		posArray2[0] = pos;
+		String[] array = (pos == null) ? (posArray == null) ? new String[1] : posArray : posArray2;
+		
+		return analyzeWithoutDictionary(log, word, array);		
+	}
+	public String analyzeWithoutDictionary(ILogInterface log, String word, String[] array) throws JsonProcessingException {
+		
+		return WordConverter.toJSONStringAnalyzer(analyze(log, word, array));
+	}
 	
 }

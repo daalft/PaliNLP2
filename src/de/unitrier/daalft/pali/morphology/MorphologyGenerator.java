@@ -190,6 +190,8 @@ public class MorphologyGenerator
 	}
 
 	private String expand (String s) {
+		// TODO change
+		if (s == null) return "indeclinable";
 		switch (s) {
 		case "n" : return "neuter";
 		case "m" : return "masculine";
