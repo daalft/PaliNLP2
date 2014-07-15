@@ -59,7 +59,7 @@ public class MorphologyGenerator
 		wordClassStrategies.put("adverb", new AdverbStrategy());
 		wordClassStrategies.put("pronoun", new PronounStrategy(pa));
 		wordClassStrategies.put("indeclinable", new IndeclinableStrategy());
-
+		wordClassStrategies.put("ordinalAdjective", new AdjectiveStrategy(pa));
 		wordClassNullStrategy = new NullStrategy();
 
 		wcg = new WordClassGuesser(pa);
@@ -198,6 +198,7 @@ public class MorphologyGenerator
 		case "f" : return "feminine";
 		case "adj" : return "adjective";
 		case "adv" : return "adverb";
+		case "ordinalAdj": return "ordinalAdjective";
 		default: return s;
 		}
 	}

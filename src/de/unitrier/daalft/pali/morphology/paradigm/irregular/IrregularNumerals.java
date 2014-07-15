@@ -56,6 +56,8 @@ public class IrregularNumerals implements Irregular {
 	}
 
 	public Paradigm getLemma (String word) {
+		// case caturo etc
+		// return catur
 		FeatureSet fs1 = new FeatureSet();
 		fs1.add(new Feature("number", "singular"));
 		fs1.add(new Feature("case", "vocative"));
