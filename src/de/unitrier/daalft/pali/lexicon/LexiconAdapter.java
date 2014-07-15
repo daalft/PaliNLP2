@@ -232,5 +232,15 @@ public class LexiconAdapter {
 		}
 		return list;
 	}
+
+	public String getLemmaById(String id) throws Exception {
+		DictionaryCollection c = dc.getCollection(LEMMA);
+		
+		DictWord dw = c.getWord(id);
+		String[] path = {"form", "lemma"};
+		String p = dw.getPropertyStringValueNormalized(path);
+		
+		return p;
+	}
 	
 }
