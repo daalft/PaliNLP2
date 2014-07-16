@@ -42,7 +42,7 @@ public class WordClassGuesser {
 
 	public WordClassGuesser(ParadigmAccessor pa) {
 		this.pa = pa;
-		prune = 10;
+		prune = 16;
 	}
 	
 	public WordClassGuesser (ParadigmAccessor pa, int p) {
@@ -66,18 +66,28 @@ public class WordClassGuesser {
 	 */
 	public List<String> guessWordClassFromWordForm(String word)
 	{
-		IrregularNouns inoun = pa.getIrregularNouns();
-		IrregularNumerals inum = pa.getIrregularNumerals();
+		// TODO: read irregular from dictionary
+		//IrregularNouns inoun = pa.getIrregularNouns();
+		//IrregularNumerals inum = pa.getIrregularNumerals();
+		//List<String> indecl = pa.getIndeclinables();
 		
 		Map<String, Integer> map = new HashMap<String, Integer>();
 
-		List<String> out = new ArrayList<String>();
-		
+		// if word is a lemma
+		List<String> out = new ArrayList<String>(); 
+				//guessWordClassFromLemma(word);
+		/*
+		for (String s : indecl) {
+			if (s.equals(word)) {
+				out.add("indeclinable");
+			}
+		}
 		if (inoun.isIrregular(word)) {
 			return Collections.singletonList("noun");
 		} else if (inum.isIrregular(word)) {
 			return Collections.singletonList("numeral");
 		}
+		*/
 		// add weight to potential verb lemma
 		if (word.endsWith("ti"))
 			map.put("verb", 10);
@@ -104,7 +114,9 @@ public class WordClassGuesser {
 			}
 		});
 		if (list.size() == 0) {
-			return Collections.singletonList("unknown");
+			out.add("adverb");
+			out.add("indeclinable");
+			return out;
 		}
 		if (list.size() == 1)
 			return Collections.singletonList(list.get(0).getKey());
@@ -131,7 +143,7 @@ public class WordClassGuesser {
 	 */
 	public List<String> guessWordClassFromLemma(String lemma) {
 		List<String> guesses = new ArrayList<String>();
-		
+		/*
 		IrregularNouns inoun = pa.getIrregularNouns();
 		IrregularNumerals inum = pa.getIrregularNumerals();
 		
@@ -145,8 +157,9 @@ public class WordClassGuesser {
 				return Collections.singletonList("pronoun");
 			}
 		}
+		*/
 		if (lemma.endsWith("ti")) {
-			return Collections.singletonList("verb");
+			guesses.add("verb");
 		}
 		if (ends(lemma, "a", "ā", "i", "in", "ī", "u", "ū", "ar", "an", "ant", "as", "us", "o")) {
 			guesses.add("noun");
@@ -198,5 +211,13 @@ public class WordClassGuesser {
 		if (map.containsKey(pos))
 			return map.get(pos) + 1;
 		return 1;
+	}
+	
+	public void setPruningParameter(int val) {
+		this.prune = val;
+	}
+	
+	public int getPruningParameter() {
+		return prune;
 	}
 }

@@ -59,6 +59,7 @@ public class MorphologyGenerator
 		wordClassStrategies.put("adverb", new AdverbStrategy());
 		wordClassStrategies.put("pronoun", new PronounStrategy(pa));
 		wordClassStrategies.put("indeclinable", new IndeclinableStrategy());
+		wordClassStrategies.put("preposition", new IndeclinableStrategy());
 		wordClassStrategies.put("ordinalAdjective", new AdjectiveStrategy(pa));
 		wordClassNullStrategy = new NullStrategy();
 
@@ -199,6 +200,7 @@ public class MorphologyGenerator
 		case "adj" : return "adjective";
 		case "adv" : return "adverb";
 		case "ordinalAdj": return "ordinalAdjective";
+		case "prep": return "preposition";
 		default: return s;
 		}
 	}

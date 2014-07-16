@@ -6,11 +6,11 @@ import java.io.FileInputStream;
 import java.io.InputStreamReader;
 import java.io.IOException;
 import java.util.List;
-
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.TransformerException;
 
 import org.xml.sax.SAXException;
+
 
 import de.unitrier.daalft.pali.morphology.element.Feature;
 import de.unitrier.daalft.pali.morphology.element.FeatureSet;
@@ -98,7 +98,6 @@ public class ParadigmReader
 		paradigms = new Paradigm();
 		irrNoun = new IrregularNouns();
 		irrNum = new IrregularNumerals();
-
 		read();
 		readIrregular(IRREGULAR_NOUNS_FILEPATH, irrNoun);
 		readIrregular(IRREGULAR_NUMERALS_FILEPATH, irrNum);

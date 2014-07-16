@@ -113,5 +113,4 @@ public class ParadigmAccessor {
 	public Paradigm getAdjectiveParadigm() {
 		return pr.getAdjectiveParadigm();
 	}
-
 }
