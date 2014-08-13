@@ -32,6 +32,10 @@ public class SandhiSolver {
 	/**
 	 * Resolves a single Pali word
 	 * <p>
+	 * The word is expected in Harvard-Kyoto-Convention
+	 * because the rules in the configuration file will
+	 * be in Harvard-Kyoto 
+	 * <p>
 	 * Returns an empty list if no rule can be
 	 * applied to the given word (i.e. the word 
 	 * probably doesn't have to be resolved)

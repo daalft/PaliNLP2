@@ -50,7 +50,7 @@ public class SandhiFileReader {
 			// remove EOS token
 			ret.remove(ret.size()-1);
 			
-			if (ret.size() < 3) {
+			if (ret.size() != 3) {
 				br.close();
 				throw new Exception("Malformed rule exception!");
 			}

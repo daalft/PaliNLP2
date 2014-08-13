@@ -113,6 +113,7 @@ public class WordClassGuesser {
 				return 0;
 			}
 		});
+		System.out.println(list);
 		if (list.size() == 0) {
 			out.add("adverb");
 			out.add("indeclinable");
