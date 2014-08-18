@@ -43,15 +43,7 @@ public class SandhiSolver {
 	 * @return resolved word(s)
 	 */
 	public List<String> resolveSandhiSingleWord(String s) {
-		List<String> out = new ArrayList<String>();
-		for (Rule r : rules) {
-			if (r.isApplicable(s)) {
-				String solved = r.applyAll(s);
-				if (!out.contains(solved))
-					out.add(solved);
-			}
-		}
-		return out;
+		return this.resolveSandhiSingleWordRecursive(s);
 	}
 	
 	/**
@@ -74,5 +66,19 @@ public class SandhiSolver {
 			out.add(resolveSandhiSingleWord(words.get(i)));
 		}
 		return out;
+	}
+	
+	/**
+	 * Recursively resolves a sandhi word
+	 * @param word word to resolve
+	 * @return resolved word
+	 */
+	public List<String> resolveSandhiSingleWordRecursive(String word) {
+		for (Rule r : rules) {
+			if (r.isApplicable(word)) {
+				return this.resolveSandhiSingleWordRecursive(r.applyAll(word));
+			}
+		}
+		return Arrays.asList(word.split(" "));
 	}
 }
