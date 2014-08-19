@@ -42,7 +42,7 @@ public class Lemmatizer {
 	 * @return lemmata
 	 */
 	public List<ConstructedWord> lemmatize(ILogInterface log, String word, String... options) {
-		List<ConstructedWord> analyses = ma.analyze(log, word, options);
+		List<ConstructedWord> analyses = ma.analyzeWithOptions(log, word, options);
 		List<ConstructedWord> out = new ArrayList<ConstructedWord>();
 		for (ConstructedWord cw : analyses) {
 			ConstructedWord lemma = new ConstructedWord();

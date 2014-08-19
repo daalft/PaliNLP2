@@ -115,7 +115,7 @@ public class PaliNLP {
 	 */
 	public List<DictWord> analyze (String word) {
 		try {
-			return WordConverter.toDictWord(ma.analyze(new PrintLogger(), word));
+			return WordConverter.toDictWord(ma.analyzeWithOptions(new PrintLogger(), word));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -124,7 +124,7 @@ public class PaliNLP {
 
 	public List<DictWord> analyze (String word, String pos) {
 		try {
-			return WordConverter.toDictWord(ma.analyze(new PrintLogger(), word, pos));
+			return WordConverter.toDictWord(ma.analyzeWithOptions(new PrintLogger(), word, pos));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -149,7 +149,7 @@ public class PaliNLP {
 	 * @throws Exception
 	 */
 	public String analyzeWithDictionary (String word) throws Exception {
-		return ma.analyzeWithDictionary(new PrintLogger(), word);
+		return ma.analyzeWithDictionary(new PrintLogger(), word, null);
 	}
 
 	/**
@@ -161,7 +161,7 @@ public class PaliNLP {
 	 */
 	public String analyzeWithDictionary (DictWord word) throws Exception {
 		String w = word.getProperty("word").toString();
-		return ma.analyzeWithDictionary(new PrintLogger(), w);
+		return ma.analyzeWithDictionary(new PrintLogger(), w, null);
 	}
 
 	/**

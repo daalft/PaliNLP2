@@ -94,23 +94,7 @@ public class MorphologyAnalyzer {
 	 * @param word word to analyze
 	 * @return possible analyses
 	 */
-	public List<ConstructedWord> analyze(DictWord word, ILogInterface log) {
-		// extract class if applicable
-		String pos = word.getValue("pos").toString();
-		String w = word.getValue("word").toString();
-		if (w == null || w.isEmpty()) 
-			w = word.getValue("lemma").toString();
-		return analyze(log, w, pos); 
-	}
-
-	/**
-	 * Analyze in offline mode
-	 * <p>
-	 * Returns possible analyses of a given word using paradigm information
-	 * @param word word to analyze
-	 * @return possible analyses
-	 */
-	public List<ConstructedWord> analyze(ILogInterface log, String word, String...options) {
+	public List<ConstructedWord> analyzeWithOptions(ILogInterface log, String word, String...options) {
 		List<ConstructedWord> analyses = new ArrayList<ConstructedWord>();
 		List<String> pos = new ArrayList<String>();
 		if (options != null && options.length > 0 && !options[0].isEmpty()) {
@@ -242,10 +226,77 @@ public class MorphologyAnalyzer {
 	}
 
 	/**
+	 * Analyses a word in online context (with dictionary)
+	 * @param log logger
+	 * @param word word to analyze
+	 * @param gramGrp grammar group node
+	 * @return analyses
+	 * @throws Exception
+	 */
+	public String analyzeWithDictionary(ILogInterface log, String word, JObject gramGrp) throws Exception {
+		if (gramGrp == null) return __analyzeWithDictionary(log, word);
+		String[] posPath = {"gramGrp", "PoS", "value"};
+		String pos = gramGrp.getPropertyStringValueNormalized(posPath);
+		String[] posArray = null;
+		if (pos == null)
+			posArray = gramGrp.getPropertyStringListValueNormalized(posPath);
+		if (pos == null && posArray == null) {
+			log.warn("No PoS found for entry " + word);
+		}
+		String[] posArray2 = new String[1];
+		posArray2[0] = pos;
+		String[] array = (pos == null) ? (posArray == null) ? null : posArray : posArray2;
+		if (array == null) return __analyzeWithDictionary(log, word);
+		return __analyzeWithDictionary(log, word, array);
+	}
+	
+	/**
+	 * Analyzes a word in offline context (without dictionary)
+	 * @param log logger
+	 * @param word word to analyze
+	 * @param gramGrp grammar group node
+	 * @return analyses
+	 * @throws Exception
+	 */
+	public String analyzeWithoutDictionary(ILogInterface log, String word, JObject gramGrp) throws Exception {
+		String[] ea = {};
+		if (gramGrp == null) return __analyzeWithoutDictionary(log, word, ea);
+		String[] posPath = {"gramGrp", "PoS", "value"};
+		String pos = gramGrp.getPropertyStringValueNormalized(posPath);
+		String[] posArray = null;
+		if (pos == null)
+			posArray = gramGrp.getPropertyStringListValueNormalized(posPath);
+		if (pos == null && posArray == null) {
+			log.warn("No PoS found for entry " + word);
+		}
+		String[] posArray2 = new String[1];
+		posArray2[0] = pos;
+		String[] array = (pos == null) ? (posArray == null) ? new String[1] : posArray : posArray2;
+		
+		return __analyzeWithoutDictionary(log, word, array);		
+	}
+	
+	/**
+	 * Analyze in offline mode
+	 * <p>
+	 * Wrapper method for DictWord
+	 * <p>
+	 * Returns possible analyses of a given word using paradigm information
+	 * @param word word to analyze
+	 * @return possible analyses
+	 * @deprecated
+	 */
+	public List<ConstructedWord> analyze(DictWord word, ILogInterface log) {
+		// extract class if applicable
+		String pos = word.getValue("pos").toString();
+		String w = word.getValue("word").toString();
+		if (w == null || w.isEmpty()) 
+			w = word.getValue("lemma").toString();
+		return analyzeWithOptions(log, w, pos); 
+	}
+	
+	/**
 	 * Returns the lemma built from a given word stem and a given word class
-	 *
-	 * TODO: this method has been moved from Lemmatizer to this class; this was necessary because of cyclic dependencies between MorphologyAnalyzer and Lemmatizer;
-	 * TODO: moving this method to this class might not have been the best option; rethink: Is this reasonable? Is there a better solution?
 	 *
 	 * @param stem word stem
 	 * @param pos word class
@@ -297,7 +348,23 @@ public class MorphologyAnalyzer {
 		}
 		return out;
 	}
-
+	
+	//////////////////////////////////////////////////////////
+	// Private methods
+	//////////////////////////////////////////////////////////
+	
+	/**
+	 * Helper method that accepts an array containing the options as last element
+	 * @param log logger
+	 * @param word word to analyze
+	 * @param array options
+	 * @return analyses
+	 * @throws JsonProcessingException
+	 */
+	private String __analyzeWithoutDictionary(ILogInterface log, String word, String[] array) throws JsonProcessingException {
+		return WordConverter.toJSONStringAnalyzer(analyzeWithOptions(log, word, array));
+	}
+	
 	/**
 	 * Analyze in online mode
 	 * <p>
@@ -306,32 +373,15 @@ public class MorphologyAnalyzer {
 	 * @param word word to analyze
 	 * @return possible analyses
 	 */
-	public String analyzeWithDictionary (ILogInterface log, String word, String... options) throws Exception {
+	private String __analyzeWithDictionary (ILogInterface log, String word, String... options) throws Exception {
 		LexiconAdapter la = new LexiconAdapter();
 		if (la.generatedContains(word)) {
 			return la.getGenerated(word);
 		} else {
-			return WordConverter.toJSONStringAnalyzer(analyze(log, word, options));
+			return WordConverter.toJSONStringAnalyzer(analyzeWithOptions(log, word, options));
 		}
 	}
-
-	/**
-	 * Analyze in online mode
-	 * <p>
-	 * Returns possible analyses of a given word using dictionary lookup. If 
-	 * dictionary lookup fails, falls back to offline mode
-	 * @param word word to analyze
-	 * @return possible analyses
-	 */
-	public String analyzeWithDictionary(String json, ILogInterface log) throws Exception {
-		DictWord word = WordConverter.toDictWord(json);
-		String pos = word.getValue("pos").toString();
-		String w = word.getValue("word").toString();
-		if (w == null || w.isEmpty()) 
-			w = word.getValue("lemma").toString();
-		return analyzeWithDictionary(log, w, pos);
-	}
-
+	
 	/**
 	 * Constructs a new ConstructedWord using the given information
 	 * @param match wordform
@@ -344,44 +394,4 @@ public class MorphologyAnalyzer {
 		cw.setLemma(lemma);
 		return cw;
 	}
-
-	public String analyzeWithDictionary(ILogInterface log, String word, JObject gramGrp) throws Exception {
-		if (gramGrp == null) return analyzeWithDictionary(log, word);
-		String[] posPath = {"gramGrp", "PoS", "value"};
-		String pos = gramGrp.getPropertyStringValueNormalized(posPath);
-		String[] posArray = null;
-		if (pos == null)
-			posArray = gramGrp.getPropertyStringListValueNormalized(posPath);
-		if (pos == null && posArray == null) {
-			log.warn("No PoS found for entry " + word);
-		}
-		String[] posArray2 = new String[1];
-		posArray2[0] = pos;
-		String[] array = (pos == null) ? (posArray == null) ? null : posArray : posArray2;
-		if (array == null) return analyzeWithDictionary(log, word);
-		return analyzeWithDictionary(log, word, array);
-	}
-	
-	public String analyzeWithoutDictionary(ILogInterface log, String word, JObject gramGrp) throws Exception {
-		String[] ea = {};
-		if (gramGrp == null) return analyzeWithoutDictionary(log, word, ea);
-		String[] posPath = {"gramGrp", "PoS", "value"};
-		String pos = gramGrp.getPropertyStringValueNormalized(posPath);
-		String[] posArray = null;
-		if (pos == null)
-			posArray = gramGrp.getPropertyStringListValueNormalized(posPath);
-		if (pos == null && posArray == null) {
-			log.warn("No PoS found for entry " + word);
-		}
-		String[] posArray2 = new String[1];
-		posArray2[0] = pos;
-		String[] array = (pos == null) ? (posArray == null) ? new String[1] : posArray : posArray2;
-		
-		return analyzeWithoutDictionary(log, word, array);		
-	}
-	public String analyzeWithoutDictionary(ILogInterface log, String word, String[] array) throws JsonProcessingException {
-		
-		return WordConverter.toJSONStringAnalyzer(analyze(log, word, array));
-	}
-	
 }
