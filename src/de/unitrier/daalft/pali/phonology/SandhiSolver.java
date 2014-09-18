@@ -38,8 +38,8 @@ public class SandhiSolver {
 	 * @param s word
 	 * @return resolved word(s)
 	 */
-	public List<String> resolveSandhiSingleWord(String s) {
-		List<String> out = new ArrayList<String>();
+	public ArrayList<String> resolveSandhiSingleWord(String s) {
+		ArrayList<String> out = new ArrayList<String>();
 		for (Rule r : rules) {
 			if (r.isApplicable(s)) {
 				String solved = r.applyAll(s);
