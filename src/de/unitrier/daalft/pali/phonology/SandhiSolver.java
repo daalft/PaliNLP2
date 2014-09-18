@@ -32,12 +32,17 @@ public class SandhiSolver {
 	/**
 	 * Resolves a single Pali word
 	 * <p>
+	 * The word is expected in Harvard-Kyoto-Convention
+	 * because the rules in the configuration file will
+	 * be in Harvard-Kyoto 
+	 * <p>
 	 * Returns an empty list if no rule can be
 	 * applied to the given word (i.e. the word 
 	 * probably doesn't have to be resolved)
 	 * @param s word
 	 * @return resolved word(s)
 	 */
+
 	public ArrayList<String> resolveSandhiSingleWord(String s) {
 		ArrayList<String> out = new ArrayList<String>();
 		for (Rule r : rules) {
@@ -55,7 +60,7 @@ public class SandhiSolver {
 	 * @param sentence sentence
 	 * @return resolved sentence
 	 */
-	public List<List<String>> resolveSandhiSentence(String sentence) {
+	public ArrayList<ArrayList<String>> resolveSandhiSentence(String sentence) {
 		return resolveSandhiWordlist(Arrays.asList(sentence.split(" ")));
 	}
 	
@@ -64,11 +69,25 @@ public class SandhiSolver {
 	 * @param words words
 	 * @return resolved words
 	 */
-	public List<List<String>> resolveSandhiWordlist(List<String> words) {
-		List<List<String>> out = new ArrayList<List<String>>();
+	public ArrayList<ArrayList<String>> resolveSandhiWordlist(List<String> words) {
+		ArrayList<ArrayList<String>> out = new ArrayList<ArrayList<String>>();
 		for (int i = 0; i < words.size(); i++) {
 			out.add(resolveSandhiSingleWord(words.get(i)));
 		}
 		return out;
+	}
+	
+	/**
+	 * Recursively resolves a sandhi word
+	 * @param word word to resolve
+	 * @return resolved word
+	 */
+	public ArrayList<String> resolveSandhiSingleWordRecursive(String word) {
+		for (Rule r : rules) {
+			if (r.isApplicable(word)) {
+				return this.resolveSandhiSingleWordRecursive(r.applyAll(word));
+			}
+		}
+		return new ArrayList<String>(Arrays.asList(word.split(" ")));
 	}
 }
