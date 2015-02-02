@@ -3,6 +3,8 @@ package de.unitrier.daalft.pali.phonology;
 import java.io.*;
 import java.util.*;
 
+import de.unitrier.daalft.pali.lexicon.CachedDictionaryLookup;
+import de.unitrier.daalft.pali.lexicon.DictionaryLookup;
 import de.unitrier.daalft.pali.phonology.element.Rule;
 import de.unitrier.daalft.pali.phonology.tools.*;
 /**
@@ -11,10 +13,34 @@ import de.unitrier.daalft.pali.phonology.tools.*;
  *
  */
 public class SandhiSolver {
+	
+	enum RegexRuleSet {
+		// These values have to be changed if the sandhi rule file changes!
+		RULE_SET_A(0,42), 
+		SPECIAL_RULE(42,44), 
+		RULE_SET_B(44,182);
+		
+		private final int from, toExclusive;
+		
+		private RegexRuleSet(int from, int toExclusive) {
+			this.from = from;
+			this.toExclusive = toExclusive;
+		}
+		
+		public int getFrom () {
+			return from;
+		}
+		
+		public int getTo () {
+			return toExclusive;
+		}
+	}
+	
 	/**
 	 * Rule set
 	 */
 	private List<Rule> rules;
+	private DictionaryLookup cachedDictionaryLookup;
 	
 	/**
 	 * Constructor
@@ -27,58 +53,57 @@ public class SandhiSolver {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		cachedDictionaryLookup = new CachedDictionaryLookup();
 	}
 	
-	/**
-	 * Resolves a single Pali word
-	 * <p>
-	 * The word is expected in Harvard-Kyoto-Convention
-	 * because the rules in the configuration file will
-	 * be in Harvard-Kyoto 
-	 * <p>
-	 * Returns an empty list if no rule can be
-	 * applied to the given word (i.e. the word 
-	 * probably doesn't have to be resolved)
-	 * @param s word
-	 * @return resolved word(s)
-	 */
-	public List<String> resolveSandhiSingleWord(String s) {
-		return this.resolveSandhiSingleWordRecursive(s);
-	}
-	
-	/**
-	 * Resolved a Pali sentence
-	 * @param sentence sentence
-	 * @return resolved sentence
-	 */
-	public List<List<String>> resolveSandhiSentence(String sentence) {
-		return resolveSandhiWordlist(Arrays.asList(sentence.split(" ")));
-	}
-	
-	/**
-	 * Resolves a list of Pali words
-	 * @param words words
-	 * @return resolved words
-	 */
-	public List<List<String>> resolveSandhiWordlist(List<String> words) {
-		List<List<String>> out = new ArrayList<List<String>>();
-		for (int i = 0; i < words.size(); i++) {
-			out.add(resolveSandhiSingleWord(words.get(i)));
+	public ArrayList<String> sandhiSplit (String input) {
+		ArrayList<String> result = splitSingleWord(input);
+		
+		if (result.size() == 1) {
+			return result; 
 		}
-		return out;
+		
+		ArrayList<String> finalResult = new ArrayList<String>();
+		for (String s : result) {
+			
+			finalResult.addAll(sandhiSplit(s));
+		}
+		return finalResult;
+	}
+
+	private String[] applyRegexRules (String input, RegexRuleSet ruleset) {
+		String s = input;
+		List<Rule> rules = this.rules.subList(ruleset.from, ruleset.toExclusive);
+		for (Rule rule : rules) {
+			s = rule.applyFirst(s);
+		}
+		return s.split(" ");
 	}
 	
-	/**
-	 * Recursively resolves a sandhi word
-	 * @param word word to resolve
-	 * @return resolved word
-	 */
-	public List<String> resolveSandhiSingleWordRecursive(String word) {
-		for (Rule r : rules) {
-			if (r.isApplicable(word)) {
-				return this.resolveSandhiSingleWordRecursive(r.applyAll(word));
+	private ArrayList<String> splitSingleWord(String input) {
+		// PASS 1 : apply RULE SET A
+		String[] temp = applyRegexRules(input, RegexRuleSet.RULE_SET_A);
+		System.err.println("Call with " + input);
+		for (String s : temp)
+			System.out.println(s);
+		// INTERMEDIATE : check for special rule for each compound returned
+		List<String> temp2 = new ArrayList<>();
+		for(String s : temp) {
+			if (s.endsWith("oti") && !s.endsWith("karoti") && !cachedDictionaryLookup.lemmaExists(s)) {
+				for (String t : applyRegexRules(s, RegexRuleSet.SPECIAL_RULE))
+					temp2.add(t);
+			} else {
+				temp2.add(s);
 			}
 		}
-		return Arrays.asList(word.split(" "));
+		System.out.println(temp2);
+		// PASS 2 : apply RULE SET B
+		ArrayList<String> finalResult = new ArrayList<String>();
+		for (String s : temp2) {
+			for (String t : applyRegexRules(s, RegexRuleSet.RULE_SET_B))
+				finalResult.add(t);
+		}
+		//finalResult.add(input);
+		return finalResult;
 	}
 }
