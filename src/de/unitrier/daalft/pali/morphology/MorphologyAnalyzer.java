@@ -394,4 +394,30 @@ public class MorphologyAnalyzer {
 		cw.setLemma(lemma);
 		return cw;
 	}
+	
+	public boolean isLemmaForm (String word) {
+		StringBuilder nn = new StringBuilder(".*(");
+		for (String s : NOUN_ENDINGS)
+			nn.append(s+"|");
+		nn.deleteCharAt(nn.length()-1);
+		nn.append(")$");
+		
+		StringBuilder jj = new StringBuilder(".*(");
+		for (String s : ADJ_ENDINGS)
+			jj.append(s+"|");
+		jj.deleteCharAt(jj.length()-1);
+		jj.append(")$");
+		
+		StringBuilder nm = new StringBuilder(".*(");
+		for (String s : NUMERAL_ENDING_19)
+			nm.append(s+"|");
+		nm.deleteCharAt(nm.length()-1);
+		nm.append(")$");
+		
+		return word.endsWith(NUMERAL_ENDING_5_18) ||
+				word.endsWith(VERB_ENDING) ||
+				word.matches(nn.toString()) || //noun
+				word.matches(jj.toString()) || //adjective
+				word.matches(nm.toString()); //numeral
+	}
 }
