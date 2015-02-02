@@ -5,6 +5,8 @@ import java.util.LinkedList;
 import java.util.List;
 
 import de.unitrier.daalft.pali.lexicon.LexiconAdapter;
+import de.unitrier.daalft.pali.morphology.MorphologyAnalyzer;
+import de.unitrier.daalft.pali.morphology.paradigm.ParadigmAccessor;
 import de.unitrier.daalft.pali.validation.Validator;
 /**
  * Class representing the result of sandhi splitting
@@ -12,6 +14,8 @@ import de.unitrier.daalft.pali.validation.Validator;
  *
  */
 public class SplitResult implements Comparable <SplitResult> {
+	Validator v;
+	MorphologyAnalyzer ma;
 	/**
 	 * List of strings resulting from split
 	 */
@@ -34,6 +38,13 @@ public class SplitResult implements Comparable <SplitResult> {
 	public SplitResult () {
 		list = new LinkedList<String>();
 		applied = new ArrayList<SandhiTableEntry>();
+		v =  new Validator();
+		try {
+			ma = new MorphologyAnalyzer(new ParadigmAccessor());
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	/**
 	 * Constructor
@@ -116,9 +127,18 @@ public class SplitResult implements Comparable <SplitResult> {
 	 * @throws Exception
 	 */
 	private void selfvalidate () throws Exception {
-		Validator v = new Validator();
-		for (String s : list) {
+		
+		for (int i = 0; i < list.size(); i++) {
+			String s = list.get(i);
 			// invalidate if improbable word is encountered
+			if (i < list.size()-1 && !ma.isLemmaForm(s)) {
+				invalidate();
+				return;
+			}
+			System.err.println("Check " + s);
+//			if (!inDict(s)) {
+//				invalidate();
+//			} 
 			if (!v.isProbableWord(s)) {
 				invalidate();
 			}
