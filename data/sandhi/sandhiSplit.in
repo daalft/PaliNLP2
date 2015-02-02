@@ -5,7 +5,7 @@
 # Duplicates have been removed automatically.
 # This list is in the same order as the sandhi.in file.
 # Due to expansions of constants on the RHS and expansions
-# of functions on the LHS, this list if much longer though.
+# of functions on the LHS, this list is much longer though.
 (VOWEL):a $1
 (VOWEL):i $1
 (VOWEL):u $1
