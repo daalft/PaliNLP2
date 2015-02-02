@@ -170,9 +170,6 @@ public class Alphabet {
 					return 1;
 				return 0;
 			}
-
-
-			
 		});
 		return list;
 	}
