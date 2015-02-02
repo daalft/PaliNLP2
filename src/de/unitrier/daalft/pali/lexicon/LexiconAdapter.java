@@ -21,6 +21,8 @@ import de.general.json.JObject;
  */
 public class LexiconAdapter {
 
+	private DictionaryCollection lc;
+	
 	/**
 	 * Dictionary names
 	 */
@@ -42,6 +44,7 @@ public class LexiconAdapter {
 	 */
 	public LexiconAdapter() throws Exception {
 		dc = new DictionaryClient(cp);
+		lc = dc.getCollection(LEMMA);
 	}
 
 	/**
@@ -79,9 +82,7 @@ public class LexiconAdapter {
 	 * @throws Exception
 	 */
 	public boolean lemmaContains (String lemma) throws Exception {
-		DictionaryCollection c = dc.getCollection(LEMMA);
-
-		return c.getWordsByTags("form.lemma", lemma).length > 0;
+		return lc.getWordsByTags("form.lemma", lemma).length > 0;
 	}
 
 	/**
@@ -185,9 +186,9 @@ public class LexiconAdapter {
 	}
 		
 	public JObject[] getLemmaEntriesAsJObjectArray (String lemma) throws Exception {
-		DictionaryCollection c = dc.getCollection(LEMMA);
+		
 		if (lemmaContains(lemma)) {
-			return c.getWordsByTags("form.lemma", lemma);
+			return lc.getWordsByTags("form.lemma", lemma);
 		}
 		return null;
 	}
