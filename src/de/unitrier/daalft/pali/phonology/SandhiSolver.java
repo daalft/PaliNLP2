@@ -14,45 +14,31 @@ import de.unitrier.daalft.pali.phonology.tools.*;
  */
 public class SandhiSolver {
 
-	enum RegexRuleSet {
-		// These values have to be changed if the sandhi rule file changes!
-		RULE_SET_A(0,42), 
-		SPECIAL_RULE(42,44), 
-		RULE_SET_B(44,182);
-
-		private final int from, toExclusive;
-
-		private RegexRuleSet(int from, int toExclusive) {
-			this.from = from;
-			this.toExclusive = toExclusive;
-		}
-
-		public int getFrom () {
-			return from;
-		}
-
-		public int getTo () {
-			return toExclusive;
-		}
+	enum RuleSet {
+		RULE_SET_A, RULE_SET_B, SPECIAL_RULE
 	}
-
+	
 	/**
 	 * Rule set
 	 */
-	private List<Rule> rules;
+	private List<Rule> ruleSetA, ruleSetB, specialRule;
+	
 	private DictionaryLookup cachedDictionaryLookup;
 
 	/**
 	 * Constructor
 	 * @param file file containing sandhi rules
 	 */
-	public SandhiSolver(File file) {
+	public SandhiSolver(File fileA, File fileB) {
 		SandhiFileReader sfr = new SandhiFileReader();
 		try {
-			rules = sfr.parse(file);
+			ruleSetA = sfr.parse(fileA);
+			ruleSetB = sfr.parse(fileB);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		specialRule = new ArrayList<>();
+		specialRule.add(new Rule("oti$", "o ti"));
 		cachedDictionaryLookup = new CachedDictionaryLookup();
 	}
 
@@ -72,9 +58,11 @@ public class SandhiSolver {
 		return finalResult;
 	}
 
-	private String[] applyRegexRules (String input, RegexRuleSet ruleset) {
+	private String[] applyRegexRules (String input, RuleSet ruleset) {
 		String s = input;
-		List<Rule> rules = this.rules.subList(ruleset.from, ruleset.toExclusive);
+		List<Rule> rules = ruleset.equals(RuleSet.RULE_SET_A)?ruleSetA:
+								ruleset.equals(RuleSet.RULE_SET_B)?ruleSetB:
+								specialRule;
 		for (Rule rule : rules) {
 			s = rule.applyFirst(s);
 		}
@@ -84,13 +72,13 @@ public class SandhiSolver {
 
 	private ArrayList<String> splitSingleWord(String input) {
 		// PASS 1 : apply RULE SET A
-		String[] temp = applyRegexRules(input, RegexRuleSet.RULE_SET_A);
+		String[] temp = applyRegexRules(input, RuleSet.RULE_SET_A);
 
 		// INTERMEDIATE : check for special rule for each compound returned
 		List<String> temp2 = new ArrayList<>();
 		for(String s : temp) {
 			if (s.endsWith("oti") && !s.endsWith("karoti") && !cachedDictionaryLookup.lemmaExists(s)) {
-				for (String t : applyRegexRules(s, RegexRuleSet.SPECIAL_RULE))
+				for (String t : applyRegexRules(s, RuleSet.SPECIAL_RULE))
 					temp2.add(t);
 			} else {
 				temp2.add(s);
@@ -100,7 +88,7 @@ public class SandhiSolver {
 		// PASS 2 : apply RULE SET B
 		ArrayList<String> finalResult = new ArrayList<String>();
 		for (String s : temp2) {
-			for (String t : applyRegexRules(s, RegexRuleSet.RULE_SET_B))
+			for (String t : applyRegexRules(s, RuleSet.RULE_SET_B))
 				finalResult.add(t);
 		}
 		//finalResult.add(input);
