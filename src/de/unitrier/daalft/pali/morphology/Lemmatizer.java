@@ -24,7 +24,7 @@ import de.unitrier.daalft.pali.tools.WordConverter;
 public class Lemmatizer {
 
 	private MorphologyAnalyzer ma;
-
+	
 	/**
 	 * Constructor
 	 */
@@ -32,7 +32,7 @@ public class Lemmatizer {
 	{
 		ma = new MorphologyAnalyzer(pa);
 	}
-
+	
 	/**
 	 * Lemmatize in offline mode
 	 * <p>
@@ -79,9 +79,8 @@ public class Lemmatizer {
 	 * @throws Exception
 	 */
 	public String lemmatizeWithDictionary(ILogInterface log, String word, String...opt) throws Exception {
-		LexiconAdapter la = new LexiconAdapter();
-		if (la.lemmaContains(word)) {
-			return la.getLemma(word);
+		if (ma.getLexiconAdapter().lemmaContains(word)) {
+			return ma.getLexiconAdapter().getLemma(word);
 		} else {
 			System.err.println("Could not retrieve lemma via lookup. Falling back to offline mode.");
 			return WordConverter.toJSONStringLemmatizer(lemmatize(log, word, opt));

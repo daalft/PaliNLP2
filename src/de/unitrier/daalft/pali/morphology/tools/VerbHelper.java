@@ -547,18 +547,18 @@ public class VerbHelper {
 					System.err.println("Could not apply third declension to derive root from " + stem);
 				return output;
 			}
-			List<SplitResult> list = ss.split(stem, 1);
-			if (list.isEmpty()) {
-				if (debug)
-					System.err.println("Could not apply third declension to derive root from " + stem);
-			}
-			for (SplitResult sr : list) {
-				if (sr.getSplit().size() < 2)
-					continue;
-				if (sr.getSplit().get(1).equals("ya")) {
-					output.add(sr.getSplit().get(0));
-				}
-			}
+//			List<SplitResult> list = ss.split(stem, 1);
+//			if (list.isEmpty()) {
+//				if (debug)
+//					System.err.println("Could not apply third declension to derive root from " + stem);
+//			}
+//			for (SplitResult sr : list) {
+//				if (sr.getSplit().size() < 2)
+//					continue;
+//				if (sr.getSplit().get(1).equals("ya")) {
+//					output.add(sr.getSplit().get(0));
+//				}
+//			}
 			return output;
 		}
 

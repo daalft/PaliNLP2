@@ -1,22 +1,27 @@
 package de.unitrier.daalft.pali.lexicon;
 
+import java.util.HashMap;
 import java.util.HashSet;
 
 public class CachedDictionaryLookup implements DictionaryLookup {
 
 	private long timestamp;
 	private long decayTime = 300000; // 5 minutes
-	private HashSet<String> cache;
+	private HashMap<String, Boolean> booleanCache;
 	private LexiconAdapter lexiconAdapter;
 	
-	public CachedDictionaryLookup() {
+	public CachedDictionaryLookup () {
+		this("germa232.uni-trier.de", 8080, "testrw", "testrw");
+	}
+	
+	public CachedDictionaryLookup(String domain, int port, String user, String pw) {
 		try {
-			lexiconAdapter = new LexiconAdapter();
+			lexiconAdapter = new LexiconAdapter(domain, port, user, pw);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		cache = new HashSet<>();
+		booleanCache = new HashMap<>();
 	}
 	
 	@Override
@@ -25,7 +30,7 @@ public class CachedDictionaryLookup implements DictionaryLookup {
 			clearCache();
 			timestamp = System.currentTimeMillis();
 		}
-		if (cache.contains(lemma)) return true;
+		if (booleanCache.containsKey(lemma)) return booleanCache.get(lemma);
 		boolean lookupValue = false;
 		try {
 			lookupValue = lexiconAdapter.lemmaContains(lemma);
@@ -33,13 +38,12 @@ public class CachedDictionaryLookup implements DictionaryLookup {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		if (lookupValue)
-			cache.add(lemma);
+		booleanCache.put(lemma, lookupValue);
 		return lookupValue;
 	}
 
 	private void clearCache() {
-		cache.clear();
+		booleanCache.clear();
 	}
 
 }

@@ -33,17 +33,17 @@ public class LexiconAdapter {
 	 * Client
 	 */
 	private DictionaryClient dc;
-	/**
-	 * Connection profile
-	 */
-	private ConnectionProfile cp = new ConnectionProfile("germa232.uni-trier.de", 8080, "testrw", "testrw");//TODO = StandardProfile.getProfile();
 
+	public LexiconAdapter () throws Exception {
+		this("germa232.uni-trier.de", 8080, "testrw", "testrw");
+	}
+	
 	/**
 	 * Constructor
 	 * @throws Exception
 	 */
-	public LexiconAdapter() throws Exception {
-		dc = new DictionaryClient(cp);
+	public LexiconAdapter(String domain, int port, String user, String pw) throws Exception {
+		dc = new DictionaryClient(new ConnectionProfile(domain,port,user,pw));
 		lc = dc.getCollection(LEMMA);
 	}
 
@@ -203,19 +203,6 @@ public class LexiconAdapter {
 		return wordformContains(word) || lemmaContains(word) || generatedContains(word);
 	}
 	
-	public static void main(String[] args) {
-		try {
-			new LexiconAdapter().test();
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-	}
-	
-	private void test () throws Exception {
-		this.listCollections();
-	}
 	public List<DictWord> getAllWordforms() throws Exception {
 		List<DictWord> list = new ArrayList<DictWord>();
 		DictionaryCollection c = dc.getCollection(LEMMA);

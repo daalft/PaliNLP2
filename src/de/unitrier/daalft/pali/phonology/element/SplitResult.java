@@ -40,7 +40,7 @@ public class SplitResult implements Comparable <SplitResult> {
 		applied = new ArrayList<SandhiTableEntry>();
 		v =  new Validator();
 		try {
-			ma = new MorphologyAnalyzer(new ParadigmAccessor());
+			ma = new MorphologyAnalyzer(new ParadigmAccessor(),la);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -135,7 +135,7 @@ public class SplitResult implements Comparable <SplitResult> {
 				invalidate();
 				return;
 			}
-			System.err.println("Check " + s);
+//			System.err.println("Check " + s);
 //			if (!inDict(s)) {
 //				invalidate();
 //			} 

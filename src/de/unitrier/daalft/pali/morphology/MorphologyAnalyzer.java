@@ -67,6 +67,7 @@ public class MorphologyAnalyzer {
 	private WordClassGuesser wcg;
 	private AdverbStrategy as;
 	private UnknownStrategy us;
+	private LexiconAdapter la;
 	
 	////////////////////////////////////////////////////////////////
 	// Constructors
@@ -81,8 +82,19 @@ public class MorphologyAnalyzer {
 		this.wcg = new WordClassGuesser(pa);
 		as = new AdverbStrategy();
 		us = new UnknownStrategy();
+		try {
+			la = new LexiconAdapter();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
+	public MorphologyAnalyzer (ParadigmAccessor pa, LexiconAdapter la) {
+		this(pa);
+		this.la=la;
+	}
+	
 	////////////////////////////////////////////////////////////////
 	// Methods
 	////////////////////////////////////////////////////////////////
@@ -374,7 +386,7 @@ public class MorphologyAnalyzer {
 	 * @return possible analyses
 	 */
 	private String __analyzeWithDictionary (ILogInterface log, String word, String... options) throws Exception {
-		LexiconAdapter la = new LexiconAdapter();
+		
 		if (la.generatedContains(word)) {
 			return la.getGenerated(word);
 		} else {
@@ -419,5 +431,9 @@ public class MorphologyAnalyzer {
 				word.matches(nn.toString()) || //noun
 				word.matches(jj.toString()) || //adjective
 				word.matches(nm.toString()); //numeral
+	}
+
+	public LexiconAdapter getLexiconAdapter() {
+		return la;
 	}
 }
