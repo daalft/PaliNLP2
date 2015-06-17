@@ -144,7 +144,7 @@ public class WordClassGuesser {
 	 */
 	public List<String> guessWordClassFromLemma(String lemma) {
 		List<String> guesses = new ArrayList<String>();
-		/*
+		
 		IrregularNouns inoun = pa.getIrregularNouns();
 		IrregularNumerals inum = pa.getIrregularNumerals();
 		
@@ -158,7 +158,7 @@ public class WordClassGuesser {
 				return Collections.singletonList("pronoun");
 			}
 		}
-		*/
+		
 		if (lemma.endsWith("ti")) {
 			guesses.add("verb");
 		}
