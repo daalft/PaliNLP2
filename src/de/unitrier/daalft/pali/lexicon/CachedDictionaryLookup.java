@@ -3,6 +3,8 @@ package de.unitrier.daalft.pali.lexicon;
 import java.util.HashMap;
 import java.util.HashSet;
 
+import de.general.json.JObject;
+
 public class CachedDictionaryLookup implements DictionaryLookup {
 
 	private long timestamp;
@@ -44,6 +46,12 @@ public class CachedDictionaryLookup implements DictionaryLookup {
 
 	private void clearCache() {
 		booleanCache.clear();
+	}
+
+	@Override
+	public JObject[] getLemmata(String lemma) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }
