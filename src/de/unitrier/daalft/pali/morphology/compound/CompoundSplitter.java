@@ -1,7 +1,6 @@
 package de.unitrier.daalft.pali.morphology.compound;
 
 import de.unitrier.daalft.pali.lexicon.CachedDictionaryLookup;
-import de.unitrier.daalft.pali.lexicon.DictionaryLookup;
 
 /**
  * Class responsible for splitting Pali compound words,
@@ -22,13 +21,14 @@ public class CompoundSplitter {
 	/**
 	 * Dictionary lookup utility to check for existence of word in dictionary
 	 */
-	private DictionaryLookup dictionaryLookup;
+	private CachedDictionaryLookup dictionaryLookup;
 
 	/**
 	 * Constructor
+	 * @throws Exception 
 	 */
-	public CompoundSplitter() {
-		dictionaryLookup = new CachedDictionaryLookup();
+	public CompoundSplitter(String domain, int port, String user, String pw, int maxCacheSize, int maxCacheDurationInSeconds) throws Exception {
+		dictionaryLookup = new CachedDictionaryLookup(domain, port, user, pw, maxCacheSize, maxCacheDurationInSeconds);
 	}
 
 	/**

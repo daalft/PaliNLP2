@@ -4,7 +4,6 @@ import java.io.*;
 import java.util.*;
 
 import de.unitrier.daalft.pali.lexicon.CachedDictionaryLookup;
-import de.unitrier.daalft.pali.lexicon.DictionaryLookup;
 import de.unitrier.daalft.pali.phonology.element.Rule;
 import de.unitrier.daalft.pali.phonology.tools.*;
 /**
@@ -23,13 +22,14 @@ public class SandhiSolver {
 	 */
 	private List<Rule> ruleSetA, ruleSetB, specialRule;
 	
-	private DictionaryLookup cachedDictionaryLookup;
+	private CachedDictionaryLookup cachedDictionaryLookup;
 
 	/**
 	 * Constructor
 	 * @param file file containing sandhi rules
+	 * @throws Exception 
 	 */
-	public SandhiSolver(File fileA, File fileB) {
+	public SandhiSolver(File fileA, File fileB, String domain, int port, String user, String pw, int maxCacheSize, int maxCacheDurationInSeconds) throws Exception {
 		SandhiFileReader sfr = new SandhiFileReader();
 		try {
 			ruleSetA = sfr.parse(fileA);
@@ -39,7 +39,7 @@ public class SandhiSolver {
 		}
 		specialRule = new ArrayList<>();
 		specialRule.add(new Rule("oti$", "o ti"));
-		cachedDictionaryLookup = new CachedDictionaryLookup();
+		cachedDictionaryLookup = new CachedDictionaryLookup(domain, port, user, pw, maxCacheSize, maxCacheDurationInSeconds);
 	}
 
 
