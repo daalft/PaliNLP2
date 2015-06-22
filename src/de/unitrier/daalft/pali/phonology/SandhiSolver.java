@@ -3,7 +3,7 @@ package de.unitrier.daalft.pali.phonology;
 import java.io.*;
 import java.util.*;
 
-import de.unitrier.daalft.pali.lexicon.CachedDictionaryLookup;
+import de.unitrier.daalft.pali.cache.CachedDictionaryLookup;
 import de.unitrier.daalft.pali.phonology.element.Rule;
 import de.unitrier.daalft.pali.phonology.tools.*;
 /**

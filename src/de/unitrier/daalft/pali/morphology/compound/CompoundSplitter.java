@@ -1,6 +1,6 @@
 package de.unitrier.daalft.pali.morphology.compound;
 
-import de.unitrier.daalft.pali.lexicon.CachedDictionaryLookup;
+import de.unitrier.daalft.pali.cache.CachedDictionaryLookup;
 
 /**
  * Class responsible for splitting Pali compound words,
