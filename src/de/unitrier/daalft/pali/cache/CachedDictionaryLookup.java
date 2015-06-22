@@ -1,6 +1,7 @@
-package de.unitrier.daalft.pali.lexicon;
+package de.unitrier.daalft.pali.cache;
 
 import de.general.json.JObject;
+import de.unitrier.daalft.pali.lexicon.LexiconAdapter;
 
 public class CachedDictionaryLookup {
 

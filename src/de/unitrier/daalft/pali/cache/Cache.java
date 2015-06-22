@@ -1,7 +1,7 @@
 /*
  * MIT license
  */
-package de.unitrier.daalft.pali.lexicon;
+package de.unitrier.daalft.pali.cache;
 
 
 import java.util.HashMap;
