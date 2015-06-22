@@ -1,5 +1,6 @@
 package de.unitrier.daalft.pali.cache;
 
+import java.util.HashSet;
 import java.util.List;
 
 import de.general.log.ILogInterface;
@@ -11,10 +12,12 @@ public class CachedLemmatizer {
 
 	private Cache<List<ConstructedWord>> cache;
 	private Lemmatizer lemmatizer;
+	private HashSet<String> invalid;
 	
 	public CachedLemmatizer(ParadigmAccessor pa, int maxCacheSize, int maxCacheDurationInSeconds) throws Exception {
 		cache = new Cache<List<ConstructedWord>>(maxCacheSize, maxCacheDurationInSeconds);
 		lemmatizer = new Lemmatizer(pa);
+		invalid = new HashSet<>();
 	}
 		
 	public boolean lemmaExists(String lemma) {
@@ -27,6 +30,10 @@ public class CachedLemmatizer {
 			return lemmata;
 		}
 		lemmata = lemmatizer.lemmatize(null, word, pos);
+		if (lemmata == null) {
+			invalid.add(word);
+			return null;
+		}
 		cache.put(word, lemmata);
 		return lemmata;
 	}
