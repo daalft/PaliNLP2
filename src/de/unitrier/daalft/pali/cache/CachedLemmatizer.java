@@ -24,12 +24,12 @@ public class CachedLemmatizer {
 		return (cache.get(lemma, false) != null);
 	}
 
-	public List<ConstructedWord> lemmatize (String word, String pos) throws Exception {
+	public List<ConstructedWord> lemmatize (ILogInterface log, String word, String pos) throws Exception {
 		List<ConstructedWord> lemmata = cache.get(word, false);
 		if (lemmata != null) {
 			return lemmata;
 		}
-		lemmata = lemmatizer.lemmatize(null, word, pos);
+		lemmata = lemmatizer.lemmatize(log, word, pos);
 		if (lemmata == null) {
 			invalid.add(word);
 			return null;
