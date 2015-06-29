@@ -134,6 +134,10 @@ public class MorphologyAnalyzer {
 					}
 				}
 				Paradigm p = pronoun.getParadigmByFeatures(feat);
+				if (p == null) {
+					log.error("No pronoun paradigm for " + word);
+					log.error(feat.toString());
+				}
 				for (Morph m : p.getEndings()) {
 					String lemma = m.getMorph();
 					analyses.add(constructWord(word, lemma, mo.getFeatureSet()));
